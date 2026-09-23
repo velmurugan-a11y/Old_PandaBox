@@ -1,0 +1,33 @@
+# Keil MDK build output
+Objects/
+Listings/
+*.o
+*.d
+*.crf
+*.axf
+*.htm
+*.lnp
+*.dep
+*.sct
+*.build_log.htm
+*.uvguix.*
+*.uvoptx.bak
+*.uvprojx.bak
+JLinkLog.txt
+
+# IAR EWARM build output
+Debug/
+Release/
+settings/
+*.dep
+*.ewt.bak
+
+# Generic binaries / tooling
+*.hex
+*.bin
+*.elf
+*.map
+build/
+.vscode/
+*.bak
+Thumbs.db
