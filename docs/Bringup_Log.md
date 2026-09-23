@@ -154,15 +154,70 @@ All consistent with USB-only power and no coin cell.
 
 ---
 
+## 2026-09-24: session 2 (Bluetooth, V2.89, transceivers, full self-test)
+
+### Summary
+
+| # | Item | Result | Key data |
+|---|---|---|---|
+| 1 | Leo's **V2.89** firmware analysed | ✅ | `LxBoxInfo 2.4,250502,2.891,260827`. Same YC1021 init table as V2.87, byte for byte. Changes are port-2 LCR logging and `LxGetDataTs`. |
+| 2 | Leo's GPIO set-up (V2.89 @0x08015990/0x080159A0) | ✅ matches our pin map | Outputs PA10, PD0, PD4, PD5, PD6, PE2, PB15, PB0, PB1, PC4–PC7, PE3–PE6. Inputs PB12, PB13, PC0/PC1 analog. Leo's default: **PE5 = 1 (RS232 on), PE6 = 0 (RS485 off)**. |
+| 3 | YC1021 full init table extracted | ✅ | 105 records at V2.89 0x08018B9E (V2.87 0x08018C94): 34× `FC03` patch (8.2 KB), 70× `FC10` memory writes (1.4 KB), 1× `FC04` start |
+| 4 | YC1021 upload (`bt init`) | ✅ PASS | 105/105 HCI Command Complete, status 0, 944 ms. The chip then sends `02 09 00` and switches to Yichip framing. |
+| 5 | YC1021 configuration (`bt up`) | ✅ PASS | 7/7 steps acknowledged `02 06 02 <cmd> 00` |
+| 6 | BLE visible to a phone | ⏳ testing | The first scans didn't see it. Later reflashes held the BT chip in reset, so each test re-runs `bt up` first. |
+| 7 | RS232/RS485 acknowledge | ❌ cannot be done by the MCU alone | RX lines stay at 3.3 V in **every** state (see §C) |
+| 8 | Full self-test (`tools/selftest.py`) | ✅ run | 7 PASS, 3 INFO, 4 FAIL (transceivers). Table in `logs/status_2026-09-24_0154.md`. |
+
+### A. YC1021 start-up sequence (decoded from V2.89 @0x0800DD34, command table @0x0801B32B)
+
+After the 105-record table, Leo's app sends 7 Yichip commands `01 <cmd> <len> <payload>`. Each is acknowledged with `02 06 02 <cmd> <status>`.
+
+| Step | Cmd | Meaning | Payload sent | Reply |
+|---|---|---|---|---|
+| 0 | `03` | BT (Classic) name | "PandaBrain" (or the saved name if config flag 0x5A) | `02 06 02 03 00`. Needed 3 tries: the chip is busy about 2 s after `FC04` and sends `02 0F 00` meanwhile. |
+| 1 | `04` | BLE name | name + "BLE" = "PandaBrainBLE" | `02 06 02 04 00` |
+| 2 | `0C` | Pairing mode | `00` | `02 06 02 0C 00` |
+| 3 | `0D` | PIN | "1234" (or the saved BT password) | `02 06 02 0D 00` |
+| 4 | `00` | BT address | UID word0 + 4 (little-endian), then `11 25` → `7A 09 32 33 11 25` | `02 06 02 00 00` |
+| 5 | `01` | BLE address | UID word0 + 5, then `11 25` → `7B 09 32 33 11 25` | `02 06 02 01 00` |
+| 6 | `02` | Visibility | `07` = BT discoverable + connectable + BLE advertising | `02 06 02 02 00` |
+
+Runtime frames (from Leo's source): send SPP data `01 05 <len> <data>`; received data `02 07 <len> <data>`.
+
+### B. Bootloader V2.64 file
+
+- **Contents:** bootloader (26 KB) + APP_INFO "APP1 OK" + app V2.62. V2.89 APP1/APP2 are linked for the same slots (0x08008000 / 0x08021000).
+- **Not run yet.** Running Leo's full firmware (bootloader + V2.89) would show his BLE and transceiver behaviour on COM9. It may also update the external-flash history header, which is backed up but which we were asked not to touch.
+
+### C. Transceiver acknowledge attempts
+
+| Test | Method | Result |
+|---|---|---|
+| `rsdiag` | All 4 combinations of PE5/PE6 | RX1 = RX2 = 1, PA3 = 3300 mV in all |
+| `rsloop 1/2` | On-board loop through the shared DB25 pins 14/15 (RS485 driver → RS232 receiver, RS232 driver → RS485 receiver); TX pin toggled as GPIO in 5 modes | RX never follows TX; 0/21 UART bytes |
+| `rsack` | Both TX pins held low (rules out back-powering through input clamp diodes); rails switched one by one; RS485 direction toggled | RX1 = RX2 = 1 (3300 mV) in every step |
+
+**Conclusion:** the pin assignment is confirmed by Leo's own GPIO code, but both LCR RX nets are held at 3.3 V by something the MCU does not control. They don't respond to the transceiver supplies, the directions or the TX pins. The transceivers **cannot be acknowledged in software** on this board without either:
+1. a **wire between DB25 pin 14 and pin 15 on J1** (then run `rs232 1` / `rsack`), or
+2. a **multimeter** on the U8 (RS232_3.3V) and U11 (RS485_3.3V) outputs with PE5/PE6 toggled (`gsm pe2`-style commands can hold them).
+
+## 2026-09-24: session 3 (PandaBox BLE + two simulated LCR meters)
+
+- New firmware `Projects/03_PandaBox_BLE_LCR` (see its README): answers every tester/app command over BLE. Port 1 = meter 1, port 2 = meter 2, both simulated behind real LCP frames.
+- **BLE:** first connect from the PC works (2.3 s) and all commands answer correctly. Reconnecting from the same PC to the same address fails. The BLE address MSB was changed from `25` to `E7` as a workaround.
+- The full investigation and next steps are in `docs/PandaBox_Development_Journal.md` §8 and §12.
+- **Board state:** the 03 image (43 KB) now also covers Leo's APP_INFO and the start of APP1. Restore with `backup/original_flash_256K.bin`. The modem stays powered after the IMEI read. External flash is untouched.
+
 ## Open items
 
 | # | Item | Next action |
 |---|---|---|
-| 1 | RS232/RS485 RX lines always high; PE5/PE6 control not visible | **Wire J1 DB25 pin 14 ↔ pin 15**, then run `rs232 1` and `rsdiag`. If the loopback echoes with PE5 = 0, the RS232 supply isn't switched. Also measure the U8/U11 3.3 V outputs with a multimeter. |
+| 1 | RS232/RS485 RX lines always high; PE5/PE6 control not visible (session 2: confirmed with `rsloop`/`rsack`, not back-powering) | **Wire J1 DB25 pin 14 ↔ pin 15**, then run `rs232 1` and `rsdiag`. If the loopback echoes with PE5 = 0, the RS232 supply isn't switched. Also measure the U8/U11 3.3 V outputs with a multimeter. |
 | 2 | Coin cell reads 14 mV; RTC is lost on power-off | Fit a CR1220 and re-test `adc`. Then test LXTAL start-up (write-enable backup domain, LXTAL on, RTC on). |
 | 3 | `AT+QPOWD` returns ERROR | Retry some seconds after `RDY` / after `AT+CFUN?`. Check the EC25AF R05 syntax. PE2 = 0 works meanwhile. |
 | 4 | No SIM | Insert a SIM with data + APN, then test network + TCP + GNSS (`AT+QGPS=1`, `AT+QGPSLOC=2`). |
-| 5 | YC1021 has no configuration | Port Leo's 71-command upload table, then check phone discovery and SPP/BLE data. |
+| 5 | YC1021 configured (`bt up` 105 + 7 steps ACK) but not yet seen by a phone | Phone scan right after `bt up`; if still not visible, run Leo's V2.89 on the board and compare. |
 | 6 | 12 V input path not tested | Apply 12 V on DB9 pin 8, then run `adc` and `inputs`. |
 | 7 | LED colours not visually confirmed | Run `led` and watch the board. |
 | 8 | VGSM not measured | Measure once with a multimeter while `gsm on` (evidence so far says it's fine). |

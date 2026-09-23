@@ -15,14 +15,14 @@
 /* ------------------------------------------------------------------ helpers */
 
 static int arg_count;
-static char *args[8];
+static char *args[40];
 
 static void split_args(char *line)
 {
     char *p = line;
 
     arg_count = 0;
-    while(*p && arg_count < 8) {
+    while(*p && arg_count < 40) {
         while(*p == ' ') {
             *p++ = '\0';
         }
@@ -387,6 +387,155 @@ static void cmd_rsdiag(void)
     lcr_all_off();
 }
 
+/* On-board loop without any cable: on each LCR port the RS232 chip (U504) and the RS485 chip
+   (U104/U4) share DB25 pins 14 (RS232 TX / RS485 B) and 15 (RS232 RX / RS485 A). So
+     RS485 driver -> pin 15 (A) -> RS232 receiver -> RX pin   (inverted)
+     RS232 driver -> pin 14 (B) -> RS485 receiver -> RX pin   (not inverted)
+   The TX pin is driven as a GPIO and the RX pin follows if the transceivers are alive. */
+static const struct { uint32_t tx_port, tx_pin; } lcr_tx[2] = {
+    {LCR1_TX_PORT, LCR1_TX_PIN}, {LCR2_TX_PORT, LCR2_TX_PIN},
+};
+
+static void cmd_rsloop(void)
+{
+    static const char *mode_name[5] = {
+        "rails off",
+        "RS232 on  (PE5)",
+        "RS485 on, TX dir (PE6, DIR=0)",
+        "RS232+RS485, RS485 TX dir",
+        "RS232+RS485, RS485 RX dir",
+    };
+    int p = (int)arg_u32(1, 1U) - 1;
+    uint32_t m, lvl, mv[2] = {0U, 0U}, follow = 0U, bytes = 0U;
+    uint8_t rx[2];
+
+    if(p < 0 || p > 1) {
+        return;
+    }
+    uart_deinit(lcr[p].port);
+    printf("port %d: TX pin driven as GPIO 0/1, RX pin read (pull-down)%s\n", p + 1,
+           p == 0 ? " + PA3 voltage" : "");
+    for(m = 0U; m < 5U; m++) {
+        lcr_all_off();
+        delay_ms(50U);
+        if(m == 1U || m >= 3U) {
+            gpio_bit_set(RS232_EN_PORT, RS232_EN_PIN);
+        }
+        if(m >= 2U) {
+            gpio_bit_set(RS485_EN_PORT, RS485_EN_PIN);
+        }
+        if(m == 2U || m == 3U) {
+            gpio_bit_reset(lcr[p].dir_port, lcr[p].dir_pin);   /* RS485 transmit */
+        }
+        delay_ms(50U);
+        gpio_init(lcr[p].rx_port, GPIO_MODE_IPD, GPIO_OSPEED_2MHZ, lcr[p].rx_pin);
+        for(lvl = 0U; lvl < 2U; lvl++) {
+            gpio_bit_write(lcr_tx[p].tx_port, lcr_tx[p].tx_pin, lvl ? SET : RESET);
+            gpio_init(lcr_tx[p].tx_port, GPIO_MODE_OUT_PP, GPIO_OSPEED_2MHZ, lcr_tx[p].tx_pin);
+            delay_ms(5U);
+            rx[lvl] = pin_level(lcr[p].rx_port, lcr[p].rx_pin);
+            if(p == 0) {
+                gpio_init(LCR1_RX_PORT, GPIO_MODE_AIN, GPIO_OSPEED_2MHZ, LCR1_RX_PIN);
+                mv[lvl] = adc_read_mv(ADC_CHANNEL_3);
+                gpio_init(LCR1_RX_PORT, GPIO_MODE_IPD, GPIO_OSPEED_2MHZ, LCR1_RX_PIN);
+            }
+        }
+        if(rx[0] != rx[1]) {
+            follow |= 1U << m;
+        }
+        printf("  %-30s TX=0 -> RX=%u", mode_name[m], rx[0]);
+        if(p == 0) {
+            printf(" (%4lu mV)", (unsigned long)mv[0]);
+        }
+        printf("   TX=1 -> RX=%u", rx[1]);
+        if(p == 0) {
+            printf(" (%4lu mV)", (unsigned long)mv[1]);
+        }
+        printf("%s\n", (rx[0] != rx[1]) ? "   <- RX FOLLOWS TX" : "");
+    }
+    /* real UART bytes through RS232 driver -> pin 14 -> RS485 receiver (RS485 in receive) */
+    lcr_all_off();
+    gpio_bit_set(RS232_EN_PORT, RS232_EN_PIN);
+    gpio_bit_set(RS485_EN_PORT, RS485_EN_PIN);
+    delay_ms(50U);
+    bytes = lcr_loop(lcr[p].port, lcr[p].port, 19200U, 0U, p);
+    lcr_all_off();
+    uart_deinit(lcr[p].port);
+    printf("  UART 19200 via RS232 TX -> RS485 RX: %lu/21 bytes back\n", (unsigned long)bytes);
+    printf("RESULT rsloop_%d %s follow_modes=0x%02lX uart=%lu/21\n", p + 1, follow ? "PASS" : "FAIL",
+           (unsigned long)follow, (unsigned long)bytes);
+}
+
+/* Transceiver acknowledge without back-powering: both TX pins (PA2, PD8) are held LOW so the
+   unpowered chips cannot run from their inputs' clamp diodes; then each rail is switched and the
+   receiver outputs (RX pins, pulled down in the MCU) must follow:
+     RS232 rail on  -> BL13232 receiver outputs idle HIGH (inputs open = mark)
+     RS485 rail on + receive -> SIT3088 RO HIGH (A pulled up, B pulled down = fail-safe idle)
+     RS485 rail on + transmit -> RO disabled -> pin pulled LOW */
+static void rs_hold_tx_low(void)
+{
+    uart_deinit(PORT_LCR1);
+    uart_deinit(PORT_LCR2);
+    gpio_bit_reset(LCR1_TX_PORT, LCR1_TX_PIN);
+    gpio_init(LCR1_TX_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_2MHZ, LCR1_TX_PIN);
+    gpio_bit_reset(LCR2_TX_PORT, LCR2_TX_PIN);
+    gpio_init(LCR2_TX_PORT, GPIO_MODE_OUT_PP, GPIO_OSPEED_2MHZ, LCR2_TX_PIN);
+    gpio_init(LCR1_RX_PORT, GPIO_MODE_IPD, GPIO_OSPEED_2MHZ, LCR1_RX_PIN);
+    gpio_init(LCR2_RX_PORT, GPIO_MODE_IPD, GPIO_OSPEED_2MHZ, LCR2_RX_PIN);
+}
+
+static void rs_sample(const char *label, uint32_t settle, uint8_t *r1, uint8_t *r2)
+{
+    uint32_t mv;
+
+    delay_ms(settle);
+    *r1 = pin_level(LCR1_RX_PORT, LCR1_RX_PIN);
+    *r2 = pin_level(LCR2_RX_PORT, LCR2_RX_PIN);
+    gpio_init(LCR1_RX_PORT, GPIO_MODE_AIN, GPIO_OSPEED_2MHZ, LCR1_RX_PIN);
+    mv = adc_read_mv(ADC_CHANNEL_3);
+    gpio_init(LCR1_RX_PORT, GPIO_MODE_IPD, GPIO_OSPEED_2MHZ, LCR1_RX_PIN);
+    printf("  %-40s RX1(PA3)=%u (%4lu mV)  RX2(PD9)=%u\n", label, *r1, (unsigned long)mv, *r2);
+}
+
+static void cmd_rsack(void)
+{
+    uint32_t settle = arg_u32(1, 500U);
+    uint8_t off1, off2, a1, a2, b1, b2, c1, c2, d1, d2;
+    int rs232_ok, rs485_rx_ok, dir1_ok, dir2_ok;
+
+    lcr_all_off();
+    rs_hold_tx_low();
+    printf("TX pins PA2/PD8 held low (no back-powering), settle %lu ms per step\n", (unsigned long)settle);
+    rs_sample("1 all rails off", settle * 2U, &off1, &off2);
+    gpio_bit_set(RS232_EN_PORT, RS232_EN_PIN);
+    rs_sample("2 RS232 rail on (PE5=1)", settle, &a1, &a2);
+    gpio_bit_reset(RS232_EN_PORT, RS232_EN_PIN);
+    rs_sample("3 RS232 rail off again", settle * 2U, &b1, &b2);
+    gpio_bit_set(RS485_EN_PORT, RS485_EN_PIN);             /* DIR pins are high = receive */
+    rs_sample("4 RS485 rail on, both ports receive", settle, &c1, &c2);
+    gpio_bit_reset(RS485_DIR1_PORT, RS485_DIR1_PIN);
+    gpio_bit_reset(RS485_DIR2_PORT, RS485_DIR2_PIN);
+    rs_sample("5 RS485 rail on, both ports transmit", 20U, &d1, &d2);
+    lcr_all_off();
+
+    rs232_ok = (off1 == 0U && off2 == 0U && a1 == 1U && a2 == 1U && b1 == 0U && b2 == 0U);
+    /* only meaningful if the line was low with the rails off */
+    rs485_rx_ok = (b1 == 0U && b2 == 0U && c1 == 1U && c2 == 1U);
+    if(off1 && off2) {
+        printf("NOTE: RX lines already HIGH with every rail off and TX low -> they are held high by\n"
+               "      something the MCU does not control; transceiver ack needs a DB25 14-15 loop or a meter.\n");
+    }
+    dir1_ok = (c1 == 1U && d1 == 0U);
+    dir2_ok = (c2 == 1U && d2 == 0U);
+    printf("RS232 U504 powered by PE5 and receivers alive : %s\n", rs232_ok ? "YES" : "no");
+    printf("RS485 U104/U4 powered by PE6, RO idle high     : %s\n", rs485_rx_ok ? "YES" : "no");
+    printf("RS485 direction control PE3 (port1) / PE4 (port2): %s / %s\n", dir1_ok ? "YES" : "no",
+           dir2_ok ? "YES" : "no");
+    printf("RESULT rsack %s rs232=%d rs485=%d dir1=%d dir2=%d levels=%u%u/%u%u/%u%u/%u%u/%u%u\n",
+           (rs232_ok && rs485_rx_ok && dir1_ok && dir2_ok) ? "PASS" : "FAIL", rs232_ok, rs485_rx_ok,
+           dir1_ok, dir2_ok, off1, off2, a1, a2, b1, b2, c1, c2, d1, d2);
+}
+
 /* ------------------------------------------------------------------ GD25Q256E (read only) */
 
 static void spi_flash_setup(uint32_t psc)
@@ -726,7 +875,193 @@ static uint32_t bt_hci(const char *name, const uint8_t *pkt, uint32_t len)
     return n;
 }
 
-static void cmd_bt(void)
+extern const uint16_t bt_init_table_count;
+extern const uint16_t bt_init_table_size;
+extern const uint8_t bt_init_table[];
+
+/* read one HCI event packet (04 evt plen params...); returns total length or 0 on timeout */
+static uint32_t bt_read_event(uint8_t *ev, uint32_t max, uint32_t timeout_ms)
+{
+    uint32_t n = 0U, need = 3U, start = millis();
+    int c;
+
+    while((millis() - start) < timeout_ms) {
+        c = uart_getc(PORT_BT);
+        if(c < 0) {
+            continue;
+        }
+        if(n == 0U && c != 0x04) {
+            continue;                       /* resync on packet type */
+        }
+        if(n < max) {
+            ev[n] = (uint8_t)c;
+        }
+        n++;
+        if(n == 3U) {
+            need = 3U + ev[2];
+        }
+        if(n >= 3U && n == need) {
+            return n;
+        }
+    }
+    return 0U;
+}
+
+/* replay Leo's V2.87 YC1021 init table: 34x FC03 patch, 70x FC10 memory write, 1x FC04 */
+static void cmd_bt_init(void)
+{
+    static const uint8_t hci_bdaddr[] = {0x01, 0x09, 0x10, 0x00};
+    uint8_t ev[64];
+    uint32_t off = 0U, idx = 0U, ok = 0U, bad = 0U, noresp = 0U, n, t0;
+    uint16_t op;
+
+    bt_reset();
+    delay_ms(100U);
+    uart_flush_rx(PORT_BT);
+    t0 = millis();
+    while(off < bt_init_table_size && idx < bt_init_table_count) {
+        n = bt_init_table[off];
+        op = (uint16_t)(bt_init_table[off + 2] | (bt_init_table[off + 3] << 8));
+        uart_write(PORT_BT, &bt_init_table[off + 1], n);
+        if(bt_read_event(ev, sizeof(ev), 500U) >= 7U && ev[1] == 0x0E &&
+           (ev[4] | (ev[5] << 8)) == op) {
+            if(ev[6] == 0x00U) {
+                ok++;
+            } else {
+                bad++;
+                printf("record %lu op %04X: status %02X\n", (unsigned long)idx, op, ev[6]);
+            }
+        } else {
+            noresp++;
+            printf("record %lu op %04X: no Command Complete\n", (unsigned long)idx, op);
+            if(noresp > 3U) {
+                break;
+            }
+        }
+        off += 1U + n;
+        idx++;
+    }
+    printf("init table: %lu/%u records sent in %lu ms: ok=%lu status_err=%lu no_reply=%lu\n",
+           (unsigned long)idx, bt_init_table_count, (unsigned long)(millis() - t0), (unsigned long)ok,
+           (unsigned long)bad, (unsigned long)noresp);
+    printf("listening 2 s after the final FC04:\n");
+    dump_rx(PORT_BT, "BT<", 2000U, 0U);
+    bt_hci("HCI_Read_BD_ADDR", hci_bdaddr, sizeof(hci_bdaddr));
+    printf("RESULT bt_init %s sent=%lu ok=%lu err=%lu noreply=%lu\n",
+           (ok == bt_init_table_count) ? "PASS" : "FAIL", (unsigned long)idx, (unsigned long)ok,
+           (unsigned long)bad, (unsigned long)noresp);
+}
+
+/* Yichip module command: 01 <cmd> <len> <payload>; the module answers with 02 <evt> <len> <payload> */
+static uint32_t bt_yc_cmd(const char *name, uint8_t cmd, const uint8_t *payload, uint8_t len)
+{
+    uint8_t pkt[40], ev[16];
+    uint32_t n, t, attempt, start;
+
+    pkt[0] = 0x01U;
+    pkt[1] = cmd;
+    pkt[2] = len;
+    memcpy(&pkt[3], payload, len);
+    for(attempt = 1U; attempt <= 3U; attempt++) {
+        uart_flush_rx(PORT_BT);
+        printf("  step %s (cmd %02X) try %lu\n", name, cmd, (unsigned long)attempt);
+        hexdump_line("BT>", 0U, pkt, 3U + len);
+        uart_write(PORT_BT, pkt, 3U + len);
+        /* wait for 02 06 02 <cmd> <status>; print any other event on the way */
+        start = millis();
+        n = 0U;
+        while((millis() - start) < 1000U) {
+            int c = uart_getc(PORT_BT);
+            if(c < 0) {
+                continue;
+            }
+            if(n == 0U && c != 0x02) {
+                continue;
+            }
+            ev[n++] = (uint8_t)c;
+            if(n >= 3U && n == 3U + ev[2]) {
+                hexdump_line("BT<", 0U, ev, n);
+                if(ev[1] == 0x06U && ev[2] >= 2U && ev[3] == cmd) {
+                    printf("    ack status %02X\n", ev[4]);
+                    return (ev[4] == 0U) ? 1U : 0U;
+                }
+                n = 0U;
+            }
+            if(n >= sizeof(ev)) {
+                n = 0U;
+            }
+        }
+        t = 0U;
+        (void)t;
+    }
+    printf("    no ack for cmd %02X\n", cmd);
+    return 0U;
+}
+
+/* the 7 steps Leo's V2.89 app sends after the table (cmd IDs from its table at 0x0801B32B) */
+static uint32_t bt_configure(void)
+{
+    static const uint8_t pair_mode[] = {0x00};
+    static const uint8_t pin[] = {'1', '2', '3', '4'};
+    static const uint8_t visible[] = {0x07};    /* BT discoverable | BT connectable | BLE advertising */
+    uint32_t uid = *(volatile uint32_t *)0x1FFFF7E8U;
+    uint8_t mac[6];
+    uint32_t replies = 0U, i;
+
+    delay_ms(300U);
+    replies += bt_yc_cmd("BT name PandaBrain", 0x03U, (const uint8_t *)"PandaBrain", 10U);
+    replies += bt_yc_cmd("BLE name PandaBrainBLE", 0x04U, (const uint8_t *)"PandaBrainBLE", 13U);
+    replies += bt_yc_cmd("pairing mode", 0x0CU, pair_mode, 1U);
+    replies += bt_yc_cmd("PIN 1234", 0x0DU, pin, 4U);
+    for(i = 0U; i < 2U; i++) {
+        uint32_t v = uid + 4U + i;              /* Leo: UID word + step number (4 = BT, 5 = BLE) */
+        mac[0] = (uint8_t)v;
+        mac[1] = (uint8_t)(v >> 8);
+        mac[2] = (uint8_t)(v >> 16);
+        mac[3] = (uint8_t)(v >> 24);
+        mac[4] = 0x11U;
+        mac[5] = 0x25U;
+        printf("  %s address bytes: %02X %02X %02X %02X %02X %02X\n", i ? "BLE" : "BT",
+               mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        replies += bt_yc_cmd(i ? "BLE address" : "BT address", i ? 0x01U : 0x00U, mac, 6U);
+    }
+    replies += bt_yc_cmd("visibility BT+BLE", 0x02U, visible, 1U);
+    return replies;
+}
+
+/* full bring-up: reset, init table, 7 config steps, then listen */
+static void cmd_bt_up(void)
+{
+    uint32_t replies;
+
+    cmd_bt_init();
+    replies = bt_configure();
+    printf("listening 3 s:\n");
+    dump_rx(PORT_BT, "BT<", 3000U, 0U);
+    printf("RESULT bt_up %s config_replies=%lu/7 (now scan for PandaBrain / PandaBrainBLE)\n",
+           (replies == 7U) ? "PASS" : "INFO", (unsigned long)replies);
+}
+
+/* bt raw <hex bytes...>: send arbitrary bytes, print the reply */
+static void cmd_bt_raw(void)
+{
+    uint8_t pkt[32];
+    int i, n = 0;
+
+    for(i = 2; i < arg_count && n < (int)sizeof(pkt); i++) {
+        pkt[n++] = (uint8_t)strtoul(args[i], NULL, 16);
+    }
+    printf("RESULT bt_raw INFO reply_bytes=%lu\n", (unsigned long)bt_hci("raw", pkt, (uint32_t)n));
+}
+
+/* print whatever the BT module sends for a while (e.g. while a phone connects) */
+static void cmd_bt_listen(void)
+{
+    uint32_t n = dump_rx(PORT_BT, "BT<", arg_u32(2, 10000U), 0U);
+    printf("RESULT bt_listen INFO bytes=%lu\n", (unsigned long)n);
+}
+
+static void cmd_bt_probe(void)
 {
     static const uint8_t hci_reset[] = {0x01, 0x03, 0x0C, 0x00};
     static const uint8_t hci_ver[] = {0x01, 0x01, 0x10, 0x00};
@@ -741,6 +1076,23 @@ static void cmd_bt(void)
     r3 = bt_hci("HCI_Read_BD_ADDR", hci_bdaddr, sizeof(hci_bdaddr));
     printf("RESULT bt %s boot=%lu reset=%lu version=%lu bdaddr=%lu\n", (r1 || r2 || r3) ? "PASS" : "FAIL",
            (unsigned long)boot, (unsigned long)r1, (unsigned long)r2, (unsigned long)r3);
+}
+
+static void cmd_bt(void)
+{
+    const char *sub = (arg_count > 1) ? args[1] : "";
+
+    if(!strcmp(sub, "init")) {
+        cmd_bt_init();
+    } else if(!strcmp(sub, "listen")) {
+        cmd_bt_listen();
+    } else if(!strcmp(sub, "up")) {
+        cmd_bt_up();
+    } else if(!strcmp(sub, "raw")) {
+        cmd_bt_raw();
+    } else {
+        cmd_bt_probe();
+    }
 }
 
 /* ------------------------------------------------------------------ dispatch */
@@ -760,7 +1112,12 @@ static void cmd_help(void)
     printf("gsm test|on|off      EC25 (test = PE2 low then high)\n");
     printf("gsm pe2 <0|1>        drive PE2 only\n");
     printf("at <cmd>             send AT command (modem must be on)\n");
+    printf("rsdiag [settle_ms]   PE5/PE6 combinations vs RX pin levels\n");
     printf("bt                   YC1021 reset + HCI probe\n");
+    printf("bt init              upload Leo's V2.87 init table (patch + config)\n");
+    printf("bt up                init table + name/PIN/MAC/visibility (Leo's full sequence)\n");
+    printf("bt raw <hex ...>     send raw bytes to the BT module\n");
+    printf("bt listen [ms]       print bytes from the BT module\n");
     printf("reboot               software reset\n");
 }
 
@@ -792,6 +1149,10 @@ void tests_dispatch(char *line)
         cmd_rs232();
     } else if(!strcmp(args[0], "rs485")) {
         cmd_rs485();
+    } else if(!strcmp(args[0], "rsack")) {
+        cmd_rsack();
+    } else if(!strcmp(args[0], "rsloop")) {
+        cmd_rsloop();
     } else if(!strcmp(args[0], "rsdiag")) {
         cmd_rsdiag();
     } else if(!strcmp(args[0], "flash") && arg_count > 1) {

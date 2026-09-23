@@ -12868,3 +12868,468 @@ GSM< ERROR
 RESULT gsm PASS pe2_low=silent pe2_high=answered session=ok
 > 
 [2026-09-24 01:04:45] <<< 31.9 s
+
+[2026-09-24 01:17:08] >>> bt init
+bt init
+BT reset released, listening 1 s for boot output:
+BT> 00000000 01 03 0C 00
+BT< 00000000 04 0E 04 01 03 0C 00
+  HCI_Reset: 7 bytes back
+BT> 00000000 01 01 10 00
+BT< 00000000 04 0E 0C 01 01 10 00 7C AB CD 80 B6 C2 B2 CD
+  HCI_Read_Local_Version: 15 bytes back
+BT> 00000000 01 09 10 00
+BT< 00000000 04 0E 0A 01 09 10 00 00 00 00 00 00 00
+  HCI_Read_BD_ADDR: 13 bytes back
+RESULT bt PASS boot=0 reset=7 version=15 bdaddr=13
+> 
+[2026-09-24 01:17:09] <<< 1.3 s
+
+[2026-09-24 01:18:00] >>> bt init
+bt init
+init table: 105/105 records sent in 944 ms: ok=105 status_err=0 no_reply=0
+listening 2 s after the final FC04:
+BT< 00000000 02 09 00
+BT> 00000000 01 09 10 00
+  HCI_Read_BD_ADDR: 0 bytes back
+RESULT bt_init PASS sent=105 ok=105 err=0 noreply=0
+> 
+[2026-09-24 01:18:04] <<< 3.7 s
+
+[2026-09-24 01:18:49] >>> bt listen 120000
+bt listen 120000
+RESULT bt_listen INFO bytes=0
+> 
+[2026-09-24 01:20:49] <<< 120.1 s
+
+[2026-09-24 01:49:15] >>> bt up
+bt up
+init table: 105/105 records sent in 944 ms: ok=105 status_err=0 no_reply=0
+listening 2 s after the final FC04:
+BT< 00000000 02 09 00
+BT> 00000000 01 09 10 00
+  HCI_Read_BD_ADDR: 0 bytes back
+RESULT bt_init PASS sent=105 ok=105 err=0 noreply=0
+  step BT name PandaBrain (cmd 03):
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+  BT name PandaBrain: 0 bytes back
+  step BLE name PandaBrainBLE (cmd 04):
+BT> 00000000 01 04 0D 50 61 6E 64 61 42 72 61 69 6E 42 4C 45
+BT< 00000000 02 0F 00 02 0F 00 02 0F 00 02 0F 00
+  BLE name PandaBrainBLE: 12 bytes back
+  step pairing mode (cmd 0C):
+BT> 00000000 01 0C 01 00
+BT< 00000000 02 06 02 0C 00
+  pairing mode: 5 bytes back
+  step PIN 1234 (cmd 0D):
+BT> 00000000 01 0D 04 31 32 33 34
+BT< 00000000 02 06 02 0D 00
+  PIN 1234: 5 bytes back
+  BT address bytes: 7A 09 32 33 11 25
+  step BT address (cmd 00):
+BT> 00000000 01 00 06 7A 09 32 33 11 25
+BT< 00000000 02 06 02 00 00
+  BT address: 5 bytes back
+  BLE address bytes: 7B 09 32 33 11 25
+  step BLE address (cmd 01):
+BT> 00000000 01 01 06 7B 09 32 33 11 25
+BT< 00000000 02 06 02 01 00
+  BLE address: 5 bytes back
+  step visibility BT+BLE (cmd 02):
+BT> 00000000 01 02 01 07
+BT< 00000000 02 06 02 02 00
+  visibility BT+BLE: 5 bytes back
+listening 3 s:
+RESULT bt_up INFO config_replies=6/7 (now scan for PandaBrain / PandaBrainBLE)
+> 
+[2026-09-24 01:49:22] <<< 7.6 s
+
+[2026-09-24 01:49:33] >>> bt raw 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+bt raw 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT> 00000000 01 03 0A 50 61 6E
+  raw: 0 bytes back
+RESULT bt_raw INFO reply_bytes=0
+> 
+[2026-09-24 01:49:33] <<< 0.6 s
+
+[2026-09-24 01:49:33] >>> bt raw 01 02 01 07
+bt raw 01 02 01 07
+BT> 00000000 01 02 01 07
+  raw: 0 bytes back
+RESULT bt_raw INFO reply_bytes=0
+> 
+[2026-09-24 01:49:34] <<< 0.6 s
+
+[2026-09-24 01:50:06] >>> bt up
+bt up
+init table: 105/105 records sent in 944 ms: ok=105 status_err=0 no_reply=0
+listening 2 s after the final FC04:
+BT< 00000000 02 09 00
+BT> 00000000 01 09 10 00
+  HCI_Read_BD_ADDR: 0 bytes back
+RESULT bt_init PASS sent=105 ok=105 err=0 noreply=0
+  step BT name PandaBrain (cmd 03) try 1
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+  step BT name PandaBrain (cmd 03) try 2
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+  step BT name PandaBrain (cmd 03) try 3
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 06 02 03 00
+    ack status 00
+  step BLE name PandaBrainBLE (cmd 04) try 1
+BT> 00000000 01 04 0D 50 61 6E 64 61 42 72 61 69 6E 42 4C 45
+BT< 00000000 02 06 02 04 00
+    ack status 00
+  step pairing mode (cmd 0C) try 1
+BT> 00000000 01 0C 01 00
+BT< 00000000 02 06 02 0C 00
+    ack status 00
+  step PIN 1234 (cmd 0D) try 1
+BT> 00000000 01 0D 04 31 32 33 34
+BT< 00000000 02 06 02 0D 00
+    ack status 00
+  BT address bytes: 7A 09 32 33 11 25
+  step BT address (cmd 00) try 1
+BT> 00000000 01 00 06 7A 09 32 33 11 25
+BT< 00000000 02 06 02 00 00
+    ack status 00
+  BLE address bytes: 7B 09 32 33 11 25
+  step BLE address (cmd 01) try 1
+BT> 00000000 01 01 06 7B 09 32 33 11 25
+BT< 00000000 02 06 02 01 00
+    ack status 00
+  step visibility BT+BLE (cmd 02) try 1
+BT> 00000000 01 02 01 07
+BT< 00000000 02 06 02 02 00
+    ack status 00
+listening 3 s:
+RESULT bt_up PASS config_replies=7/7 (now scan for PandaBrain / PandaBrainBLE)
+> 
+[2026-09-24 01:50:16] <<< 9.1 s
+
+[2026-09-24 01:50:28] >>> bt listen 180000
+bt listen 180000
+RESULT bt_listen INFO bytes=0
+> 
+[2026-09-24 01:53:29] <<< 180.1 s
+
+[2026-09-24 01:53:43] >>> info
+info
+SystemCoreClock = 120000000 Hz
+RCU_CTL  = 03036E83 (HXTALSTB=1 PLLSTB=1)
+RCU_CFG0 = 0021040A  RCU_CFG1 = 00000000  SCSS=2
+Flash size = 256 KB, UID = 33320976 000F3635 3837354E
+Reset flags = 10000000: SOFTWARE
+RESULT clock PASS SystemCoreClock=120000000 HXTAL=12MHz
+> 
+[2026-09-24 01:53:43] <<< 0.1 s
+
+[2026-09-24 01:53:44] >>> ping
+ping
+pong
+> 
+[2026-09-24 01:53:44] <<< 0.1 s
+
+[2026-09-24 01:53:45] >>> flash id
+flash id
+JEDEC ID = C8 40 19 (expect C8 40 19 = GigaDevice GD25Q256)
+SR1 = 00 (BUSY=0 WEL=0 BP=0)  SR2 = 00 (ADS=0, 3-byte mode)  SR3 = 20
+SFDP 00000000 53 46 44 50 06 01 02 FF 00 06 01 10 30 00 00 FF
+RESULT flash_id PASS id=C84019 sr1=00 sr2=00 sr3=20 sfdp=SFDP
+> 
+[2026-09-24 01:53:45] <<< 0.1 s
+
+[2026-09-24 01:53:46] >>> adc
+adc
+V_12V = 0 mV (PC0 x11), V_coin_cell = 14 mV (PC1 x2, PE1 on for 20 ms)
+RESULT adc INFO v12_mv=0 vcell_mv=14
+> 
+[2026-09-24 01:53:46] <<< 0.1 s
+
+[2026-09-24 01:53:46] >>> inputs
+inputs
+PB13 LCR1 pin13 12V: 1 (absent)
+PB12 LCR2 pin13 12V: 1 (absent)
+PE11 DB9 pin8  12V : 1 (absent)
+PA9  USB-C VBUS    : 1 (PRESENT)
+RESULT inputs INFO lcr1_12v=0 lcr2_12v=0 db9_12v=0 vbus=1
+> 
+[2026-09-24 01:53:46] <<< 0.1 s
+
+[2026-09-24 01:53:48] >>> rtc
+rtc
+RCU_BDCTL = 00000018: LXTALEN=0 LXTALSTB=0 RTCSRC=0 RTCEN=0
+RESULT rtc INFO lxtal=0 rtcen=0 counter=0
+> 
+[2026-09-24 01:53:48] <<< 0.1 s
+
+[2026-09-24 01:53:48] >>> rs232 1
+rs232 1
+RS232 port 1: RX idle level rail OFF=1, rail ON=1 (PA3 3300 mV -> 3300 mV)
+Loopback (DB25 pin14<->15) echoed 0/21 bytes at 19200
+RESULT rs232_1 FAIL rx_off=1 rx_on=1 loop=0/21
+> 
+[2026-09-24 01:53:48] <<< 0.3 s
+
+[2026-09-24 01:53:49] >>> rs232 2
+rs232 2
+RS232 port 2: RX idle level rail OFF=1, rail ON=1
+Loopback (DB25 pin14<->15) echoed 0/21 bytes at 19200
+RESULT rs232_2 FAIL rx_off=1 rx_on=1 loop=0/21
+> 
+[2026-09-24 01:53:50] <<< 0.3 s
+
+[2026-09-24 01:53:50] >>> rs485 1
+rs485 1
+RS485 port 1: RO level rail OFF=1, rail ON+receive=1, rail ON+transmit(RO off)=1
+Cross test port 1 -> port 2 (needs J1-J2 cable) received 0/21 bytes
+RESULT rs485_1 FAIL rx_off=1 rx_on=1 tx_mode=1 cross=0/21
+> 
+[2026-09-24 01:53:50] <<< 0.2 s
+
+[2026-09-24 01:53:51] >>> rs485 2
+rs485 2
+RS485 port 2: RO level rail OFF=1, rail ON+receive=1, rail ON+transmit(RO off)=1
+Cross test port 2 -> port 1 (needs J1-J2 cable) received 0/21 bytes
+RESULT rs485_2 FAIL rx_off=1 rx_on=1 tx_mode=1 cross=0/21
+> 
+[2026-09-24 01:53:52] <<< 0.2 s
+
+[2026-09-24 01:53:52] >>> gsm test
+gsm test
+--- phase A: PE2 = 0 (modem supply disabled), PWRKEY pulse, listen 15 s ---
+phase A: modem silent with PE2 = 0
+--- phase B: PE2 = 1 (modem supply enabled), PWRKEY 600 ms, wait for RDY / AT (30 s) ---
+GSM<    (t=9670 ms)
+GSM< RDY   (t=9672 ms)
+GSM< AT   (t=10002 ms)
+GSM< OK   (t=10004 ms)
+phase B: modem ANSWERED with PE2 = 1
+GSM> ATE0
+GSM< ATE0
+GSM< OK
+GSM> ATI
+GSM< Quectel
+GSM< EC25
+GSM< Revision: EC25AFAR05A07M4G
+GSM< OK
+GSM> AT+QGMR
+GSM< EC25AFAR05A07M4G_30.005.30.005
+GSM< OK
+GSM> AT+CGSN
+GSM< 860858062040217
+GSM< OK
+GSM> AT+CIMI
+GSM< ERROR
+GSM> AT+CPIN?
+GSM< +CME ERROR: 10
+GSM> AT+QCCID
+GSM< +CME ERROR: 13
+GSM> AT+CSQ
+GSM< +CSQ: 99,99
+GSM< OK
+GSM> AT+CREG?
+GSM< +CREG: 0,4
+GSM< OK
+GSM> AT+CEREG?
+GSM< +CEREG: 0,4
+GSM< OK
+GSM> AT+COPS?
+GSM< +COPS: 0
+GSM< OK
+GSM> AT+IPR?
+GSM< +IPR: 115200
+GSM< OK
+GSM> AT+QGPS?
+GSM< +QGPS: 0
+GSM< OK
+GSM> AT+QCFG="band"
+GSM< +QCFG: "band",0x260,0x80a,0x0
+GSM< OK
+GSM> AT+QPOWD=1
+GSM< ERROR
+RESULT gsm PASS pe2_low=silent pe2_high=answered session=ok
+> 
+[2026-09-24 01:54:24] <<< 31.9 s
+
+[2026-09-24 01:54:25] >>> bt
+bt
+BT reset released, listening 1 s for boot output:
+BT> 00000000 01 03 0C 00
+BT< 00000000 04 0E 04 01 03 0C 00
+  HCI_Reset: 7 bytes back
+BT> 00000000 01 01 10 00
+BT< 00000000 04 0E 0C 01 01 10 00 04 E9 12 53 01 1E 01 CD
+  HCI_Read_Local_Version: 15 bytes back
+BT> 00000000 01 09 10 00
+BT< 00000000 04 0E 0A 01 09 10 00 00 00 00 00 00 00
+  HCI_Read_BD_ADDR: 13 bytes back
+RESULT bt PASS boot=0 reset=7 version=15 bdaddr=13
+> 
+[2026-09-24 01:54:26] <<< 1.3 s
+
+[2026-09-24 01:54:26] >>> bt up
+bt up
+init table: 105/105 records sent in 944 ms: ok=105 status_err=0 no_reply=0
+listening 2 s after the final FC04:
+BT< 00000000 02 09 00
+BT> 00000000 01 09 10 00
+  HCI_Read_BD_ADDR: 0 bytes back
+RESULT bt_init PASS sent=105 ok=105 err=0 noreply=0
+  step BT name PandaBrain (cmd 03) try 1
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+  step BT name PandaBrain (cmd 03) try 2
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+  step BT name PandaBrain (cmd 03) try 3
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 06 02 03 00
+    ack status 00
+  step BLE name PandaBrainBLE (cmd 04) try 1
+BT> 00000000 01 04 0D 50 61 6E 64 61 42 72 61 69 6E 42 4C 45
+BT< 00000000 02 06 02 04 00
+    ack status 00
+  step pairing mode (cmd 0C) try 1
+BT> 00000000 01 0C 01 00
+BT< 00000000 02 06 02 0C 00
+    ack status 00
+  step PIN 1234 (cmd 0D) try 1
+BT> 00000000 01 0D 04 31 32 33 34
+BT< 00000000 02 06 02 0D 00
+    ack status 00
+  BT address bytes: 7A 09 32 33 11 25
+  step BT address (cmd 00) try 1
+BT> 00000000 01 00 06 7A 09 32 33 11 25
+BT< 00000000 02 06 02 00 00
+    ack status 00
+  BLE address bytes: 7B 09 32 33 11 25
+  step BLE address (cmd 01) try 1
+BT> 00000000 01 01 06 7B 09 32 33 11 25
+BT< 00000000 02 06 02 01 00
+    ack status 00
+  step visibility BT+BLE (cmd 02) try 1
+BT> 00000000 01 02 01 07
+BT< 00000000 02 06 02 02 00
+    ack status 00
+listening 3 s:
+RESULT bt_up PASS config_replies=7/7 (now scan for PandaBrain / PandaBrainBLE)
+> 
+[2026-09-24 01:54:36] <<< 9.1 s
+
+[2026-09-24 01:55:37] >>> rsloop 1
+rsloop 1
+port 1: TX pin driven as GPIO 0/1, RX pin read (pull-down) + PA3 voltage
+  rails off                      TX=0 -> RX=1 (3300 mV)   TX=1 -> RX=1 (3300 mV)
+  RS232 on  (PE5)                TX=0 -> RX=1 (3300 mV)   TX=1 -> RX=1 (3300 mV)
+  RS485 on, TX dir (PE6, DIR=0)  TX=0 -> RX=1 (3300 mV)   TX=1 -> RX=1 (3300 mV)
+  RS232+RS485, RS485 TX dir      TX=0 -> RX=1 (3300 mV)   TX=1 -> RX=1 (3300 mV)
+  RS232+RS485, RS485 RX dir      TX=0 -> RX=1 (3300 mV)   TX=1 -> RX=1 (3300 mV)
+  UART 19200 via RS232 TX -> RS485 RX: 0/21 bytes back
+RESULT rsloop_1 FAIL follow_modes=0x00 uart=0/21
+> 
+[2026-09-24 01:55:37] <<< 0.8 s
+
+[2026-09-24 01:55:37] >>> rsloop 2
+rsloop 2
+port 2: TX pin driven as GPIO 0/1, RX pin read (pull-down)
+  rails off                      TX=0 -> RX=1   TX=1 -> RX=1
+  RS232 on  (PE5)                TX=0 -> RX=1   TX=1 -> RX=1
+  RS485 on, TX dir (PE6, DIR=0)  TX=0 -> RX=1   TX=1 -> RX=1
+  RS232+RS485, RS485 TX dir      TX=0 -> RX=1   TX=1 -> RX=1
+  RS232+RS485, RS485 RX dir      TX=0 -> RX=1   TX=1 -> RX=1
+  UART 19200 via RS232 TX -> RS485 RX: 0/21 bytes back
+RESULT rsloop_2 FAIL follow_modes=0x00 uart=0/21
+> 
+[2026-09-24 01:55:38] <<< 0.8 s
+
+[2026-09-24 01:57:34] >>> rsack 500
+rsack 500
+TX pins PA2/PD8 held low (no back-powering), settle 500 ms per step
+  1 all rails off                          RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  2 RS232 rail on (PE5=1)                  RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  3 RS232 rail off again                   RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  4 RS485 rail on, both ports receive      RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  5 RS485 rail on, both ports transmit     RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+RS232 U504 powered by PE5 and receivers alive : no
+RS485 U104/U4 powered by PE6, RO idle high     : YES
+RS485 direction control PE3 (port1) / PE4 (port2): no / no
+RESULT rsack FAIL rs232=0 rs485=1 dir1=0 dir2=0 levels=11/11/11/11/11
+> 
+[2026-09-24 01:57:37] <<< 3.2 s
+
+[2026-09-24 01:58:08] >>> rsack 500
+rsack 500
+TX pins PA2/PD8 held low (no back-powering), settle 500 ms per step
+  1 all rails off                          RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  2 RS232 rail on (PE5=1)                  RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  3 RS232 rail off again                   RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  4 RS485 rail on, both ports receive      RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+  5 RS485 rail on, both ports transmit     RX1(PA3)=1 (3300 mV)  RX2(PD9)=1
+NOTE: RX lines already HIGH with every rail off and TX low -> they are held high by
+      something the MCU does not control; transceiver ack needs a DB25 14-15 loop or a meter.
+RS232 U504 powered by PE5 and receivers alive : no
+RS485 U104/U4 powered by PE6, RO idle high     : no
+RS485 direction control PE3 (port1) / PE4 (port2): no / no
+RESULT rsack FAIL rs232=0 rs485=0 dir1=0 dir2=0 levels=11/11/11/11/11
+> 
+[2026-09-24 01:58:11] <<< 3.2 s
+
+[2026-09-24 01:58:26] >>> bt up
+bt up
+init table: 105/105 records sent in 944 ms: ok=105 status_err=0 no_reply=0
+listening 2 s after the final FC04:
+BT< 00000000 02 09 00
+BT> 00000000 01 09 10 00
+  HCI_Read_BD_ADDR: 0 bytes back
+RESULT bt_init PASS sent=105 ok=105 err=0 noreply=0
+  step BT name PandaBrain (cmd 03) try 1
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+  step BT name PandaBrain (cmd 03) try 2
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+BT< 00000000 02 0F 00
+  step BT name PandaBrain (cmd 03) try 3
+BT> 00000000 01 03 0A 50 61 6E 64 61 42 72 61 69 6E
+BT< 00000000 02 06 02 03 00
+    ack status 00
+  step BLE name PandaBrainBLE (cmd 04) try 1
+BT> 00000000 01 04 0D 50 61 6E 64 61 42 72 61 69 6E 42 4C 45
+BT< 00000000 02 06 02 04 00
+    ack status 00
+  step pairing mode (cmd 0C) try 1
+BT> 00000000 01 0C 01 00
+BT< 00000000 02 06 02 0C 00
+    ack status 00
+  step PIN 1234 (cmd 0D) try 1
+BT> 00000000 01 0D 04 31 32 33 34
+BT< 00000000 02 06 02 0D 00
+    ack status 00
+  BT address bytes: 7A 09 32 33 11 25
+  step BT address (cmd 00) try 1
+BT> 00000000 01 00 06 7A 09 32 33 11 25
+BT< 00000000 02 06 02 00 00
+    ack status 00
+  BLE address bytes: 7B 09 32 33 11 25
+  step BLE address (cmd 01) try 1
+BT> 00000000 01 01 06 7B 09 32 33 11 25
+BT< 00000000 02 06 02 01 00
+    ack status 00
+  step visibility BT+BLE (cmd 02) try 1
+BT> 00000000 01 02 01 07
+BT< 00000000 02 06 02 02 00
+    ack status 00
+listening 3 s:
+RESULT bt_up PASS config_replies=7/7 (now scan for PandaBrain / PandaBrainBLE)
+> 
+[2026-09-24 01:58:35] <<< 9.1 s
+
+[2026-09-24 01:58:43] >>> bt listen 300000
+bt listen 300000
+
+[2026-09-24 02:02:03] <<< 200.0 s

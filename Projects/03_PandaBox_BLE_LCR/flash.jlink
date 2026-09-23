@@ -1,0 +1,7 @@
+connect
+h
+loadfile build/pandabox_lcr.hex
+verifybin build/pandabox_lcr.bin 0x08000000
+r
+g
+qc
