@@ -1,0 +1,7 @@
+connect
+h
+loadfile build/led_sequence.hex
+verifybin build/led_sequence.bin 0x08000000
+r
+g
+qc

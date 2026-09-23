@@ -1,0 +1,1095 @@
+/*
+************************************************************************************************************************
+*
+*  文件: update.c
+*  作者: 徐文杰
+*  版本: V1.0.0
+*  描述: Bootloader串口和RF升级流程，包含接收端和发送端的流程
+*
+************************************************************************************************************************
+*/
+#include "updata.h"
+
+// 升级参数
+static T_UPDATE_RCV_PARAM g_stRcvUpdatePrm;
+
+TMR g_tmrLedID;
+
+/*
+******************************************************************************
+*  函数: 读取应用程序升级结果信息
+*
+*  描述: 升级成功后，在Flash中的APP_INFO区记录升级结果
+*
+*  参数: [out] pstAppInfo    APP INFO信息
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_AppInfoRead(T_UPDATE_APP_INFO *pstAppInfo)
+{
+    FlashRead(FLASH_APP_INFO_ADDR, (MUINT8*)pstAppInfo, sizeof(T_UPDATE_APP_INFO));
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 获取应用的起始地址
+*
+*  描述: STM32F103CBT6的起始地址和STM32F103RCT6的起始地址不一样，依据Flash大小判断
+*
+*  参数: 无
+*
+*  返回: APP起始地址
+*
+****************************************************************************
+*/
+static MUINT32 updateGetAppStartAddr(MUINT8 u8Mode)
+{
+    MUINT32 u32AppStartAddr = 0;
+	T_UPDATE_APP_INFO stAppInfo;
+
+	UPDATE_AppInfoRead(&stAppInfo);
+
+	if(u8Mode == 0)//跳转地址
+	{
+	    if (UPDATE_APP_OK_FLAG == stAppInfo.u32AppFlag)
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS;
+	    }
+	    
+	    else if (UPDATE_APP_OK_FLAG == stAppInfo.u32AppFlag2)
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS_NEW;
+	    }
+	    
+	    else if (UPDATE_BANK_FLAG == stAppInfo.u32AppFlag)
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS;
+	    }
+	    
+	    else if (UPDATE_BANK_FLAG == stAppInfo.u32AppFlag2)
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS_NEW;
+	    }
+	}
+	
+	else //写FLASH地址
+	{
+	    if (UPDATE_APP2_FLAG == stAppInfo.u32AppFlag2)
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS_NEW;
+	    }
+		else
+	    {
+	        u32AppStartAddr = FLASH_APP_ADDRESS;
+	    }
+	}
+    return u32AppStartAddr;
+}
+
+
+/*
+******************************************************************************
+*  函数: 写入应用程序升级结果信息
+*
+*  描述: 升级成功后，在APP_INFO区记录升级结果
+*
+*  参数: [in]  pstAppInfo    APP INFO信息
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_AppInfoWrite(T_UPDATE_APP_INFO *pstAppInfo)
+{
+    MUINT32 u32Result;
+
+	if(pstAppInfo->u32AppLen > FLASH_APP_SIZE)
+	{
+		pstAppInfo->u32AppLen = FLASH_APP_SIZE;
+	}
+
+	if(pstAppInfo->u32AppLen2 > FLASH_APP_SIZE)
+	{
+		pstAppInfo->u32AppLen2 = FLASH_APP_SIZE;
+	}
+	
+    FLASH_WritePermissionEnable();
+    u32Result = ProgramDataToFlash(FLASH_APP_INFO_ADDR, (MUINT16*)pstAppInfo,  sizeof(T_UPDATE_APP_INFO));
+    if( FMC_READY != u32Result)
+    {
+        DBG_UPDATE(DBG_E, "Flash error");
+    }
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 从Flash中读取APP程序数据
+*
+*  描述: 无
+*
+*  参数: [in]  u32FlashAddr    Flash起始地址
+*        [out] pu8Buf          数据存放地址
+*        [in]  u32BufLen       需要读取的大小
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateAppDataRead(MUINT32 u32FlashAddr, MUINT8 *pu8Buf, MUINT32 u32BufLen)
+{
+    FlashRead(u32FlashAddr, pu8Buf, u32BufLen);
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 将APP程序数据写入Flash
+*
+*  描述: 无
+*
+*  参数: [in]  u32FlashAddr    Flash起始地址
+*        [in]  pu8Buf          数据
+*        [in]  u32BufLen       读取的大小
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateAppDataWrite(MUINT32 u32FlashAddr, MUINT8 *pu8Buf, MUINT32 u32BufLen)
+{
+    MUINT32 u32Result;
+
+    FLASH_WritePermissionEnable();
+    u32Result = ProgramDataToFlash(u32FlashAddr, (MUINT16*)pu8Buf, u32BufLen);
+    if( FMC_READY != u32Result)
+    {
+        DBG_UPDATE(DBG_E, "Flash error");
+    }
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 擦除APP的升级结果信息和APP数据
+*
+*  描述: 开始升级后，第一步先做擦除Flash操作
+*
+*  参数: 无
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_EraseAppInfo(void)
+{
+	MUINT32 u32Result;
+
+	DBG_UPDATE(DBG_D, "Erase APP info Flash start");
+	SYS_DelayMs(10);
+
+	FLASH_WritePermissionEnable();
+	u32Result = EraseMultiPages(FLASH_APP_INFO_ADDR, FLASH_PAGE_SIZE_2048, 1);
+	if( FMC_READY != u32Result)
+	{
+		DBG_UPDATE(DBG_E, "Flash error");
+	}
+
+	DBG_UPDATE(DBG_D, "Erase APP info Flash end");
+
+	return;
+}
+
+static void updateEraseAppData(void)
+{
+    MUINT32 u32Result;
+    MUINT32 u32AppStartAddr;
+    MUINT32 u32FlashPageNum;
+
+    DBG_UPDATE(DBG_D, "Erase APP data Flash start");
+    SYS_DelayMs(10);
+    
+    u32AppStartAddr     = updateGetAppStartAddr(1);
+    
+    u32FlashPageNum = (FLASH_APP_SIZE - FLASH_PAGE_SIZE_2048) / FLASH_PAGE_SIZE_2048;
+    FLASH_WritePermissionEnable();
+    u32Result = EraseMultiPages(u32AppStartAddr, FLASH_PAGE_SIZE_2048, u32FlashPageNum);
+    if( FMC_READY != u32Result)
+    {
+        DBG_UPDATE(DBG_E, "Flash error");
+    }
+
+    DBG_UPDATE(DBG_D, "Erase APP Data Flash end");
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 校验APP
+*
+*  描述: 对Flash中的APP数据做校验
+*
+*  参数: [in]  u32AppLen          APP数据长度
+*        [in]  u32AppChkSum   预期的校验和
+*
+*  返回: ERR_NONE              成功
+*        ERR_STATUS_INVALID    失败
+*
+****************************************************************************
+*/
+static MUINT32 updateCheckApp(MUINT32 u32AppLen, MUINT32 u32AppChkSum)
+{
+    MUINT32 u32Result = ERR_NONE;
+    MUINT32 u32Index;
+    MUINT32 u32AppStartAddr;
+    MUINT32 u32ReadAddr;
+    MUINT32 u32ReadLen;    
+    MUINT32 u32RemainLen;
+    MUINT8  au8ReadFlashBuff[XMODE_DATA_SIZE_MAX];
+    MUINT32 u32CheckSum;
+
+    do
+    {
+        u32AppStartAddr = updateGetAppStartAddr(1);
+        if ((0 == u32AppLen) || (FLASH_APP_SIZE < u32AppLen))
+        {
+            DBG_UPDATE(DBG_E, "APP len error: %d, %d", u32AppLen, FLASH_APP_SIZE);
+            u32Result = ERR_LEN_OVERFLOW;
+            break;
+        }
+
+        u32ReadAddr   = u32AppStartAddr;
+        u32RemainLen  = u32AppLen;
+        u32CheckSum   = 0;
+        
+        do
+        {
+            if(XMODE_DATA_SIZE_MAX <= u32RemainLen)
+            {
+                u32ReadLen = XMODE_DATA_SIZE_MAX;
+            }
+            else
+            {
+                u32ReadLen = u32RemainLen;
+            }
+
+            updateAppDataRead(u32ReadAddr, au8ReadFlashBuff, u32ReadLen);
+            for(u32Index = 0; u32Index < u32ReadLen; u32Index++)
+            {
+                u32CheckSum += au8ReadFlashBuff[u32Index];         
+            }
+
+            u32ReadAddr   += u32ReadLen;
+            u32RemainLen  -= u32ReadLen;
+        }while(0 < u32RemainLen);
+
+        // 比较结果
+        if (u32AppChkSum != u32CheckSum)//
+        {
+        	DBG_UPDATE(DBG_E, "u32AppChkSum = %d, u32AppLen = %d, u32CheckSum = %d", u32AppChkSum, u32AppLen, u32CheckSum);
+            u32Result = ERR_STATUS_INVALID;
+        }
+    }while(0);
+
+    return u32Result;
+}
+
+/*
+******************************************************************************
+*  函数: Xmodem包通过串口发送出去
+*
+*  描述: 无
+*
+*  参数: [in]  pu8Data       数据
+*        [in]  u32DataLen    数据长度
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void updateSendXmodemDataByUart(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+    HAL_UartSendData(E_HAL_UART_PRINT, pu8Data, u16DataLen);
+    
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: Xmodem包通过串口发送出去
+*
+*  描述: 无
+*
+*  参数: [in]  pu8Data       数据
+*        [in]  u32DataLen    数据长度
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void updateSendXmodemDataBy4G(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+	MUINT8  u8DataLen = 0; 
+	MUINT8	au8ServerTemp[64];
+	
+	do
+	{
+		memset(au8ServerTemp, 0, 64);
+		sprintf((char*)au8ServerTemp, "AT+QISEND=0,%d\r\n", u16DataLen);
+		u8DataLen = strlen((char*)au8ServerTemp); 
+		HAL_UartSendData(E_HAL_UART_EC20, au8ServerTemp, u8DataLen);
+		DBG_UPDATE(DBG_I, au8ServerTemp);
+		HAL_DelayMs(3);
+
+		HAL_UartSendData(E_HAL_UART_EC20, pu8Data, u16DataLen);
+		DBG_UPDATE(DBG_I, "%02X", *pu8Data);
+
+	}while(0);
+	
+	return;
+}
+
+
+/*
+******************************************************************************
+*  函数: Xmodem包通过串口发送出去
+*
+*  描述: 无
+*
+*  参数: [in]  pu8Data       数据
+*        [in]  u32DataLen    数据长度
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void updateSendXmodemDataByBt(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+	MUINT8 au8SendBuf[256];
+	MUINT8 au8SendTemp[256];
+	MUINT8 u16SendLen = 0;
+
+	do
+	{
+		if(u16DataLen > 253)
+		{
+			break;
+		}
+		memset(au8SendTemp, 0, 256);
+		MEMCPY(au8SendTemp, pu8Data, u16DataLen);
+		
+		//01 05 0A 30 31 32 33 34 35 36 37 38 39
+		memset(au8SendBuf, 0, 256);
+		au8SendBuf[u16SendLen++] = 0x01;
+		au8SendBuf[u16SendLen++] = 0x05;
+		au8SendBuf[u16SendLen++] = u16DataLen;
+		MEMCPY(&au8SendBuf[u16SendLen], au8SendTemp, u16DataLen);
+		u16SendLen += u16DataLen;
+	
+		HAL_UartSendData(E_HAL_UART_BT, au8SendBuf, u16SendLen);
+
+		DBG(DBG_I, "Send %x", *pu8Data);
+		
+	}while(0);	
+	
+	return;
+}
+
+
+/*
+******************************************************************************
+*  函数: 将命令通过串口发送出去
+*
+*  描述: 和PC端脚本配合的时候使用的命令
+*
+*  参数: [in]  pu8StrCmd       字符串
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void updateSendCmdByUart(MUINT8 *pu8StrCmd)
+{
+    DBG_PrintLine((MCHAR*)pu8StrCmd);
+    
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端超时处理
+*
+*  描述: 接收端使用, Reboot后等待升级的超时处理和升级中断的超时处理
+*
+*  参数: [in]  u8Tmr       Timer ID
+*        [in]  pArg        Timer参数
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateRcvWaitUpdateTmrCallback(TMR u8Tmr, void *pArg)
+{
+    //MUINT32 u32Result;
+    MUINT32 u32AppStartAddr;
+    T_UPDATE_APP_INFO stAppInfo;
+
+    // 没有升级，跳转到APP
+    if (E_UPDATE_STATUS_IDLE == g_stRcvUpdatePrm.eUpdateStatus)
+    {
+        //DBG_PrintLine("Bootloader timeout to wait for updating");        
+        // 校验APP是否OK
+        UPDATE_AppInfoRead(&stAppInfo);
+        if(UPDATE_APP1_FLAG == stAppInfo.u32AppFlag)
+        {
+        	DBG_PrintLine("APP1 NOT OK, wait update\n\r");
+            UPDATE_ReceiverStartUartUpdate(stAppInfo.u32AppLen, stAppInfo.u32AppChkSum);
+        }
+        else if(UPDATE_APP2_FLAG == stAppInfo.u32AppFlag2)
+        {
+        	DBG_PrintLine("APP2 NOT OK, wait update\n\r");
+            UPDATE_ReceiverStartUartUpdate(stAppInfo.u32AppLen2, stAppInfo.u32AppChkSum2);
+        }
+        else
+        {
+            DBG_PrintLine("Jump to APP\n\r");
+            u32AppStartAddr = updateGetAppStartAddr(0);
+            if(u32AppStartAddr == 0)
+            {
+            	DBG_PrintLine("APP NOT OK, wait update\n\r");
+            	UPDATE_ReceiverStartUartUpdate(0xc800, 0x0095B68C);
+            }
+            else
+            {
+            	HAL_JumpToApp(u32AppStartAddr);
+            }
+        }
+    }
+    // 升级中途失败，重启
+    else if (E_UPDATE_STATUS_UPDATING == g_stRcvUpdatePrm.eUpdateStatus)
+    {
+        DBG_UPDATE(DBG_E, "Update timeout, reboot");
+        //SYS_Reboot();
+    }
+    // 升级成功，延时重启(目标板使用)
+    else if (E_UPDATE_STATUS_FINISH == g_stRcvUpdatePrm.eUpdateStatus)
+    {
+        SYS_Reboot();
+    }
+    // 出错，非预期状态，重启
+    else
+    {
+        DBG_UPDATE(DBG_E, "");
+        SYS_Reboot();
+    }
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端处理Xmodem的事件回调
+*
+*  描述: 接收端使用, Reboot后等待升级的超时处理和升级中断的超时处理
+*
+*  参数: [in]  eEvt       事件
+*        [in]  pu8Data    数据
+*        [in]  pu8Data    数据长度
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateRcvProcXmodemEvtCallback(E_XMODEM_RCV_EVT eEvt, MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+    MUINT32 u32Result;
+    MUINT32 u32AppStartAddr;
+    T_UPDATE_APP_INFO stAppInfo;
+
+    switch (eEvt)
+    {
+        case E_XMODEM_RCV_EVT_DATA:
+        {
+            if (UPDATE_APP_DATA_CHCHED_LEN_MAX < u16DataLen)
+            {
+                // 这里不应该发生
+                DBG_UPDATE(DBG_E, "Data Len error: %d", u16DataLen);
+                break;
+            }
+        
+            // 将数据保存到Flash
+            if (UPDATE_APP_DATA_CHCHED_LEN_MAX < (g_stRcvUpdatePrm.u32AppCachedLen + u16DataLen))
+            {
+                u32AppStartAddr = updateGetAppStartAddr(1);
+                updateAppDataWrite((u32AppStartAddr + g_stRcvUpdatePrm.u32AppFlashedLen), 
+                                   g_stRcvUpdatePrm.au8AppCachedData,
+                                   g_stRcvUpdatePrm.u32AppCachedLen);
+                
+                g_stRcvUpdatePrm.u32AppFlashedLen += g_stRcvUpdatePrm.u32AppCachedLen;
+                g_stRcvUpdatePrm.u32AppCachedLen   = 0;
+            }
+
+            // 将数据缓存
+            memcpy(&g_stRcvUpdatePrm.au8AppCachedData[g_stRcvUpdatePrm.u32AppCachedLen], pu8Data, u16DataLen);
+            g_stRcvUpdatePrm.u32AppCachedLen += u16DataLen;
+
+            // 收到的APP数据大于总大小
+            if (g_stRcvUpdatePrm.u32AppLenMax < (g_stRcvUpdatePrm.u32AppFlashedLen + g_stRcvUpdatePrm.u32AppCachedLen))
+            {
+                // 这里不应该发生
+                DBG_UPDATE(DBG_E, "Data Len error: %d, %d, %d", g_stRcvUpdatePrm.u32AppLenMax, g_stRcvUpdatePrm.u32AppFlashedLen, g_stRcvUpdatePrm.u32AppCachedLen);
+                break;
+            }
+
+            // 如果当前是最后一包数据，将数据保存到Flash
+            if (g_stRcvUpdatePrm.u32AppLenMax == (g_stRcvUpdatePrm.u32AppFlashedLen + g_stRcvUpdatePrm.u32AppCachedLen))
+            {
+                u32AppStartAddr = updateGetAppStartAddr(1);
+                updateAppDataWrite((u32AppStartAddr + g_stRcvUpdatePrm.u32AppFlashedLen), 
+                                   g_stRcvUpdatePrm.au8AppCachedData,
+                                   g_stRcvUpdatePrm.u32AppCachedLen);
+                  
+                g_stRcvUpdatePrm.u32AppFlashedLen += g_stRcvUpdatePrm.u32AppCachedLen;
+                g_stRcvUpdatePrm.u32AppCachedLen   = 0;
+
+                //DBG_UPDATE(DBG_I, "All app date received");
+            }            
+            break;
+        }
+        case E_XMODEM_RCV_EVT_DATA_END:
+        {
+            UPDATE_ReceiverEndUpdate();
+            
+            // 校验APP
+            u32Result = updateCheckApp(g_stRcvUpdatePrm.u32AppLenMax, g_stRcvUpdatePrm.u32AppChkSum);
+            if (ERR_NONE == u32Result)
+            {
+            	UPDATE_AppInfoRead(&stAppInfo);
+                if(stAppInfo.u32AppFlag2 == UPDATE_APP2_FLAG)
+                {
+                	stAppInfo.u32AppFlag2  = UPDATE_APP_OK_FLAG;
+                	stAppInfo.u32AppLen2    = g_stRcvUpdatePrm.u32AppLenMax;
+                	stAppInfo.u32AppChkSum2 = g_stRcvUpdatePrm.u32AppChkSum;
+                	if(stAppInfo.u32AppFlag == UPDATE_APP_OK_FLAG)
+                	{
+                		stAppInfo.u32AppFlag = UPDATE_BANK_FLAG;
+                	}
+                }
+                else
+            	{
+                	stAppInfo.u32AppFlag   = UPDATE_APP_OK_FLAG;
+                	stAppInfo.u32AppLen    = g_stRcvUpdatePrm.u32AppLenMax;
+                	stAppInfo.u32AppChkSum = g_stRcvUpdatePrm.u32AppChkSum;
+                	if(stAppInfo.u32AppFlag2 == UPDATE_APP_OK_FLAG)
+                	{
+                		stAppInfo.u32AppFlag2  = UPDATE_BANK_FLAG;
+                	}
+                }
+                 // 清固件有效标记，擦除Flash
+        		UPDATE_EraseAppInfo();
+                UPDATE_AppInfoWrite(&stAppInfo);
+                DBG_UPDATE(DBG_I, "Update OK");
+
+                updateSendCmdByUart("Update succeed");
+                g_stRcvUpdatePrm.eUpdateStatus = E_UPDATE_STATUS_FINISH;
+                TMR_Stop(g_stRcvUpdatePrm.tmrWaitUpdate);
+                TMR_SetPeriod(g_stRcvUpdatePrm.tmrWaitUpdate, UPDATE_DELAY_TO_REBOO_TIME_MS);
+                TMR_Restart(g_stRcvUpdatePrm.tmrWaitUpdate);
+            }
+            else
+            {
+                updateSendCmdByUart("Update fail: check error");
+            }
+        }break;
+        
+        case E_XMODEM_RCV_EVT_ERROR_END:
+        {
+            DBG_UPDATE(DBG_E, "Update error end");
+            UPDATE_AppInfoRead(&stAppInfo);
+            if(stAppInfo.u32AppFlag == UPDATE_APP1_FLAG && (stAppInfo.u32AppFlag2 == UPDATE_BANK_FLAG || stAppInfo.u32AppFlag2 == UPDATE_APP_OK_FLAG))
+            {
+            	stAppInfo.u32AppFlag2 = UPDATE_APP_OK_FLAG;
+            	stAppInfo.u32AppFlag = 0;
+            }
+
+            if(stAppInfo.u32AppFlag2 == UPDATE_APP2_FLAG && (stAppInfo.u32AppFlag == UPDATE_BANK_FLAG || stAppInfo.u32AppFlag == UPDATE_APP_OK_FLAG))
+            {
+            	stAppInfo.u32AppFlag = UPDATE_APP_OK_FLAG;
+            	stAppInfo.u32AppFlag2 = 0;
+            }
+            
+            // 清固件有效标记，擦除Flash
+        	UPDATE_EraseAppInfo();
+            UPDATE_AppInfoWrite(&stAppInfo);
+            SYS_Reboot();
+            break;
+        }
+        default:
+        {
+            break;
+        }        
+    }
+    return;
+}
+
+
+/*
+******************************************************************************
+*  函数: 接收端处理串口消息包
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  pu8Data      数据
+*        [in]  u32DataLen   数据长度
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateRcvProcUartMsg(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+	MUINT8 au8Temp[512];
+
+	memset(au8Temp, 0, 512);
+	MEMCPY(au8Temp, pu8Data, u16DataLen);
+	
+    if (E_UPDATE_STATUS_UPDATING == g_stRcvUpdatePrm.eUpdateStatus)
+    {
+        // 重启超时定时器
+        TMR_Restart(g_stRcvUpdatePrm.tmrWaitUpdate);
+        
+        // 解析数据
+        // 处理Xmodem数据包
+        XMODEM_RcvMsgProcess(pu8Data, u16DataLen);
+    }
+    
+    TMR_Stop(g_tmrLedID);
+    
+	switch(au8Temp[1]%8)
+	{
+		case 0:
+			HAL_GpioSet(E_HAL_GPIO_O_WIFI_LED);
+			break;
+		case 1:
+			HAL_GpioSet(E_HAL_GPIO_O_BT_LED);
+			break;
+		case 2:
+			HAL_GpioSet(E_HAL_GPIO_O_GPS_LED);
+			break;
+		case 3:
+			HAL_GpioSet(E_HAL_GPIO_O_4G_LED);
+			break;
+		case 4:
+			HAL_GpioReset(E_HAL_GPIO_O_WIFI_LED);
+			break;
+		case 5:
+			HAL_GpioReset(E_HAL_GPIO_O_BT_LED);
+			break;
+		case 6:
+			HAL_GpioReset(E_HAL_GPIO_O_GPS_LED);
+			break;
+		case 7:
+			HAL_GpioReset(E_HAL_GPIO_O_4G_LED);
+			break;
+		default:
+			break;
+	}
+    return;
+}
+
+static void updateReceiverProcessOmsMsg(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+	MUINT8 au8Temp[512];
+	MUINT8 au8RevBuf[512];
+	MUINT8 u8Index = 0;
+	MUINT16 u8SendLen = 0;
+
+	
+	if(u16DataLen < 2 || u16DataLen > 512)
+	{
+		return;
+	}
+	
+	memset(au8Temp, 0, 512);
+	MEMCPY(au8Temp, pu8Data, u16DataLen);
+	
+	if(NULL != strstr((char*)au8Temp, "+QIURC") && u16DataLen > 10 && u16DataLen < 512)
+	{
+		//+QIURC: "recv",0
+		memset(au8RevBuf, 0, 512);
+		sprintf((char*)au8RevBuf, "AT+QIRD=0,512\r\n");
+		u8SendLen = strlen((char*)au8RevBuf); 
+		HAL_UartSendData(E_HAL_UART_EC20, au8RevBuf, u8SendLen);
+	}
+	
+	else if(NULL != strstr((char*)au8Temp, "+QIRD") && u16DataLen > 10 && u16DataLen < 512)
+	{
+		//+QIRD:_1330d0a
+		while(au8Temp[u8Index] != 'R' && au8Temp[u8Index+1] != 'D')
+		{
+			u8Index++;
+			if(u8Index > u16DataLen)
+			{
+				break;
+			}
+		}
+		
+		u8Index += 4;//RD: 133
+		u8SendLen = 0;
+
+		while(au8Temp[u8Index] != 0x0d && au8Temp[u8Index+1] != 0x0a)
+		{
+			u8SendLen = 10*u8SendLen + (au8Temp[u8Index] - '0');
+			u8Index++;
+			if(u8Index > u16DataLen)
+			{
+				break;
+			}
+		}
+
+		u8Index += 2;//0D0A
+		/*
+		memset(au8RevBuf, 0, 512);
+		UTIL_DataToHexString((MCHAR *)au8RevBuf, 512, &au8Temp[u8Index], u8SendLen/3);
+		DBG(DBG_D, "WIFI0----%d----%s-----",u16DataLen, au8RevBuf);
+
+		if(u8SendLen > 160)
+		{
+			memset(au8RevBuf, 0, 512);
+			UTIL_DataToHexString((MCHAR *)au8RevBuf, 512, &au8Temp[u8SendLen/3], u8SendLen/3);
+			DBG(DBG_D, "WIFI1----%d----%s-----",u16DataLen, au8RevBuf);
+		}
+		*/
+		memset(au8RevBuf, 0, 512);
+		MEMCPY(au8RevBuf, &au8Temp[u8Index], u8SendLen);
+
+		updateRcvProcUartMsg(au8RevBuf, u8SendLen);
+	}
+
+}
+
+
+/*
+***********************************************************************************************
+*  功能:接收到BT模块数据回调函数
+*
+*  描述: 无
+*
+*  参数: pu8Data数据指针，u32DataLen数据长度
+*
+*  返回:  无
+*
+***********************************************************************************************
+*/
+static void updateReceiverProcessBtMsg(MUINT8 *pu8Data, MUINT16 u16DataLen)
+{
+	MUINT8 au8Temp[512];
+	MUINT8 au8RevBuf[512];
+	MUINT16 u8DataLen = 0;
+	MUINT16 u8ReadLen = 0;
+	
+	memset(au8Temp, 0, 512);
+	memset(au8RevBuf, 0, 512);
+
+	MEMCPY(au8Temp, pu8Data, u16DataLen);
+
+	while(u8ReadLen < u16DataLen)
+	{
+		if(au8Temp[u8ReadLen] == 0x02 && au8Temp[u8ReadLen+1] == 0x07)
+		{
+			u8ReadLen += 2; //2个字节头
+			memcpy(&au8RevBuf[u8DataLen], &au8Temp[u8ReadLen+1], au8Temp[u8ReadLen]);
+			u8DataLen += au8Temp[u8ReadLen];
+			u8ReadLen += au8Temp[u8ReadLen];//数据长度
+			u8ReadLen++;//数据长度1字节
+		}
+		else if(au8Temp[u8ReadLen] == 0x02 && au8Temp[u8ReadLen+1] == 0x06)
+		{			
+			DBG(DBG_D, "---send to bt ok---");
+			u8ReadLen++;
+		}
+		else
+		{
+			u8ReadLen++;
+		}
+	}
+	DBG(DBG_D, "---Rcv bt data %d", u8DataLen);
+	if(u8DataLen == 1 || u8DataLen == 389)
+	{
+		updateRcvProcUartMsg(au8RevBuf, u8DataLen);
+	}
+	
+	return;
+}
+
+/*
+******************************************************************************
+*  函数: 进入升级状态开始升级
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  eUpdateType       升级类型
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static void updateReceiverStartRcvApp(void)
+{
+    T_XMODEM_RCV_SET stXmodemRcvSet;
+
+	memset(&stXmodemRcvSet, 0, sizeof(T_XMODEM_RCV_SET));
+    // 开始Xmodem接收
+    if (E_UPDATE_TYPE_BY_PC_UART_RCV == g_stRcvUpdatePrm.eUpdateType)
+    {
+    	 // 接管串口        
+        HAL_UartSetPackInterval(E_HAL_UART_PRINT, UPDATE_UART_INTERVAL_MS);
+        HAL_UartSetCallback(E_HAL_UART_PRINT, updateRcvProcUartMsg, NULL);
+        stXmodemRcvSet.pfnDataSendCB   = updateSendXmodemDataByUart;
+    }
+    else if(E_UPDATE_TYPE_BY_OMS_RCV == g_stRcvUpdatePrm.eUpdateType)
+    {
+    	// 接管串口
+        HAL_UartSetPackInterval(E_HAL_UART_EC20, UPDATE_UART_INTERVAL_MS);
+        HAL_UartSetCallback(E_HAL_UART_EC20, updateReceiverProcessOmsMsg, NULL);
+        stXmodemRcvSet.pfnDataSendCB   = updateSendXmodemDataBy4G;
+    }
+	else if(E_UPDATE_TYPE_BY_BT_RCV == g_stRcvUpdatePrm.eUpdateType)
+	{
+		// 接管串口        
+        HAL_UartSetPackInterval(E_HAL_UART_BT, UPDATE_UART_INTERVAL_MS);
+        HAL_UartSetCallback(E_HAL_UART_BT, updateReceiverProcessBtMsg, NULL);
+		stXmodemRcvSet.pfnDataSendCB   = updateSendXmodemDataByBt;
+	}
+	
+	stXmodemRcvSet.u32FixedDataLen = XMODE_DATA_SIZE_UART;
+	stXmodemRcvSet.eCheckType      = E_XMODEM_CHECK_TYPE_CRC;
+	stXmodemRcvSet.pfnEvtCB        = updateRcvProcXmodemEvtCallback;
+	XMODEM_RcvStart(&stXmodemRcvSet);
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 设置升级的APP信息
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  u32AppLen           APP数据长度
+*        [in]  u32AppChkSum    APP数据累加和
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+static MUINT32 updateReceiverSetAppInfo(MUINT32 u32AppLen, MUINT32 u32AppChkSum)
+{
+    MUINT32 u32Result = ERR_NONE;
+
+    // 记录DataLen和CheckSum32
+    g_stRcvUpdatePrm.u32AppLenMax     = u32AppLen;
+    g_stRcvUpdatePrm.u32AppChkSum = u32AppChkSum;
+    DBG_UPDATE(DBG_D, "APP Len: %d, CheckSum32: %d", u32AppLen, u32AppChkSum);
+    
+    if (g_stRcvUpdatePrm.u32AppFlashLenMax < u32AppLen)
+    {
+        DBG_UPDATE(DBG_E, "%d, %d", g_stRcvUpdatePrm.u32AppFlashLenMax, u32AppLen);
+        //u32Result = ERR_PARAM_INVALID;
+    }
+
+    return u32Result;
+}
+
+
+
+/*
+***********************************************************************************************
+*  功能:bootload闪灯定时器
+*
+*  描述: 无
+*
+*  参数: 无
+*
+*  返回:  无
+*
+***********************************************************************************************
+*/
+static void updateLedTimeOut(TMR u8Tmr, void *pArg)
+{
+	static MBOOL bFlag = FALSE;
+
+	if(bFlag == FALSE)
+	{
+		HAL_GpioSet(E_HAL_GPIO_O_WIFI_LED);
+		bFlag = TRUE;
+	}
+	else
+	{
+		HAL_GpioReset(E_HAL_GPIO_O_WIFI_LED);
+		bFlag = FALSE;
+	}
+	TMR_Start(g_tmrLedID);
+	return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端初始化
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  bIsBootloader      是Bootloader还是中间板
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_ReceiverInit(E_UPDATE_TYPE         eUpdateType)
+{
+    MUINT32 u32Result;
+    MUINT8 *pu8UpdateCmd;
+
+    memset(&g_stRcvUpdatePrm, 0, sizeof(T_UPDATE_RCV_PARAM));
+    g_stRcvUpdatePrm.eUpdateStatus     = E_UPDATE_STATUS_IDLE;    
+    g_stRcvUpdatePrm.u32AppFlashLenMax = FLASH_APP_SIZE;
+	g_stRcvUpdatePrm.eUpdateType = eUpdateType;
+
+    u32Result = TMR_Creat(UPDATE_REBOOT_WAIT_TIME_MS, updateRcvWaitUpdateTmrCallback, NULL, &g_stRcvUpdatePrm.tmrWaitUpdate);
+    ASSERT(ERR_NONE == u32Result); 
+    
+#if (0 == HAL_ASSERT)    
+    u32Result = u32Result; // 仅为解决变量未使用编译警告
+#endif
+    
+    // 发送命令尝试通过PC串口升级
+    pu8UpdateCmd = "update";
+    // 不带产品信息
+    updateSendCmdByUart(pu8UpdateCmd);
+    updateSendCmdByUart("");//换行，界面美观
+
+    // 开始等待升级，超时后进APP
+    TMR_Stop(g_stRcvUpdatePrm.tmrWaitUpdate);
+    TMR_SetPeriod(g_stRcvUpdatePrm.tmrWaitUpdate, UPDATE_REBOOT_WAIT_TIME_MS);
+    TMR_Restart(g_stRcvUpdatePrm.tmrWaitUpdate);
+    
+	u32Result = TMR_CreatRepeatTimer(200, updateLedTimeOut, NULL, &g_tmrLedID);
+	ASSERT(ERR_NONE == u32Result);
+	TMR_Start(g_tmrLedID);
+
+	return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端进入升级状态开始升级
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  eUpdateType      升级类型
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_ReceiverStartUpdate(void)
+{
+    // 取消前一次的升级
+    UPDATE_ReceiverEndUpdate();
+
+    // 停掉等待的定时器, 等待消息
+    TMR_Stop(g_stRcvUpdatePrm.tmrWaitUpdate);
+    TMR_SetPeriod(g_stRcvUpdatePrm.tmrWaitUpdate, UPDATE_WAIT_MSG_TIME_MS);
+    TMR_Restart(g_stRcvUpdatePrm.tmrWaitUpdate);
+
+    //g_stRcvUpdatePrm.eUpdateType          = eUpdateType;
+    g_stRcvUpdatePrm.eUpdateStatus        = E_UPDATE_STATUS_UPDATING;
+    g_stRcvUpdatePrm.u32AppCachedLen      = 0;
+    g_stRcvUpdatePrm.u32AppFlashedLen     = 0;
+    g_stRcvUpdatePrm.u32AppFlashedPercent = 0;
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端结束升级
+*
+*  描述: 接收端使用
+*
+*  参数: 无
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+void UPDATE_ReceiverEndUpdate(void)
+{
+    XMODEM_RcvEnd();
+    TMR_Stop(g_stRcvUpdatePrm.tmrWaitUpdate);
+    g_stRcvUpdatePrm.eUpdateStatus = E_UPDATE_STATUS_IDLE;    
+
+    if (E_UPDATE_TYPE_BY_PC_UART_RCV == g_stRcvUpdatePrm.eUpdateType)
+    {
+        //将串口接收数据功能交还DBG
+        DBG_RecoverRcvData();
+    }
+
+    return;
+}
+
+/*
+******************************************************************************
+*  函数: 接收端开始串口升级
+*
+*  描述: 接收端使用
+*
+*  参数: [in]  u32AppLen          APP数据长度
+*        [in]  u32AppChkSum   APP数据长度校验和
+*
+*  返回: 无
+*
+****************************************************************************
+*/
+MUINT32 UPDATE_ReceiverStartUartUpdate(MUINT32 u32AppLen, MUINT32 u32AppChkSum)
+{
+	MUINT32 u32Result = ERR_NONE;
+
+	u32Result = updateReceiverSetAppInfo(u32AppLen, u32AppChkSum);
+	if (ERR_NONE != u32Result)
+	{
+		// 发送命令
+		updateSendCmdByUart("app len overflow");
+	}
+	else
+	{
+		UPDATE_ReceiverStartUpdate();
+	
+		// 清固件，擦除Flash
+		updateEraseAppData();
+		
+		// 发送命令
+		updateSendCmdByUart("Update by oms start");
+		SYS_DelayMs(200);
+		updateSendCmdByUart("");//换行，界面美观
+	   
+		// 延时待PC准备好
+		SYS_DelayMs(200);
+
+		// 开始传输文件
+		updateReceiverStartRcvApp();
+	}
+	
+	return u32Result;
+}
+
+
+
