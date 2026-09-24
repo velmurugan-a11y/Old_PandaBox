@@ -46,24 +46,24 @@ static const led_t leds[] = {
 };
 #define NUM_LEDS (sizeof(leds) / sizeof(leds[0]))
 
-#if BRINGUP_MODULE == BRINGUP_NONE
-static void led_test_sequence(void)
+/* Boot LED sweep: one pass across all LEDs (200 ms each) so every build
+ * mode gets a visual power-on confirmation, then PWR LED latches ON. */
+static void led_boot_sequence(void)
 {
-    log_line("\r\n--- LED test: each LED on/off in turn, 3 cycles ---\r\n");
-    for (unsigned cycle = 0; cycle < 3; cycle++) {
-        for (unsigned i = 0; i < NUM_LEDS; i++) {
-            log_line("LED ON:  ");
-            log_line(leds[i].name);
-            log_line("\r\n");
-            gpio_write(leds[i].port, leds[i].pin, 1);
-            busy_wait(6000000u); /* x15 for the Phase 2 clock switch, was 400000 at 8MHz */
-            gpio_write(leds[i].port, leds[i].pin, 0);
-            busy_wait(1500000u); /* x15, was 100000 at 8MHz */
-        }
+    log_line("\r\n--- LED boot sweep ---\r\n");
+    for (unsigned i = 0; i < NUM_LEDS; i++) {
+        log_line("LED: ");
+        log_line(leds[i].name);
+        log_line("\r\n");
+        gpio_write(leds[i].port, leds[i].pin, 1);
+        busy_wait(6000000u); /* ~200 ms at 120 MHz */
+        gpio_write(leds[i].port, leds[i].pin, 0);
+        busy_wait(1500000u); /* ~50 ms gap */
     }
-    log_line("--- LED test done ---\r\n");
+    /* Power LED always on from this point */
+    gpio_set_output_high(LED_PWR_RED_PORT, LED_PWR_RED_PIN);
+    log_line("LED: PWR red latched ON\r\n");
 }
-#endif /* BRINGUP_MODULE == BRINGUP_NONE */
 
 /* ------------------------------------------------------------------ *
  * Phase C smoke test: two trivial, independent tasks proving preemptive
@@ -233,10 +233,12 @@ int main(void)
      * board's HXTAL crystal input/output (X101 is populated there); do
      * not add GPIO config for them without resolving that first. */
 
+    /* Init all LEDs off, then a single sweep so the hardware is visually
+     * confirmed regardless of build mode.  After the sweep, PWR LED stays
+     * on permanently; all others start off and are driven by their task. */
     for (unsigned i = 0; i < NUM_LEDS; i++) {
         gpio_set_output_low(leds[i].port, leds[i].pin);
     }
-    gpio_set_output_high(LED_PWR_RED_PORT, LED_PWR_RED_PIN); /* power LED always on */
 
     log_init();
     log_line("\r\n--- PandaBox GD32F305VCT6 native bring-up ---\r\n");
@@ -264,9 +266,7 @@ int main(void)
 
     cmd_selftest_run(); /* run first, before LED/TCS delays push it out of the small RTT ring buffer */
 
-#if BRINGUP_MODULE == BRINGUP_NONE
-    led_test_sequence();
-#endif
+    led_boot_sequence(); /* visual boot confirmation + PWR LED latch */
 
     /* Phase E of the FreeRTOS port (see the approved plan): the TCS scan
      * and YC1021/cmd.c init+poll loop that used to run right here in
