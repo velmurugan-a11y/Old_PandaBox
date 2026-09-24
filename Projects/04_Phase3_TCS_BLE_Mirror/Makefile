@@ -36,6 +36,7 @@ SRCS = startup/startup_gd32f305vct6.s \
        src/cmd_selftest.c \
        src/nvic.c \
        src/fault.c \
+       src/led_mgr.c \
        src/task_meter.c \
        src/task_telit.c \
        src/task_ota.c \

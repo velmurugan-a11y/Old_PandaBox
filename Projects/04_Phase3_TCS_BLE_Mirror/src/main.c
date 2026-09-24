@@ -19,6 +19,7 @@
 #include "systick.h"
 #include "nvic.h"
 #include "board_config.h"
+#include "led_mgr.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "task_meter.h"
@@ -89,13 +90,19 @@ static StackType_t  s_taskA_stack[DUMMY_STACK_WORDS];
  * is retired, its job done. */
 static void vTaskA(void *pv)
 {
+    /* Drives the LED state machine at 20ms resolution.
+     * Also logs a heartbeat every 5 s so the scheduler health is visible. */
     (void)pv;
-    uint32_t count = 0;
+    uint32_t tick = 0;
     char msg[48];
     for (;;) {
-        snprintf(msg, sizeof(msg), "[heartbeat] tick %lu\r\n", (unsigned long)count++);
-        log_line(msg);
-        vTaskDelay(pdMS_TO_TICKS(5000));
+        led_mgr_tick();
+        tick++;
+        if (tick % 250u == 0u) {
+            snprintf(msg, sizeof(msg), "[heartbeat] tick %lu\r\n", (unsigned long)(tick / 250u));
+            log_line(msg);
+        }
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
 #endif /* BRINGUP_MODULE == BRINGUP_NONE */
@@ -267,6 +274,7 @@ int main(void)
     cmd_selftest_run(); /* run first, before LED/TCS delays push it out of the small RTT ring buffer */
 
     led_boot_sequence(); /* visual boot confirmation + PWR LED latch */
+    led_mgr_init();      /* set up LED state machine (IDLE: PWR + LCP1 + LCP2 on) */
 
     /* Phase E of the FreeRTOS port (see the approved plan): the TCS scan
      * and YC1021/cmd.c init+poll loop that used to run right here in
