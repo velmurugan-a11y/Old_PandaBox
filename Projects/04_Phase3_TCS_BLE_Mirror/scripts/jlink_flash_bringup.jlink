@@ -1,0 +1,22 @@
+// Flashes this standalone bring-up image at 0x08000000. No bootloader
+// needed for this test -- this image IS the whole flash content, with
+// its own reset vector at 0x08000000.
+//
+// Run AFTER you've already backed up the chip (see the sibling
+// pandabox-firmware/scripts/jlink_backup.jlink) -- this OVERWRITES
+// whatever is currently on the chip, including the X-Box bootloader if
+// present, since it writes from 0x08000000.
+//
+// Run:
+//   JLinkExe -device GD32F305VC -if SWD -speed 4000 -CommandFile gd32f305z-native\scripts\jlink_flash_bringup.jlink
+// (fall back to -device GD32F303VC if GD32F305VC isn't recognized)
+//
+// Build first: make (from inside gd32f305z-native/)
+
+r
+halt
+loadbin build\bringup.bin 0x08000000
+verifybin build\bringup.bin 0x08000000
+r
+g
+exit

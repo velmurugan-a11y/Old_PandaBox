@@ -1,0 +1,5 @@
+r
+loadbin build\bringup.bin 0x08000000
+r
+g
+exit

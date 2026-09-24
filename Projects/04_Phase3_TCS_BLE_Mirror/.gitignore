@@ -1,0 +1,8 @@
+build/
+rtt_*.log
+*.bin
+*.elf
+*.map
+.DS_Store
+__pycache__/
+*.pyc
