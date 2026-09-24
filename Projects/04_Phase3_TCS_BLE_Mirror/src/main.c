@@ -93,10 +93,9 @@ static void vTaskA(void *pv)
     uint32_t count = 0;
     char msg[48];
     for (;;) {
-        gpio_toggle(LED_PWR_RED_PORT, LED_PWR_RED_PIN);
-        snprintf(msg, sizeof(msg), "TaskA (PWR red, 500ms): %lu\r\n", (unsigned long)count++);
+        snprintf(msg, sizeof(msg), "[heartbeat] tick %lu\r\n", (unsigned long)count++);
         log_line(msg);
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
 #endif /* BRINGUP_MODULE == BRINGUP_NONE */
@@ -237,6 +236,7 @@ int main(void)
     for (unsigned i = 0; i < NUM_LEDS; i++) {
         gpio_set_output_low(leds[i].port, leds[i].pin);
     }
+    gpio_set_output_high(LED_PWR_RED_PORT, LED_PWR_RED_PIN); /* power LED always on */
 
     log_init();
     log_line("\r\n--- PandaBox GD32F305VCT6 native bring-up ---\r\n");

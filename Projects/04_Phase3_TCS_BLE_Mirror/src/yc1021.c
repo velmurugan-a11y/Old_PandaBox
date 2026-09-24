@@ -397,31 +397,53 @@ static void handle_event(const uint8_t *e, uint32_t n)
     switch (e[1]) {
     case 0x08u: /* BLE data: 02 08 len <handle_lo> <handle_hi> data */
         if (e[2] >= 2u) {
+            if (!online) {
+                /* First BLE packet is proof the link is up — latch LED ON */
+                online = 1;
+                asm_n[0] = asm_n[1] = 0u;
+                s_led_blink_until = 0;
+                led_bt_on();
+            }
             yc1021_assemble(YC_LINK_BLE, &e[5], (uint32_t)e[2] - 2u);
         }
         break;
     case 0x07u: /* SPP data */
+        if (!online) {
+            online = 1;
+            asm_n[0] = asm_n[1] = 0u;
+            s_led_blink_until = 0;
+            led_bt_on();
+        }
         yc1021_assemble(YC_LINK_SPP, &e[3], e[2]);
         break;
-    case 0x02u: /* module status */
+    case 0x02u: /* module status — unsolicited on state change */
         if (e[2] >= 1u) {
             st_last = e[3];
-            log_line("YC1021: status 0x");
-            log_hex("", &st_last, 1);
+            {
+                char sbuf[64];
+                snprintf(sbuf, sizeof(sbuf),
+                    "YC1021: status 0x%02X (BLE=%d SPP=%d adv=%d)\r\n",
+                    st_last,
+                    (st_last >> 4) & 1,
+                    (st_last >> 5) & 1,
+                    st_last & 7);
+                log_line(sbuf);
+            }
             if ((st_last & 0x30u) == 0u && (st_last & 0x07u) != 0x07u) {
                 readv_pending = 1;
                 readv_at = xTaskGetTickCount() + pdMS_TO_TICKS(150);
             } else {
                 readv_pending = 0;
             }
-            online = (st_last & 0x30u) != 0u;
-            if (online) {
+            if ((st_last & 0x30u) != 0u) {
+                online = 1;
                 asm_n[0] = asm_n[1] = 0u;
                 s_led_blink_until = 0;
-                led_bt_on();   /* latch LED ON when link is up */
-            } else {
+                led_bt_on();
+            } else if (!online) {
+                /* Already off and no data arrived — stay off */
                 s_led_blink_until = 0;
-                led_bt_off();  /* LED off when not connected */
+                led_bt_off();
             }
         }
         break;
@@ -430,9 +452,16 @@ static void handle_event(const uint8_t *e, uint32_t n)
         online = 0;
         asm_n[0] = asm_n[1] = 0u;
         s_led_blink_until = 0;
-        led_bt_off();  /* LED off on disconnect */
+        led_bt_off();
         break;
     default:
+        {
+            char ubuf[32];
+            snprintf(ubuf, sizeof(ubuf),
+                "YC1021: evt 0x%02X len=%u\r\n", e[1], e[2]);
+            log_line(ubuf);
+        }
+        log_hex("[YC1021 raw] ", e, (n < 16u) ? n : 16u);
         break;
     }
 }
