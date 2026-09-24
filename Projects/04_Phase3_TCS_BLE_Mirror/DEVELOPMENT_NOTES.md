@@ -1,5 +1,5 @@
 # PandaBox GD32F305VCT6 — Full Development Notes
-## Branch: feature/ble-modem-serial-mirror
+## Branch: feature/phase3-ble-modem-serial-mirror
 ## Date: 2026-09-24
 
 ---
@@ -329,6 +329,47 @@ Send `SetDbg 0` to return to clean output.
 **What did NOT change:** All protocol logic, TCS meter code, flash store, FreeRTOS task structure. Only logging labels and the addition of the missing reply-mirror line.
 
 **Verification:** `yc1021.c` and `ec25.c` (and all 7 key modules) compiled clean with `arm-none-eabi-gcc 14.2.Rel1` with zero errors and zero new warnings.
+
+---
+
+## 10. PC5 BT BLUE LED — CONNECT LATCH + DATA BLINK (added this session)
+
+**Requirement:** PC5 (BT blue LED, active high) must:
+- Be **OFF** when not connected (boot/advertising state)
+- **LATCH ON** (steady) when a BLE or SPP link is established
+- **BLINK** (turn off for 80 ms) on every data transfer (command received OR reply sent)
+- Turn **OFF** again on disconnect
+
+**Implementation** (all in `src/yc1021.c`):
+
+```
+static TickType_t s_led_blink_until;   // 0 = no active blink
+
+led_bt_on()   → gpio_set_output_high(LED_BT_BLUE_PORT, LED_BT_BLUE_PIN)
+led_bt_off()  → gpio_set_output_low(LED_BT_BLUE_PORT,  LED_BT_BLUE_PIN)
+led_bt_blink() → led_bt_off(); s_led_blink_until = now + 80ms
+```
+
+Wired at four points:
+- `handle_event() case 0x02 (status)`: link-up → `led_bt_on()`, link-down → `led_bt_off()`
+- `handle_event() case 0x05 (link closed)`: → `led_bt_off()`
+- `yc1021_assemble()` on RX: → `led_bt_blink()`
+- `yc1021_assemble()` before `yc1021_send_line()` on TX: → `led_bt_blink()`
+- `yc1021_poll()` at top: if `s_led_blink_until` expired and `online`: → `led_bt_on()`
+- `yc1021_init()` at end: → `led_bt_off()` (clean reset state)
+
+**Visible behavior on hardware:**
+```
+Boot / advertising     → PC5 OFF
+Phone connects         → PC5 ON  (steady, latched)
+Phone sends BoxStatus  → PC5 blinks off 80ms, returns ON
+Firmware replies       → PC5 blinks off 80ms, returns ON
+Phone disconnects      → PC5 OFF
+```
+
+**Note:** If two transfers happen faster than 80 ms apart (unlikely at Lx command cadence), the blink timer resets to `now + 80ms` on each event — the LED stays off until 80 ms after the LAST transfer.
+
+**Verification:** Compiled with `-Wextra`, zero errors, zero warnings.
 
 ---
 

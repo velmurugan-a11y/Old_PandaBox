@@ -288,6 +288,27 @@ static int       readv_pending;
 static TickType_t readv_at;
 static uint32_t  readv_misses;
 
+/* ------------------------------------------------------------------ *
+ * PC5 BT-blue LED:
+ *   OFF        = not connected
+ *   STEADY ON  = BLE/SPP link is live
+ *   BLINK      = data transfer in progress (80 ms off per transfer event)
+ *
+ * blink_off_until: when non-zero and in the future, the LED is held OFF
+ * for a short blink; yc1021_poll() restores it to ON once the time
+ * passes and we are still connected.
+ * ------------------------------------------------------------------ */
+static TickType_t s_led_blink_until;  /* 0 = no active blink */
+
+static void led_bt_on(void)  { gpio_set_output_high(LED_BT_BLUE_PORT, LED_BT_BLUE_PIN); }
+static void led_bt_off(void) { gpio_set_output_low(LED_BT_BLUE_PORT,  LED_BT_BLUE_PIN); }
+static void led_bt_blink(void)
+{
+    /* Start an 80 ms blink: turn off now, restore in yc1021_poll() */
+    led_bt_off();
+    s_led_blink_until = xTaskGetTickCount() + pdMS_TO_TICKS(80);
+}
+
 #define BT_CHUNK_MAX      125u
 #define BLE_NOTIFY_HANDLE 0x002Au
 
@@ -346,6 +367,8 @@ static void yc1021_assemble(yc_link_t link, const uint8_t *d, uint32_t n)
                 log_line(asm_buf[link]);
                 log_line("\r\n");
 
+                led_bt_blink(); /* blink on data received */
+
                 if (reply_len > 0u) {
                     while (reply_len > 0u && (reply[reply_len - 1u] == '\n' || reply[reply_len - 1u] == '\r')) {
                         reply_len--;
@@ -357,6 +380,7 @@ static void yc1021_assemble(yc_link_t link, const uint8_t *d, uint32_t n)
                     log_line(reply);
                     log_line("\r\n");
 
+                    led_bt_blink(); /* blink on data sent */
                     yc1021_send_line(link, reply);
                 }
             }
@@ -393,6 +417,11 @@ static void handle_event(const uint8_t *e, uint32_t n)
             online = (st_last & 0x30u) != 0u;
             if (online) {
                 asm_n[0] = asm_n[1] = 0u;
+                s_led_blink_until = 0;
+                led_bt_on();   /* latch LED ON when link is up */
+            } else {
+                s_led_blink_until = 0;
+                led_bt_off();  /* LED off when not connected */
             }
         }
         break;
@@ -400,6 +429,8 @@ static void handle_event(const uint8_t *e, uint32_t n)
         log_line("YC1021: link closed\r\n");
         online = 0;
         asm_n[0] = asm_n[1] = 0u;
+        s_led_blink_until = 0;
+        led_bt_off();  /* LED off on disconnect */
         break;
     default:
         break;
@@ -469,6 +500,8 @@ void yc1021_init(void)
     asm_n[0] = asm_n[1] = 0u;
     readv_pending = 0;
     readv_misses = 0u;
+    s_led_blink_until = 0u;
+    led_bt_off(); /* LED off at init; turns on when a link is established */
 }
 
 void yc1021_poll(void)
@@ -491,6 +524,15 @@ void yc1021_poll(void)
         }
     }
     raw_rx_flush();
+
+    /* Restore LED to steady-on after the blink window expires */
+    if (s_led_blink_until != 0u &&
+        (int32_t)(xTaskGetTickCount() - s_led_blink_until) >= 0) {
+        s_led_blink_until = 0u;
+        if (online) {
+            led_bt_on(); /* back to steady ON once blink finishes */
+        }
+    }
 
     if (!bt_up) {
         return;
