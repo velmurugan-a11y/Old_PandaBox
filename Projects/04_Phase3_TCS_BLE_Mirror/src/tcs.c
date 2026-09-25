@@ -33,6 +33,7 @@
  */
 #include "tcs.h"
 #include "uart.h"
+#include "gpio.h"
 #include "log.h"
 #include "board_config.h"
 #include <stddef.h>
@@ -42,7 +43,7 @@
  * instead, in case the board's silkscreen "Port 1" labeling doesn't
  * match what the schematic net names suggested. Same baud both ports. */
 #ifndef TCS_USE_RS485_2
-#define TCS_USE_RS485_2 0
+#define TCS_USE_RS485_2 1   /* USB-RS232 adapter is on Port 2 (PD8/PD9, DB25-2) */
 #endif
 
 #if TCS_USE_RS485_2
@@ -176,6 +177,16 @@ static void rx_feed(uint8_t b)
 
 void tcs_init(void)
 {
+    /* Power the RS232 and RS485 rails before touching the UART.
+     * PE5_RS232_EN: enables RT9080 LDO -> U504 (BL13232ETS) -> DB25 TXD/RXD.
+     * PE6_RS485_EN: enables RT9080 LDO -> RS485_3.3V -> U104/U4 transceivers.
+     * Both LDOs default OFF (10K pull-down on CE), so without these writes
+     * no signal appears on the DB25 connector regardless of UART state. */
+    gpio_set_output_high(RS232_EN_PORT, RS232_EN_PIN);
+    gpio_set_output_high(RS485_EN_PORT, RS485_EN_PIN);
+    /* ~1 ms stabilisation time for the LDO output to reach 3.3V */
+    { volatile uint32_t d = 120000u; while (d--) { } }
+
     uart_init(&s_port, TCS_UART_BAUD, BOARD_PCLK1_HZ);
     rx_reset();
     rx_ready = 0;
