@@ -73,17 +73,46 @@
 #define DEBUG_UART_REMAP_BIT  AFIO_PCF0_USART0_REMAP
 
 /* ------------------------------------------------------------------ *
+ * RS232/RS485 power rail enables (confirmed from XBOX_V2.5 schematic):
+ *
+ *   PE5 = RS232_EN: drives CE of an RT9080-33GJ5 LDO (via R73 1K) that
+ *     powers U504 (BL13232ETS MAX232-equivalent RS232 transceiver).
+ *     U504 drives the DB25 Port 1 (J1) and Port 2 (J5) RS232 lines.
+ *     Must be HIGH before any UART TX/RX on the DB25 connectors works.
+ *     R121 (10K) pulls CE LOW by default (LDO off = U504 unpowered).
+ *
+ *   PE6 = RS485_EN: drives CE of a second RT9080-33GJ5 LDO (via R124 1K)
+ *     that powers U104/U4 (SIT3088EESA RS485 transceivers) via the
+ *     RS485_3.3V rail. R125 (10K) pulls CE LOW by default.
+ *
+ *   Both pins' GPIO clock is already enabled in clock_init() (PEEN bit).
+ * ------------------------------------------------------------------ */
+#define RS232_EN_PORT         GPIOE
+#define RS232_EN_PIN          5   /* PE5_RS232_EN, active HIGH, RT9080 CE */
+#define RS485_EN_PORT         GPIOE
+#define RS485_EN_PIN          6   /* PE6_RS485_EN, active HIGH, RT9080 CE */
+
+/* ------------------------------------------------------------------ *
  * RS485 port 1 (DB25-1, J1) -- TCS/LCR meter node bus. UART1 (GD
- * naming) = USART1 peripheral, DEFAULT pins PA2(TX)/PA3(RX), through
- * U104 (SIT3088EESA RS485 transceiver) -- this specific board/cable is
- * wired for RS232 point-to-point rather than true RS485 multidrop, per
- * direct confirmation, but that's external wiring only; the MCU-side
- * UART config is identical either way.
+ * naming) = USART1 peripheral, DEFAULT pins PA2(TX)/PA3(RX).
+ *
+ * Signal path (confirmed from XBOX_V2.5 schematic):
+ *   MCU PA2 (TX) --> U504 T2IN --> U504 T2OUT --> DB25-1_TXD (J1 pin 2)
+ *   DB25-1_RXD (J1 pin 3) --> U504 R2IN --> U504 R2OUT --> MCU PA3 (RX)
+ * U504 is a BL13232ETS (MAX232-equivalent) RS232 transceiver powered by
+ * the RS232_EN LDO -- drive PE5 HIGH before using this port.
  *
  * Baud CONFIRMED (not guessed) from the real UART_TO_METER_1 v3.01
  * release's FSP project configuration (configuration.xml: g_uart2/
  * g_uart3 both set to 19200, modulation enabled, max error 1%) -- see
  * src/tcs.c for the full protocol port from that same release.
+ *
+ * DB25 J1 connector pinout (standard RS232 DTE):
+ *   Pin 2  = TXD (PandaBox transmits here)
+ *   Pin 3  = RXD (PandaBox receives here)
+ *   Pin 7  = GND
+ * Connect USB-RS232 adapter: adapter RXD -> J1 Pin 2, adapter TXD ->
+ * J1 Pin 3, adapter GND -> J1 Pin 7. Crossed (null-modem) wiring.
  * ------------------------------------------------------------------ */
 #define RS485_1_UART_BASE     USART1_BASE
 #define RS485_1_GPIO_PORT     GPIOA
