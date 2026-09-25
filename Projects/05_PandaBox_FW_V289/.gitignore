@@ -1,0 +1,4 @@
+build/*/obj/
+build/board_backup_*.bin
+re/v289_raw.dis
+__pycache__/

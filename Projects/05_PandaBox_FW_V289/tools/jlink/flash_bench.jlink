@@ -1,0 +1,7 @@
+connect
+h
+loadbin build/bench/pandabox_bench.bin 0x08000000
+verifybin build/bench/pandabox_bench.bin 0x08000000
+r
+g
+exit

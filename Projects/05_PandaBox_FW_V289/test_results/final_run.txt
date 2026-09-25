@@ -1,0 +1,140 @@
+PASS SETUP    SetBoxTime 1790375964                -> LxSetBoxTime 0 
+PASS SETUP    SetMode 2                            -> LxSetMode 0 
+PASS SETUP    SetRs485 0                           -> LxSetRs485 0 
+PASS SETUP    SetPortLcrNode 1,2                   -> LxSetPortLcrNode 0 
+PASS SETUP    Stop 1                               -> LxStop 0 
+PASS SETUP    Stop 2                               -> LxStop 0 
+PASS SETUP    PresetGross 1,0                      -> LxPresetGross 0 
+PASS SETUP    PresetGross 2,0                      -> LxPresetGross 0 
+PASS PB-035   BoxStatus                            -> LxBoxStatus 2,0,1,2,0.0,S,0.0,E,0,1 
+PASS PB-040   BoxInfo                              -> LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR 
+PASS PB-071   BoxTime                              -> LxBoxTime 1790375974 box time should follow SetBoxTime
+PASS PB-042   SetBoxTime 1748260000                -> LxSetBoxTime 0 
+PASS PB-042   BoxTime                              -> LxBoxTime 1748260000 time not applied
+PASS PB-043   SetBoxTime -1                        -> LxSetBoxTime 1 
+PASS SETUP    SetBoxTime 1790375977                -> LxSetBoxTime 0 
+PASS PB-022   RdBtName                             -> LxRdBtName PandaBrain 
+PASS PB-024   SetBtName AVeryLongNameOver16Bytes   -> LxSetBtName 1 
+PASS PB-025   SetWifiName MyNetwork                -> LxSetWifiName 0 
+PASS PB-026   SetWifiName AVeryLongNetworkNameHere -> LxSetWifiName 1 
+PASS PB-027   SetWifiPwd mypassword                -> LxSetWifiPwd 0 
+PASS PB-028   SetWifiPwd averylongpasswordthatexceeds -> LxSetWifiPwd 1 
+PASS PB-029   SetServerIp 13.205.61.50             -> LxSetServerIp 0 
+PASS PB-030   SetServerIp 999.9999.999.999         -> LxSetServerIp 1 
+PASS PB-031   SetServerPort 8181                   -> LxSetServerPort 0 
+PASS PB-032   SetServerPort 99999                  -> LxSetServerPort 1 
+PASS PB-033   SetApn jionet                        -> LxSetApn 0 
+PASS PB-034   SetApn                               -> LxSetApn 1 
+PASS PB-036   SetMode 2                            -> LxSetMode 0 
+PASS PB-037   SetMode 1                            -> LxSetMode 0 
+PASS PB-037   GetData 1 0                          -> LxGetData Mode 1, 
+PASS PB-038   SetMode 3                            -> LxSetMode 0 
+PASS PB-039   SetMode 5                            -> LxSetMode 1 
+PASS SETUP    SetMode 2                            -> LxSetMode 0 
+PASS PB-044   SetRs485 1                           -> LxSetRs485 0 
+PASS PB-044   RdRegister                           -> LxRdRegister 1,1 
+PASS PB-045   SetRs485 0                           -> LxSetRs485 0 
+PASS PB-045   RdRegister                           -> LxRdRegister 1,1 
+PASS PB-046   SetRs485 2                           -> LxSetRs485 1 
+PASS PB-057   SetPortLcrNode 1,2                   -> LxSetPortLcrNode 0 
+PASS PB-060   RdPortLcrNode                        -> LxRdPortLcrNode 1,2 
+PASS PB-058   SetPortLcrNode 1,0                   -> LxSetPortLcrNode 0 
+PASS PB-061   RdPortLcrNode                        -> LxRdPortLcrNode 1,0 
+PASS PB-074   RdRegister                           -> LxRdRegister 1,0 
+PASS PB-059   SetPortLcrNode 256,0                 -> LxSetPortLcrNode 1 
+PASS SETUP    SetPortLcrNode 1,2                   -> LxSetPortLcrNode 0 
+PASS PB-073   RdRegister                           -> LxRdRegister 1,1 
+PASS PB-075   SwitchState 1                        -> LxSwitchState 1,Stop 
+PASS PB-076   SwitchState 2                        -> LxSwitchState 2,Stop 
+PASS PB-077   SwitchState 3                        -> LxSwitchState 3,Error 
+PASS PB-078   GetLcrNode 1,1,10                    -> LxFindLcrNode 1,1, 
+PASS PB-079   GetLcrNode 1,200,10                  -> LxFindLcrNode 0 
+PASS PB-080   GetLcrNode 1,1,251                   -> LxFindLcrNode 0 
+PASS PB-062   ModifyLcrNode 1,1,5                  -> LxModifyLcrNode 0 
+PASS PB-062   RdPortLcrNode                        -> LxRdPortLcrNode 5,2 
+PASS PB-062   GetData 5 0                          -> LxGetData 5,1,222,1790376017,15.1,0.0,5153.6,0.0,5138.5,0.0,0.0,S,0.0,E 
+PASS PB-062   ModifyLcrNode 1,5,1                  -> LxModifyLcrNode 0 
+PASS PB-063   ModifyLcrNode 1,99,5                 -> LxModifyLcrNode 1 
+PASS PB-064   ModifyLcrNode 3,1,5                  -> LxModifyLcrNode 1 
+PASS PB-086   RdMtrSetting 1                       -> LxRdMtrSetting 1,1,180,no,clear 
+PASS PB-086   RdMtrSetting 2                       -> LxRdMtrSetting 2,2,180,no,clear 
+PASS PB-087   RdMtrSetting 3                       -> LxRdMtrSetting 3,Error 
+PASS PB-082   RdDiagnostics 1                      -> LxRdDiagnostics 0,1,0,26 
+PASS PB-083   RdDiagnostics 99                     -> LxRdDiagnostics 99,Error 
+PASS PB-081   GetLastCmd                           -> LxGetLastCmd 1,0 
+PASS PB-085   GetLastMtrCmd 99                     -> LxGetLastMtrCmd 99,None,1 
+PASS PB-020   DeleteAll 1                          -> LxDeleteAll 0 
+PASS PB-020   DeleteAll 2                          -> LxDeleteAll 0 
+PASS PB-021   DeleteAll 99                         -> LxDeleteAll 1 
+PASS PB-006   HisDataTime 1                        -> LxHisDataTime 1, 
+PASS PB-005   HisDataTime 99                       -> LxHisDataTime 99, 
+PASS PB-009   BoxStorage 99                        -> LxBoxStorage 99,0,25600, 
+PASS PB-013   GetData 1,1                          -> LxGetDataTs 1, 
+PASS PB-015   GetData 99,1                         -> LxGetData Error, 
+PASS PB-017   GetDataTs 1,1700000000,1700003600    -> LxGetDataTs 1, 
+PASS PB-018   GetDataTs 1,1700003600,1700000000    -> LxGetDataTs 1, 
+PASS PB-019   GetDataTs 1,1700000000,1700000001    -> LxGetDataTs 1, 
+PASS PB-065   PresetGross 1,125.5                  -> LxPresetGross 0 
+PASS PB-066   PresetGross 3,125.5                  -> LxPresetGross 1 
+PASS PB-067   PresetGross 1,-10.0                  -> LxPresetGross 1 
+PASS PB-068   PresetNet 1,125.5                    -> LxPresetNet 0 
+PASS PB-069   PresetNet 3,125.5                    -> LxPresetNet 1 
+PASS PB-070   PresetNet 1,-10.0                    -> LxPresetNet 1 
+PASS SETUP    PresetGross 1,0                      -> LxPresetGross 0 
+PASS SETUP    PresetNet 1,0                        -> LxPresetNet 0 
+PASS PB-052   Pause 1                              -> LxPause 0 
+PASS PB-047   Start 1                              -> LxStart 0 
+PASS PB-084   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Start,0 
+PASS PB-075   SwitchState 1                        -> LxSwitchState 1,Run 
+PASS PB-012   GetData 1 0 (flowing after Start) -> LxGetData 1,1,254,1790376049,5.6,60.0,5159.3,0.0,5153.6,0.0,0.0,S,0.0,E
+PASS PB-099   GetData 1 0 (gross and totalizer rising) -> LxGetData 1,1,0,1790376051,7.6,60.0,5161.3,0.0,5153.6,0.0,0.0,S,0.0,E
+PASS PB-099   gross 5.6 -> 7.6, total 5159.3 -> 5161.3
+PASS PB-051   Pause 1                              -> LxPause 0 
+PASS PB-051   GetData 1 0 (paused: flow 0) -> LxGetData 1,1,4,1790376055,9.1,0.0,5162.7,0.0,5153.6,0.0,0.0,S,0.0,E
+PASS PB-101   paused gross 9.1 == 9.1
+PASS PB-047   Start 1                              -> LxStart 0 
+PASS PB-047   GetData 1 0 (flowing again after resume) -> LxGetData 1,1,10,1790376061,11.7,60.0,5165.4,0.0,5153.6,0.0,0.0,S,0.0,E
+PASS PB-054   Stop 1                               -> LxStop 0 
+PASS PB-054   GetData 1 0 (stopped: flow 0) -> LxGetData 1,1,14,1790376065,13.2,0.0,5166.9,0.0,5153.6,0.0,0.0,S,0.0,E
+PASS PB-054   initial 5153.6 + gross 13.2 = total 5166.9
+PASS PB-084   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
+PASS PB-048   Start 99                             -> LxStart 1 
+PASS PB-053   Pause 99                             -> LxPause 1 
+PASS PB-056   Stop 99                              -> LxStop 1 
+PASS PB-004   HisDataTime 1                        -> LxHisDataTime 1,1790376044,1790376063, 
+PASS PB-007   BoxStorage 1                         -> LxBoxStorage 1,15,24640, records expected
+PASS PB-010   GetData 1,1                          -> LxGetDataTs 1,0,1,1790376044,0.7,60.0,5154.3,0.0,5153.6,0.0,0.0,S,0.0,E 
+PASS PB-010   GetDataEcho 1,0,1                    -> LxGetDataTs 1,0,2,1790376045,1.7,60.0,5155.3,0.0,5153.6,0.0,0.0,S,0.0,E 
+PASS PB-016   GetDataTs 1,1790376040,1790376077    -> LxGetDataTs 1,1,1790376045,1.7,60.0,5155.3,0.0,5153.6,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790376046,2.6,60.0,51 records in range expected
+PASS PB-108   PresetGross 1,5.0                    -> LxPresetGross 0 
+PASS PB-108   Start 1                              -> LxStart 0 
+PASS PB-108   preset stop -> LxGetData 1,1,31,1790376082,5.0,0.0,5171.9,0.0,5166.9,0.0,0.0,S,0.0,E
+PASS SETUP    Stop 1                               -> LxStop 0 
+PASS SETUP    PresetGross 1,0                      -> LxPresetGross 0 
+PASS PB-095   Start 1                              -> LxStart 0 
+PASS PB-095   Start 2                              -> LxStart 0 
+PASS PB-095   GetData 1 0 (meter 1 flowing) -> LxGetData 1,1,39,1790376090,4.6,60.0,5176.6,0.0,5171.9,0.0,0.0,S,0.0,E
+PASS PB-095   GetData 2 0 (meter 2 flowing (independent)) -> LxGetData 2,1,36,1790376091,3.3,45.0,49295.4,0.0,49292.0,0.0,0.0,S,0.0,E
+PASS PB-095   Stop 1                               -> LxStop 0 
+PASS PB-095   Stop 2                               -> LxStop 0 
+PASS PB-095   GetData 1 0 (meter 1 stopped) -> LxGetData 1,1,44,1790376095,7.0,0.0,5178.9,0.0,5171.9,0.0,0.0,S,0.0,E
+PASS PB-095   GetData 2 0 (meter 2 stopped) -> LxGetData 2,1,41,1790376096,4.6,0.0,49296.6,0.0,49292.0,0.0,0.0,S,0.0,E
+PASS PB-007   BoxStorage 2                         -> LxBoxStorage 2,8,25088, records expected
+PASS PB-106   Start 1                              -> LxStart 0 
+PASS PB-106   RdRegister                           -> LxRdRegister 0,0 
+PASS PB-106   GetData 1 0                          -> LxGetData Error, 
+PASS PB-106   Stop 1                               -> LxStop 1 
+PASS PB-106   BoxStatus                            -> LxBoxStatus 2,0,1,2,0.0,S,0.0,E,0,1 
+PASS PB-106   RdRegister                           -> LxRdRegister 1,1 
+PASS PB-106   GetData 1 0 (delivery kept running on the meter while unplugged) -> LxGetData 1,1,52,1790376111,13.5,60.0,5192.5,0.0,5178.9,0.0,0.0,S,0.0,E
+PASS PB-106   Stop 1                               -> LxStop 0 
+PASS PB-023   SetBtName PandaBox1                  -> LxSetBtName 0 
+PASS PB-023   RdBtName                             -> LxRdBtName PandaBox1 
+PASS SETUP    SetBtName PandaBrain                 -> LxSetBtName 0 
+PASS PB-041   BoxReset                             -> LxBoxReset 0 
+connect {'address': 'FF:E2:33:32:09:7B', 'name': 'PandaBrainBLE'} {'address': 'FF:E2:33:32:09:7B', 'connected': True, 'firmware': ''}
+PASS PB-041   reconnect after reset
+PASS PB-041   BoxInfo                              -> LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR 
+PASS PB-041   SetBoxTime 1790376197                -> LxSetBoxTime 0 
+
+137/137 checks passed

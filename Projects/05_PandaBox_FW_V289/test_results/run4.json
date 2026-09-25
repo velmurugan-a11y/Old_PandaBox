@@ -1,0 +1,1631 @@
+[
+ {
+  "id": "SETUP",
+  "command": "SetBoxTime 1790374546",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 606.9,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 556.4,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "SetRs485 0",
+  "response": [
+   "LxSetRs485 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.5,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "SetPortLcrNode 1,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.9,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 621.3,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 773.1,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 573.1,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "PresetGross 2,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 564.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-035",
+  "command": "BoxStatus",
+  "response": [
+   "LxBoxStatus 2,0,1,2,0.0,S,0.0,E,0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 795.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-040",
+  "command": "BoxInfo",
+  "response": [
+   "LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-071",
+  "command": "BoxTime",
+  "response": [
+   "LxBoxTime 1790374555"
+  ],
+  "ok": true,
+  "why": "box time should follow SetBoxTime",
+  "note": "",
+  "ms": 539.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-042",
+  "command": "SetBoxTime 1748260000",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 895.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-042",
+  "command": "BoxTime",
+  "response": [
+   "LxBoxTime 1748260000"
+  ],
+  "ok": true,
+  "why": "time not applied",
+  "note": "",
+  "ms": 543.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-043",
+  "command": "SetBoxTime -1",
+  "response": [
+   "LxSetBoxTime 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.0,
+  "tester_issues": [
+   "EXEC_FAIL: SetBoxTime result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "SETUP",
+  "command": "SetBoxTime 1790374559",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 895.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-022",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBrain"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-024",
+  "command": "SetBtName AVeryLongNameOver16Bytes",
+  "response": [
+   "LxSetBtName 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.6,
+  "tester_issues": [
+   "EXEC_FAIL: SetBtName result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-025",
+  "command": "SetWifiName MyNetwork",
+  "response": [
+   "LxSetWifiName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 858.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-026",
+  "command": "SetWifiName AVeryLongNetworkNameHere",
+  "response": [
+   "LxSetWifiName 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 544.7,
+  "tester_issues": [
+   "EXEC_FAIL: SetWifiName result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-027",
+  "command": "SetWifiPwd mypassword",
+  "response": [
+   "LxSetWifiPwd 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-028",
+  "command": "SetWifiPwd averylongpasswordthatexceeds",
+  "response": [
+   "LxSetWifiPwd 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 885.7,
+  "tester_issues": [
+   "EXEC_FAIL: SetWifiPwd result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-029",
+  "command": "SetServerIp 13.205.61.50",
+  "response": [
+   "LxSetServerIp 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-030",
+  "command": "SetServerIp 999.9999.999.999",
+  "response": [
+   "LxSetServerIp 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.2,
+  "tester_issues": [
+   "EXEC_FAIL: SetServerIp result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-031",
+  "command": "SetServerPort 8181",
+  "response": [
+   "LxSetServerPort 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 862.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-032",
+  "command": "SetServerPort 99999",
+  "response": [
+   "LxSetServerPort 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 543.6,
+  "tester_issues": [
+   "EXEC_FAIL: SetServerPort result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-033",
+  "command": "SetApn jionet",
+  "response": [
+   "LxSetApn 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-034",
+  "command": "SetApn",
+  "response": [
+   "LxSetApn 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 895.5,
+  "tester_issues": [
+   "EXEC_FAIL: SetApn result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-036",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 533.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-037",
+  "command": "SetMode 1",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 580.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-037",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData Mode 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "bridge mode: meter data not served",
+  "ms": 849.0,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Mode 1,'"
+  ]
+ },
+ {
+  "id": "PB-038",
+  "command": "SetMode 3",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-039",
+  "command": "SetMode 5",
+  "response": [
+   "LxSetMode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 537.8,
+  "tester_issues": [
+   "EXEC_FAIL: SetMode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "SETUP",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 900.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-044",
+  "command": "SetRs485 1",
+  "response": [
+   "LxSetRs485 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-044",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 1,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "info: PE5 off / PE6 on is verified on the pins; this bench's RS232 chip still passes data",
+  "ms": 598.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-045",
+  "command": "SetRs485 0",
+  "response": [
+   "LxSetRs485 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 811.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-045",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 1,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "back on RS232 -> meters online",
+  "ms": 976.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-046",
+  "command": "SetRs485 2",
+  "response": [
+   "LxSetRs485 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.0,
+  "tester_issues": [
+   "EXEC_FAIL: SetRs485 result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-057",
+  "command": "SetPortLcrNode 1,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-060",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 1,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 1021.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-058",
+  "command": "SetPortLcrNode 1,0",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 849.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-061",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 1,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 596.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-074",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 1,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "port 2 empty -> not registered",
+  "ms": 541.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-059",
+  "command": "SetPortLcrNode 256,0",
+  "response": [
+   "LxSetPortLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 639.7,
+  "tester_issues": [
+   "EXEC_FAIL: SetPortLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "SETUP",
+  "command": "SetPortLcrNode 1,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 546.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-073",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 1,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 599.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-075",
+  "command": "SwitchState 1",
+  "response": [
+   "LxSwitchState 1,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-076",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 2,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-077",
+  "command": "SwitchState 3",
+  "response": [
+   "LxSwitchState 3,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-078",
+  "command": "GetLcrNode 1,1,10",
+  "response": [
+   "LxFindLcrNode 1,1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 901.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-079",
+  "command": "GetLcrNode 1,200,10",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-080",
+  "command": "GetLcrNode 1,1,251",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-062",
+  "command": "ModifyLcrNode 1,1,5",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 879.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-062",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 5,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 957.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-062",
+  "command": "GetData 5 0",
+  "response": [
+   "LxGetData 5,1,190,1790374597,0.0,0.0,5000.0,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on its new node 5",
+  "ms": 544.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-062",
+  "command": "ModifyLcrNode 1,5,1",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore node 1",
+  "ms": 577.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-063",
+  "command": "ModifyLcrNode 1,99,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 972.0,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-064",
+  "command": "ModifyLcrNode 3,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 846.7,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-086",
+  "command": "RdMtrSetting 1",
+  "response": [
+   "LxRdMtrSetting 1,1,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 663.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-086",
+  "command": "RdMtrSetting 2",
+  "response": [
+   "LxRdMtrSetting 2,2,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 678.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-087",
+  "command": "RdMtrSetting 3",
+  "response": [
+   "LxRdMtrSetting 3,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 693.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-082",
+  "command": "RdDiagnostics 1",
+  "response": [
+   "LxRdDiagnostics 0,1,0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-083",
+  "command": "RdDiagnostics 99",
+  "response": [
+   "LxRdDiagnostics 99,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-081",
+  "command": "GetLastCmd",
+  "response": [
+   "LxGetLastCmd 1,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 879.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-085",
+  "command": "GetLastMtrCmd 99",
+  "response": [
+   "LxGetLastMtrCmd 99,None,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 536.3,
+  "tester_issues": [
+   "GETLASTMTRCMD_RESULT_FAIL: result=1 (expected 0)"
+  ]
+ },
+ {
+  "id": "PB-020",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-020",
+  "command": "DeleteAll 2",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 904.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-021",
+  "command": "DeleteAll 99",
+  "response": [
+   "LxDeleteAll 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.1,
+  "tester_issues": [
+   "EXEC_FAIL: DeleteAll result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-006",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-005",
+  "command": "HisDataTime 99",
+  "response": [
+   "LxHisDataTime 99,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 879.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-009",
+  "command": "BoxStorage 99",
+  "response": [
+   "LxBoxStorage 99,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-013",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "storage empty",
+  "ms": 540.8,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "PB-015",
+  "command": "GetData 99,1",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 870.9,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "PB-017",
+  "command": "GetDataTs 1,1700000000,1700003600",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 547.8,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "PB-018",
+  "command": "GetDataTs 1,1700003600,1700000000",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.3,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "PB-019",
+  "command": "GetDataTs 1,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 879.9,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "PB-065",
+  "command": "PresetGross 1,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 579.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-066",
+  "command": "PresetGross 3,125.5",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.9,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-067",
+  "command": "PresetGross 1,-10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 872.4,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-068",
+  "command": "PresetNet 1,125.5",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 572.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-069",
+  "command": "PresetNet 3,125.5",
+  "response": [
+   "LxPresetNet 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-070",
+  "command": "PresetNet 1,-10.0",
+  "response": [
+   "LxPresetNet 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 864.4,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.5,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "PresetNet 1,0",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 564.0,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-052",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 + real LCR: Pause with no delivery open is accepted (rc 0, devSt 0x21 in the golden capture); the tracker's LxPause 1 is the V3.01 firmware guard",
+  "ms": 569.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-047",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 558.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-084",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Start,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 833.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-075",
+  "command": "SwitchState 1",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "delivery open",
+  "ms": 541.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-012",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,220,1790374627,5.5,60.0,5005.5,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "flowing after Start"
+ },
+ {
+  "id": "PB-099",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,223,1790374630,8.4,60.0,5008.5,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "gross and totalizer rising"
+ },
+ {
+  "id": "PB-099",
+  "command": "GetData 1 0 x2",
+  "response": [
+   "LxGetData 1,1,220,1790374627,5.5,60.0,5005.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetData 1,1,223,1790374630,8.4,60.0,5008.5,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "volume accrues"
+ },
+ {
+  "id": "PB-051",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 564.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-051",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,227,1790374634,9.4,0.0,5009.4,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused: flow 0"
+ },
+ {
+  "id": "PB-101",
+  "command": "GetData 1 0 (paused)",
+  "response": [
+   "LxGetData 1,1,229,1790374636,9.4,0.0,5009.4,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no volume while paused"
+ },
+ {
+  "id": "PB-047",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "resume",
+  "ms": 1012.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-047",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,234,1790374641,12.9,60.0,5012.9,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "flowing again after resume"
+ },
+ {
+  "id": "PB-054",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": false,
+  "why": "expected /^LxStop 0$/",
+  "note": "",
+  "ms": 653.9,
+  "tester_issues": [
+   "EXEC_FAIL: Stop result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-054",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,238,1790374645,17.0,60.0,5017.0,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": false,
+  "why": "flow ==0 expected",
+  "note": "stopped: flow 0"
+ },
+ {
+  "id": "PB-054",
+  "command": "GetData 1 0 (final)",
+  "response": [
+   "LxGetData 1,1,238,1790374645,17.0,60.0,5017.0,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ticket math"
+ },
+ {
+  "id": "PB-084",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Stop,1"
+  ],
+  "ok": false,
+  "why": "expected /^LxGetLastMtrCmd 1,Stop,0$/",
+  "note": "",
+  "ms": 541.1,
+  "tester_issues": [
+   "GETLASTMTRCMD_RESULT_FAIL: result=1 (expected 0)"
+  ]
+ },
+ {
+  "id": "PB-048",
+  "command": "Start 99",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.5,
+  "tester_issues": [
+   "EXEC_FAIL: Start result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-053",
+  "command": "Pause 99",
+  "response": [
+   "LxPause 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 865.2,
+  "tester_issues": [
+   "EXEC_FAIL: Pause result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-056",
+  "command": "Stop 99",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.7,
+  "tester_issues": [
+   "EXEC_FAIL: Stop result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-004",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,1790374622,1790374648,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 536.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-007",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,22,24192,"
+  ],
+  "ok": true,
+  "why": "records expected",
+  "note": "",
+  "ms": 894.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-010",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,142,1790374622,0.5,60.0,5000.6,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 543.4,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 1,1, response from meter 1",
+   "TIMESTAMP_STALE: 142 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "PB-010",
+  "command": "GetDataEcho 142,0,1",
+  "response": [
+   "LxGetDataTs 1,0,143,1790374624,1.6,60.0,5001.7,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next record",
+  "ms": 550.2,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 142,0,1, response from meter 1",
+   "TIMESTAMP_STALE: 143 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "PB-016",
+  "command": "GetDataTs 1,1790374619,1790374657",
+  "response": [
+   "LxGetDataTs 1,1,1790374624,1.6,60.0,5001.7,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,2,1790374624,2.5,60.0,5002.6,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,3,1790374625,3.5,60.0,5003.6,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,4,1790374626,4.5,60.0,5004.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,5,1790374627,5.5,60.0,5005.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,6,1790374628,6.5,60.0,5006.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,7,1790374629,7.5,60.0,5007.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,8,1790374630,8.4,60.0,5008.5,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,9,1790374631,9.4,0.0,5009.4,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,10,1790374638,9.9,60.0,5010.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,11,1790374639,10.9,60.0,5011.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,12,1790374640,11.9,60.0,5012.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,13,1790374641,12.9,60.0,5012.9,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,14,1790374642,13.9,60.0,5014.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,15,1790374643,15.0,60.0,5015.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,16,1790374644,16.0,60.0,5016.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,17,1790374645,17.0,60.0,5017.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,18,1790374646,18.0,60.0,5018.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,19,1790374647,18.9,60.0,5019.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,20,1790374648,19.9,60.0,5020.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,21,1790374649,20.9,60.0,5021.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,22,1790374650,22.0,60.0,5022.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,23,1790374651,23.0,60.0,5023.0,0.0,5000.0,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "records in range expected",
+  "note": "tracker range 1700000000.. is before this box's clock; using the delivery window",
+  "ms": 1057.3,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790374619,1790374657, response from meter 1",
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "PB-108",
+  "command": "PresetGross 1,5.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": false,
+  "why": "expected /^LxPresetGross 0$/",
+  "note": "",
+  "ms": 826.7,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PB-108",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 564.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-108",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,255,1790374662,34.0,60.0,5034.0,0.0,5000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": false,
+  "why": "expected gross 5.0, flow 0 (stopped at preset)",
+  "note": "preset reached"
+ },
+ {
+  "id": "SETUP",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 811.6,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 571.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-095",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 574.7,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-095",
+  "command": "Start 2",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 961.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-095",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,7,1790374670,5.4,60.0,5040.8,0.0,5035.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter 1 flowing"
+ },
+ {
+  "id": "PB-095",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,3,1790374671,2.9,45.0,49285.6,0.0,49282.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter 2 flowing (independent)"
+ },
+ {
+  "id": "PB-095",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 575.9,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-095",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 857.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-095",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,12,1790374675,6.9,0.0,5042.3,0.0,5035.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter 1 stopped"
+ },
+ {
+  "id": "PB-095",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,8,1790374676,4.5,0.0,49287.2,0.0,49282.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter 2 stopped"
+ },
+ {
+  "id": "PB-007",
+  "command": "BoxStorage 2",
+  "response": [
+   "LxBoxStorage 2,8,25088,"
+  ],
+  "ok": true,
+  "why": "records expected",
+  "note": "",
+  "ms": 534.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-023",
+  "command": "SetBtName PandaBox1",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 855.4,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-023",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBox1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 599.1,
+  "tester_issues": []
+ },
+ {
+  "id": "SETUP",
+  "command": "SetBtName PandaBrain",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-041",
+  "command": "BoxReset",
+  "response": [
+   "LxBoxReset 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 890.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-041",
+  "command": "reconnect after BoxReset",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": "box rebooted and advertises again"
+ },
+ {
+  "id": "PB-041",
+  "command": "BoxInfo",
+  "response": [
+   "LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.3,
+  "tester_issues": []
+ },
+ {
+  "id": "PB-041",
+  "command": "SetBoxTime 1790374736",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 886.9,
+  "tester_issues": []
+ }
+]
