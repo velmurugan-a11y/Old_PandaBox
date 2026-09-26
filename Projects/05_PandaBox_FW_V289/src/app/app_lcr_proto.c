@@ -4,7 +4,7 @@
 
     Request : "<Cmd>[ a,b,...][,]\r\n"   Reply: "Lx<Cmd> ...\r\n"
     Reply formats follow Leo's FW 2.862/2.891 captures and what the PandaBox tester (v14) validates.
-    Meter commands take the meter NODE (Start/Stop/Pause/Print/GetData/...); PresetGross, SwitchState,
+    Meter commands take the meter NODE (Start/Stop/Pause/Print/PresetGross/PresetNet/GetData/...); SwitchState,
     GetLcrNode and ModifyLcrNode take the PORT (1/2), as in the protocol document.
 */
 
@@ -365,10 +365,14 @@ void proto_handle(const char *line, reply_fn_t out)
 
     /* ---- meter node configuration ---- */
     } else if(ci_eq(name, "SetPortLcrNode")) {
-        if(argc_ >= 1 && valid_num(arg_s(0), 0, 255) && (argc_ < 2 || valid_num(arg_s(1), 0, 255))) {
-            lcr_port[0].node = (uint8_t)arg_l(0, 0);
-            lcr_port[1].node = (uint8_t)arg_l(1, lcr_port[1].node);
-            out("LxSetPortLcrNode 0");
+        long n1 = arg_l(0, 0), n2 = arg_l(1, lcr_port[1].node);
+        /* 0..255 each; both ports on the same node would make node -> port lookups ambiguous (Leo's
+           source rejects it too) */
+        if(argc_ >= 1 && valid_num(arg_s(0), 0, 255) && (argc_ < 2 || valid_num(arg_s(1), 0, 255)) &&
+           !(n1 != 0 && n1 == n2)) {
+            out("LxSetPortLcrNode 0");      /* answer first: the re-sync below can take ~0.25 s per port */
+            lcr_port_set_node(0, (uint8_t)n1);
+            lcr_port_set_node(1, (uint8_t)n2);
         } else {
             out("LxSetPortLcrNode 1");
         }
@@ -381,6 +385,12 @@ void proto_handle(const char *line, reply_fn_t out)
     } else if(ci_eq(name, "GetLcrNode")) {
         port = (int)arg_l(0, 0) - 1;
         if(port >= 0 && port < LCR_PORTS && arg_l(1, 1) >= 1 && arg_l(2, 250) <= 250 &&
+           arg_l(1, 1) <= arg_l(2, 250) && lcr_port[port].node && lcr_port[port].online) {
+            /* V2.89: the port's meter is online -> answer its node at once, no scan (golden capture
+               19:04:15, "GetLcrNode 2,2,250" -> "LxFindLcrNode 2,1") */
+            sprintf(o, "LxFindLcrNode %d,%u", port + 1, lcr_port[port].node);
+            out(o);
+        } else if(port >= 0 && port < LCR_PORTS && arg_l(1, 1) >= 1 && arg_l(2, 250) <= 250 &&
            arg_l(1, 1) <= arg_l(2, 250)) {
             int found = lcr_find_node(port, (uint8_t)arg_l(1, 1), (uint8_t)arg_l(2, 250));
             if(found) {
@@ -395,7 +405,7 @@ void proto_handle(const char *line, reply_fn_t out)
     } else if(ci_eq(name, "ModifyLcrNode")) {
         port = (int)arg_l(0, 0) - 1;
         if(port >= 0 && port < LCR_PORTS && lcr_set_address(port, (uint8_t)arg_l(1, 0), (uint8_t)arg_l(2, 0)) == 0) {
-            lcr_port[port].node = (uint8_t)arg_l(2, 0);
+            lcr_port_set_node(port, (uint8_t)arg_l(2, 0));
 #if FW_MATCH_289
             out("LxModifytLcrNode 0");      /* V2.89's own spelling */
 #else
@@ -444,8 +454,11 @@ void proto_handle(const char *line, reply_fn_t out)
     } else if(ci_eq(name, "PresetGross") || ci_eq(name, "PresetNet")) {
         int is_net = ci_eq(name, "PresetNet");
         int rc = -1;
-        port = (int)arg_l(0, 0) - 1;
-        if(port >= 0 && port < LCR_PORTS && argc_ >= 2) {
+        /* first argument = meter NODE, like Start/Stop (Leo's source puts it straight into the LCP
+           "to" byte, and the tester's sequences use it that way); the protocol text says "port",
+           which only agrees while node == port */
+        port = lcr_port_of_node((uint8_t)arg_l(0, 0));
+        if(port >= 0 && argc_ >= 2) {
             int32_t t = parse_tenths(arg_s(1));
             rc = is_net ? lcr_set_net_preset(port, t) : lcr_set_preset(port, t);
         }

@@ -1,6 +1,6 @@
 """
 tracker_suite.py - run the PandaBox_Command_Test_Tracker (LCR_BLE-Test_V3) command cases end to end:
-PC -> pandabox-tester (BLE) -> PandaBox -> RS232 Port 2 -> LCR simulator (meter 1 LCR-II node 1,
+PC -> pandabox-tester (BLE) -> PandaBox -> RS232 Port 2 (J1 empty) -> LCR simulator (LCR-II node 1,
 meter 2 LCR.iQ node 2) and back.
 
     python tools/tracker_suite.py [--out results.json]
@@ -78,14 +78,13 @@ def main():
     run("SETUP", f"SetBoxTime {now}", r"^LxSetBoxTime 0")
     run("SETUP", "SetMode 2", r"^LxSetMode 0")
     run("SETUP", "SetRs485 0", r"^LxSetRs485 0")
-    run("SETUP", "SetPortLcrNode 1,2", r"^LxSetPortLcrNode 0", wait=2.5)
+    run("SETUP", "SetPortLcrNode 0,1", r"^LxSetPortLcrNode 0", wait=2.5)   # bench: meter node 1 on Port 2, J1 empty
     run("SETUP", "Stop 1", None)
     run("SETUP", "Stop 2", None)
-    run("SETUP", "PresetGross 1,0", None)
-    run("SETUP", "PresetGross 2,0", None, wait=1.0)
+    run("SETUP", "PresetGross 1,0", None, wait=1.0)
 
     # ---- box info / status ----
-    run("PB-035", "BoxStatus", r"^LxBoxStatus 2,0,1,2,[-0-9.]+,[NSEW],[-0-9.]+,[NSEW],[012],[012]$")
+    run("PB-035", "BoxStatus", r"^LxBoxStatus 2,0,0,1,[-0-9.]+,[NSEW],[-0-9.]+,[NSEW],[012],[012]$")
     run("PB-040", "BoxInfo", r"^LxBoxInfo 2\.4,250502,2\.9\d\d,\d{6},\d{15},LCR$")
     run("PB-071", "BoxTime", lambda l: (bool(l) and abs(int(fields(l[0])[0]) - int(time.time())) < 30,
                                         "box time should follow SetBoxTime"))
@@ -121,32 +120,34 @@ def main():
     run("PB-044", "RdRegister", r"^LxRdRegister [01],[01]",
         note="info: PE5 off / PE6 on is verified on the pins; this bench's RS232 chip still passes data")
     run("PB-045", "SetRs485 0", r"^LxSetRs485 0$", wait=3.0)
-    run("PB-045", "RdRegister", r"^LxRdRegister 1,1", note="back on RS232 -> meters online")
+    run("PB-045", "RdRegister", r"^LxRdRegister 0,1", note="back on RS232 -> meter online")
     run("PB-046", "SetRs485 2", r"^LxSetRs485 1$")
 
     # ---- ports / nodes ----
-    run("PB-057", "SetPortLcrNode 1,2", r"^LxSetPortLcrNode 0$")
+    run("PB-057", "SetPortLcrNode 1,2", r"^LxSetPortLcrNode 0$", wait=2.0)
     run("PB-060", "RdPortLcrNode", r"^LxRdPortLcrNode 1,2$")
+    run("PB-060", "RdRegister", r"^LxRdRegister 0,1$", note="J1 empty; the simulator's LCR.iQ answers node 2 on J2")
     run("PB-058", "SetPortLcrNode 1,0", r"^LxSetPortLcrNode 0$", wait=2.0)
     run("PB-061", "RdPortLcrNode", r"^LxRdPortLcrNode 1,0$")
-    run("PB-074", "RdRegister", r"^LxRdRegister 1,0", note="port 2 empty -> not registered")
+    run("PB-074", "RdRegister", r"^LxRdRegister 0,0", note="J1 empty, port 2 unassigned")
     run("PB-059", "SetPortLcrNode 256,0", r"^LxSetPortLcrNode 1$")
-    run("SETUP", "SetPortLcrNode 1,2", r"^LxSetPortLcrNode 0$", wait=2.5)
-    run("PB-073", "RdRegister", r"^LxRdRegister 1,1$")
-    run("PB-075", "SwitchState 1", r"^LxSwitchState 1,(Run|Stop)$")
-    run("PB-076", "SwitchState 2", r"^LxSwitchState 2,(Run|Stop)$")
+    run("SETUP", "SetPortLcrNode 0,1", r"^LxSetPortLcrNode 0$", wait=2.5)
+    run("PB-073", "RdRegister", r"^LxRdRegister 0,1$")
+    run("PB-075", "SwitchState 1", r"Error", note="J1 empty")
+    run("PB-076", "SwitchState 2", r"^LxSwitchState 1,(Run|Stop)$")
     run("PB-077", "SwitchState 3", r"Error")
-    run("PB-078", "GetLcrNode 1,1,10", r"^LxFindLcrNode 1,1")
+    run("PB-078", "GetLcrNode 1,1,10", r"^LxFindLcrNode 0", note="J1 empty: scan finds nothing")
+    run("PB-078", "GetLcrNode 2,1,10", r"^LxFindLcrNode 2,1$", note="J2 meter online -> its node")
     run("PB-079", "GetLcrNode 1,200,10", r"^LxFindLcrNode (0|1,0)")
     run("PB-080", "GetLcrNode 1,1,251", r"^LxFindLcrNode (0|1,0)")
-    run("PB-062", "ModifyLcrNode 1,1,5", r"^LxModifyLcrNode 0$", wait=2.0)
-    run("PB-062", "RdPortLcrNode", r"^LxRdPortLcrNode 5,2$")
+    run("PB-062", "ModifyLcrNode 2,1,5", r"^LxModifyLcrNode 0$", wait=2.0)
+    run("PB-062", "RdPortLcrNode", r"^LxRdPortLcrNode 0,5$")
     run("PB-062", "GetData 5 0", r"^LxGetData 5,1,", note="meter answers on its new node 5")
-    run("PB-062", "ModifyLcrNode 1,5,1", r"^LxModifyLcrNode 0$", note="restore node 1", wait=2.0)
-    run("PB-063", "ModifyLcrNode 1,99,5", r"^LxModifyLcrNode 1$")
+    run("PB-062", "ModifyLcrNode 2,5,1", r"^LxModifyLcrNode 0$", note="restore node 1", wait=2.0)
+    run("PB-063", "ModifyLcrNode 2,99,5", r"^LxModifyLcrNode 1$")
     run("PB-064", "ModifyLcrNode 3,1,5", r"^LxModifyLcrNode 1$")
-    run("PB-086", "RdMtrSetting 1", r"^LxRdMtrSetting 1,1,\d+,(yes|no|skip),(clear|multiple|retain)$")
-    run("PB-086", "RdMtrSetting 2", r"^LxRdMtrSetting 2,2,\d+,(yes|no|skip),(clear|multiple|retain)$")
+    run("PB-086", "RdMtrSetting 1", r"Error", note="J1 empty")
+    run("PB-086", "RdMtrSetting 2", r"^LxRdMtrSetting 2,1,\d+,(yes|no|skip),(clear|multiple|retain)$")
     run("PB-087", "RdMtrSetting 3", r"Error")
     run("PB-082", "RdDiagnostics 1", r"^LxRdDiagnostics [01],[012],-?\d+,\d+$")
     run("PB-083", "RdDiagnostics 99", r"Error")
@@ -155,7 +156,7 @@ def main():
 
     # ---- storage, empty ----
     run("PB-020", "DeleteAll 1", r"^LxDeleteAll 0$")
-    run("PB-020", "DeleteAll 2", r"^LxDeleteAll 0$")
+    run("PB-020", "DeleteAll 2", r"^LxDeleteAll 1$", note="node 2 not configured on any port")
     run("PB-021", "DeleteAll 99", r"^LxDeleteAll 1$")
     run("PB-006", "HisDataTime 1", r"^LxHisDataTime 1,?(0,0)?,?$")
     run("PB-005", "HisDataTime 99", r"^LxHisDataTime 99,?$")
@@ -184,7 +185,7 @@ def main():
              "capture); the tracker's LxPause 1 is the V3.01 firmware guard")
     run("PB-047", "Start 1", r"^LxStart 0$", wait=4.0)
     run("PB-084", "GetLastMtrCmd 1", r"^LxGetLastMtrCmd 1,Start,0$")
-    run("PB-075", "SwitchState 1", r"^LxSwitchState 1,Run$", note="delivery open")
+    run("PB-075", "SwitchState 2", r"^LxSwitchState 1,Run$", note="delivery open")
     d1 = check_live("PB-012", 1, True, "flowing after Start")
     time.sleep(2)
     d2 = check_live("PB-099", 1, True, "gross and totalizer rising")
@@ -235,28 +236,19 @@ def main():
     run("SETUP", "Stop 1", None)
     run("SETUP", "PresetGross 1,0", r"^LxPresetGross 0$")
 
-    # ---- double meter delivery ----
-    run("PB-095", "Start 1", r"^LxStart 0$")
-    run("PB-095", "Start 2", r"^LxStart 0$", wait=4.0)
-    check_live("PB-095", 1, True, "meter 1 flowing")
-    check_live("PB-095", 2, True, "meter 2 flowing (independent)")
-    run("PB-095", "Stop 1", r"^LxStop 0$")
-    run("PB-095", "Stop 2", r"^LxStop 0$", wait=2.0)
-    check_live("PB-095", 1, False, "meter 1 stopped")
-    check_live("PB-095", 2, False, "meter 2 stopped")
-    run("PB-007", "BoxStorage 2", lambda l: (bool(l) and int(fields(l[0])[1]) > 0, "records expected"))
+    # PB-095 double meter needs a second meter on J1 (bench has one adapter, on J2)
 
     # ---- meter cable pulled during a delivery (PB-106 / PB-098): stop the simulator's serial link ----
     run("PB-106", "Start 1", r"^LxStart 0$", wait=2.0)
     sim("/api/serial/stop")
     time.sleep(4.5)                                  # > LCR_OFFLINE_POLLS failed 1 s polls
-    run("PB-106", "RdRegister", r"^LxRdRegister 0,0$", note="both meters offline")
+    run("PB-106", "RdRegister", r"^LxRdRegister 0,0$", note="meter offline")
     run("PB-106", "GetData 1 0", r"^LxGetData Error,", note="no live data from an offline meter")
     run("PB-106", "Stop 1", r"^LxStop 1$", note="command not delivered")
     run("PB-106", "BoxStatus", r"^LxBoxStatus 2,", note="box still answers the app")
     sim("/api/serial/start", {"product_key": "lcr2"})
     time.sleep(3.0)
-    run("PB-106", "RdRegister", r"^LxRdRegister 1,1$", note="meters back online after reconnect")
+    run("PB-106", "RdRegister", r"^LxRdRegister 0,1$", note="meter back online after reconnect")
     d = check_live("PB-106", 1, True, "delivery kept running on the meter while unplugged")
     run("PB-106", "Stop 1", r"^LxStop 0$", wait=2.0)
 

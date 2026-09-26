@@ -19,9 +19,14 @@ def get(path):
 
 
 def main():
-    name = sys.argv[1] if len(sys.argv) > 1 else "happy_flow.csv"
+    name = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "happy_flow.csv"
     with urllib.request.urlopen(f"{BASE}/api/sequences/{name}", timeout=15) as r:
         text = r.read().decode()            # the tester serves the CSV as plain text
+    # --replace "old=>new": adapt the sequence to the bench wiring without editing the tester's file
+    for i, a in enumerate(sys.argv):
+        if a == "--replace":
+            old, new = sys.argv[i + 1].split("=>")
+            text = text.replace(old, new)
     r = post("/api/run", {"sequence": text})
     print("run:", r)
     if "error" in r:

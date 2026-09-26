@@ -51,13 +51,14 @@ Needs the Arm GNU toolchain (14.2). Output per target in `build/<target>/`.
 
 ### Full loop over BLE (2026-09-26)
 
-PC pandabox-tester (BLE) → PandaBox `bench` → RS232 Port 2 (USART2) → USB-RS232 COM7 → LCR simulator
-(meter 1 = LCR-II node 1, meter 2 = LCR.iQ node 2, independent deliveries):
+PC pandabox-tester (BLE) → PandaBox `bench` → RS232 Port 2 (J2, USART2) → USB-RS232 COM7 → LCR simulator
+(LCR-II node 1, LCR.iQ node 2). Port 1 (J1, USART1) has nothing connected and reports offline:
 
 | Check | Result |
 |---|---|
-| `tools/tracker_suite.py`: every automatable case of `PandaBox_Command_Test_Tracker.xlsx` | **137/137** checks pass |
-| pandabox-tester `happy_flow.csv` (its own runner and validator) | **63/63** OK |
+| `tools/product_suite.py`: product-wise (LCR-II, LCR.iQ), node change, presets, delivery, history, Port 1 empty | **173/173** |
+| `tools/tracker_suite.py`: every automatable case of `PandaBox_Command_Test_Tracker.xlsx` | **129/129** |
+| pandabox-tester `happy_flow.csv` re-pointed to Port 2 | 59/63 (4 = `BOXSTATUS_NO_METER`: J1 empty, correct) |
 | Start/Stop stress | 40/40 cycles |
 | LCP link health (J-Link `lcr_port[].polls_ok/polls_fail`) | 294 polls per port, 0 failures |
 | Delivery math | final #17 = initial #100 + gross #2, exact to 0.1 gal; preset stops on the preset |
@@ -73,7 +74,8 @@ Run it again:
 ```bash
 python tools/tcmd.py --connect              # scan + connect the tester (BLE address changes every boot)
 python tools/tracker_suite.py --out test_results/run.json
-python tools/run_happy.py happy_flow.csv
+python tools/product_suite.py --out test_results/product.json
+python tools/run_happy.py happy_flow.csv --replace "SetPortLcrNode 1 2=>SetPortLcrNode 0 1"
 ```
 
 Still open: EC25 on a live SIM (4G/TCP, GNSS fix), OTA (M7–M10), a real LCR meter on the wire, and the

@@ -1,0 +1,399 @@
+========================================================================
+  PandaBox Test Log
+  Device : P05bench
+  Date   : 2026-09-26 12:25:37
+========================================================================
+
+  SUMMARY
+  Commands : 63  |  OK: 59  |  FAIL: 4  |  ACK: 93.7%
+  Avg latency : 899.5ms
+  Slowest : [45] GetData 1 0 = 1488.2ms
+
+========================================================================
+
+[12:23:35.653] ✓ Seq:   1 | SetPortLcrNode 0 1
+    ⏱  total=543.2ms | ble=543.2ms | fb=42.6ms
+    ↑  TX: SetPortLcrNode 0,1
+    ↓  RX: LxSetPortLcrNode 0
+----------------------------------------------------------------
+[12:23:36.696] ✓ Seq:   2 | RdPortLcrNode
+    ⏱  total=541.4ms | ble=541.4ms | fb=41.2ms
+    ↑  TX: RdPortLcrNode
+    ↓  RX: LxRdPortLcrNode 0,1
+----------------------------------------------------------------
+[12:23:37.738] ✓ Seq:   3 | RdRegister
+    ⏱  total=540.8ms | ble=540.8ms | fb=40.2ms
+    ↑  TX: RdRegister
+    ↓  RX: LxRdRegister 0,1
+----------------------------------------------------------------
+[12:23:39.276] ✗ Seq:   4 | BoxStatus
+    ⏱  total=537.5ms | ble=537.5ms | fb=37.1ms
+    ⚠  BOXSTATUS_NO_METER: meter_addr_1=0 — no meter registered on port 1
+    ↑  TX: BoxStatus
+    ↓  RX: LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1
+    📊 mode=LCR Analyse & Storage data1=0 nid1=— nid2=1 net=— conn=Bluetooth ts=—
+----------------------------------------------------------------
+[12:23:40.320] ✓ Seq:   5 | BoxInfo
+    ⏱  total=542.3ms | ble=542.3ms | fb=41.5ms
+    ↑  TX: BoxInfo
+    ↓  RX: LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR
+    📊 FW=2.901 HW=2.4 IMEI=860858062040217
+----------------------------------------------------------------
+[12:23:42.322] ✓ Seq:   6 | GetData 1 0
+    ⏱  total=1111.1ms | ble=540.5ms | fb=40.1ms | drain=570.6ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,60,1790405621,14.7,0.0,5423.9,0.0,5409.2,0.0,0.0,S,0.0,E
+    📊 iter=60 ts=2026-09-26 06:53:41 UTC gross=14.700 Gal flow=0.000 Gal/min final_tot=5423.900 Gal initial_tot=5409.200 Gal
+----------------------------------------------------------------
+[12:23:43.860] ✓ Seq:   7 | GetLastMtrCmd 1
+    ⏱  total=536.8ms | ble=536.8ms | fb=35.6ms
+    ↑  TX: GetLastMtrCmd 1
+    ↓  RX: LxGetLastMtrCmd 1,Stop,0
+    📊 last_cmd=Stop result=✓ Success
+----------------------------------------------------------------
+[12:23:45.113] ✓ Seq:   8 | Stop 1
+    ⏱  total=752.0ms | ble=752.0ms | fb=250.9ms
+    ↑  TX: Stop 1
+    ↓  RX: LxStop 0
+----------------------------------------------------------------
+[12:23:47.655] ✗ Seq:   9 | BoxStatus
+    ⏱  total=540.9ms | ble=540.9ms | fb=40.1ms
+    ⚠  BOXSTATUS_NO_METER: meter_addr_1=0 — no meter registered on port 1
+    ↑  TX: BoxStatus
+    ↓  RX: LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1
+    📊 mode=LCR Analyse & Storage data1=0 nid1=— nid2=1 net=— conn=Bluetooth ts=—
+----------------------------------------------------------------
+[12:23:48.735] ✓ Seq:  10 | Start 1
+    ⏱  total=579.3ms | ble=579.3ms | fb=78.9ms
+    ↑  TX: Start 1
+    ↓  RX: LxStart 0
+----------------------------------------------------------------
+[12:23:51.855] ✓ Seq:  11 | GetData 1 0
+    ⏱  total=1118.5ms | ble=548.1ms | fb=47.8ms | drain=570.4ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,69,1790405630,2.2,60.0,5426.2,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=69 ts=2026-09-26 06:53:50 UTC gross=2.200 Gal flow=60.000 Gal/min final_tot=5426.200 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+[12:23:54.091] ✓ Seq:  12 | Loop: L13[0] | GetData 1 0
+    ⏱  total=1233.8ms | ble=661.7ms | fb=161.6ms | drain=572.1ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,72,1790405633,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=72 ts=2026-09-26 06:53:53 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:23:56.453] ✓ Seq:  13 | Loop: L13[1] | GetData 1 0
+    ⏱  total=1120.4ms | ble=548.1ms | fb=47.6ms | drain=572.3ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,74,1790405635,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=74 ts=2026-09-26 06:53:55 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:23:58.651] ✓ Seq:  14 | Loop: L13[2] | GetData 1 0
+    ⏱  total=1196.6ms | ble=547.9ms | fb=47.5ms | drain=648.7ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,76,1790405637,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=76 ts=2026-09-26 06:53:57 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:00.758] ✓ Seq:  15 | Loop: L13[3] | GetData 1 0
+    ⏱  total=1106.1ms | ble=548.1ms | fb=47.7ms | drain=558.0ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,78,1790405639,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=78 ts=2026-09-26 06:53:59 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:03.107] ✓ Seq:  16 | Loop: L13[4] | GetData 1 0
+    ⏱  total=1106.8ms | ble=548.9ms | fb=48.0ms | drain=557.9ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,81,1790405642,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=81 ts=2026-09-26 06:54:02 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:05.228] ✓ Seq:  17 | Loop: L13[5] | GetData 1 0
+    ⏱  total=1119.4ms | ble=547.7ms | fb=47.3ms | drain=571.7ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,83,1790405644,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=83 ts=2026-09-26 06:54:04 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:07.344] ✓ Seq:  18 | Loop: L13[6] | GetData 1 0
+    ⏱  total=1113.7ms | ble=546.9ms | fb=46.0ms | drain=566.8ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,85,1790405646,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=85 ts=2026-09-26 06:54:06 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:09.699] ✓ Seq:  19 | Loop: L13[7] | GetData 1 0
+    ⏱  total=1106.5ms | ble=539.7ms | fb=39.2ms | drain=566.8ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,87,1790405648,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=87 ts=2026-09-26 06:54:08 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:11.807] ✓ Seq:  20 | Loop: L13[8] | GetData 1 0
+    ⏱  total=1106.4ms | ble=547.6ms | fb=47.1ms | drain=558.8ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,89,1790405650,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=89 ts=2026-09-26 06:54:10 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:14.109] ✓ Seq:  21 | Loop: L13[9] | GetData 1 0
+    ⏱  total=1301.0ms | ble=728.1ms | fb=227.8ms | drain=572.9ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,92,1790405653,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=92 ts=2026-09-26 06:54:13 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+
+[12:24:16.472] ✓ Seq:  22 | Loop: L16[0] | GetData 1 0
+    ⏱  total=1121.8ms | ble=548.3ms | fb=47.5ms | drain=573.5ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,94,1790405655,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=94 ts=2026-09-26 06:54:15 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+[12:24:17.551] ✓ Seq:  23 | Loop: L16[0] | Pause 1
+    ⏱  total=577.7ms | ble=577.7ms | fb=76.8ms
+    ↑  TX: Pause 1
+    ↓  RX: LxPause 0
+----------------------------------------------------------------
+[12:24:20.693] ✓ Seq:  24 | Loop: L16[0] | GetData 1 0
+    ⏱  total=1139.7ms | ble=554.5ms | fb=54.2ms | drain=585.2ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,98,1790405659,2.6,0.0,5426.4,0.0,5423.9,0.0,0.0,S,0.0,E
+    📊 iter=98 ts=2026-09-26 06:54:19 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5426.400 Gal initial_tot=5423.900 Gal
+----------------------------------------------------------------
+[12:24:21.767] ✓ Seq:  25 | Loop: L16[0] | Start 1
+    ⏱  total=573.4ms | ble=573.4ms | fb=72.3ms
+    ↑  TX: Start 1
+    ↓  RX: LxStart 0
+----------------------------------------------------------------
+[12:24:24.872] ✓ Seq:  26 | Loop: L16[0] | GetData 1 0
+    ⏱  total=1102.7ms | ble=539.7ms | fb=39.2ms | drain=563.0ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,102,1790405663,2.2,60.0,5428.7,0.0,5426.4,0.0,0.0,S,0.0,E
+    📊 iter=102 ts=2026-09-26 06:54:23 UTC gross=2.200 Gal flow=60.000 Gal/min final_tot=5428.700 Gal initial_tot=5426.400 Gal
+----------------------------------------------------------------
+
+[12:24:26.748] ✓ Seq:  27 | Loop: L16[1] | GetData 1 0
+    ⏱  total=1134.1ms | ble=555.6ms | fb=54.5ms | drain=578.5ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,104,1790405665,2.6,0.0,5429.0,0.0,5426.4,0.0,0.0,S,0.0,E
+    📊 iter=104 ts=2026-09-26 06:54:25 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5429.000 Gal initial_tot=5426.400 Gal
+----------------------------------------------------------------
+[12:24:27.811] ✓ Seq:  28 | Loop: L16[1] | Pause 1
+    ⏱  total=561.2ms | ble=561.2ms | fb=60.7ms
+    ↑  TX: Pause 1
+    ↓  RX: LxPause 0
+----------------------------------------------------------------
+[12:24:30.933] ✓ Seq:  29 | Loop: L16[1] | GetData 1 0
+    ⏱  total=1120.7ms | ble=548.2ms | fb=47.5ms | drain=572.5ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,108,1790405669,2.6,0.0,5429.0,0.0,5426.4,0.0,0.0,S,0.0,E
+    📊 iter=108 ts=2026-09-26 06:54:29 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5429.000 Gal initial_tot=5426.400 Gal
+----------------------------------------------------------------
+[12:24:32.169] ✓ Seq:  30 | Loop: L16[1] | Start 1
+    ⏱  total=734.6ms | ble=734.6ms | fb=234.3ms
+    ↑  TX: Start 1
+    ↓  RX: LxStart 0
+----------------------------------------------------------------
+[12:24:35.291] ✓ Seq:  31 | Loop: L16[1] | GetData 1 0
+    ⏱  total=1120.9ms | ble=549.1ms | fb=48.2ms | drain=571.8ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,113,1790405674,2.6,0.0,5431.6,0.0,5429.0,0.0,0.0,S,0.0,E
+    📊 iter=113 ts=2026-09-26 06:54:34 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5431.600 Gal initial_tot=5429.000 Gal
+----------------------------------------------------------------
+
+[12:24:37.166] ✓ Seq:  32 | Loop: L16[2] | GetData 1 0
+    ⏱  total=1126.0ms | ble=549.0ms | fb=48.0ms | drain=577.0ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,115,1790405676,2.6,0.0,5431.6,0.0,5429.0,0.0,0.0,S,0.0,E
+    📊 iter=115 ts=2026-09-26 06:54:36 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5431.600 Gal initial_tot=5429.000 Gal
+----------------------------------------------------------------
+[12:24:38.245] ✓ Seq:  33 | Loop: L16[2] | Pause 1
+    ⏱  total=578.0ms | ble=578.0ms | fb=76.9ms
+    ↑  TX: Pause 1
+    ↓  RX: LxPause 0
+----------------------------------------------------------------
+[12:24:41.373] ✓ Seq:  34 | Loop: L16[2] | GetData 1 0
+    ⏱  total=1126.9ms | ble=548.6ms | fb=47.5ms | drain=578.3ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,119,1790405680,2.6,0.0,5431.6,0.0,5429.0,0.0,0.0,S,0.0,E
+    📊 iter=119 ts=2026-09-26 06:54:40 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5431.600 Gal initial_tot=5429.000 Gal
+----------------------------------------------------------------
+[12:24:42.451] ✓ Seq:  35 | Loop: L16[2] | Start 1
+    ⏱  total=576.9ms | ble=576.9ms | fb=76.6ms
+    ↑  TX: Start 1
+    ↓  RX: LxStart 0
+----------------------------------------------------------------
+[12:24:45.716] ✓ Seq:  36 | Loop: L16[2] | GetData 1 0
+    ⏱  total=1262.4ms | ble=547.8ms | fb=47.6ms | drain=714.6ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,123,1790405684,2.5,60.0,5434.2,0.0,5431.6,0.0,0.0,S,0.0,E
+    📊 iter=123 ts=2026-09-26 06:54:44 UTC gross=2.500 Gal flow=60.000 Gal/min final_tot=5434.200 Gal initial_tot=5431.600 Gal
+----------------------------------------------------------------
+[12:24:47.463] ✓ Seq:  37 | GetData 1 0
+    ⏱  total=1246.2ms | ble=556.1ms | fb=55.0ms | drain=690.1ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,125,1790405686,2.7,0.0,5434.3,0.0,5431.6,0.0,0.0,S,0.0,E
+    📊 iter=125 ts=2026-09-26 06:54:46 UTC gross=2.700 Gal flow=0.000 Gal/min final_tot=5434.300 Gal initial_tot=5431.600 Gal
+----------------------------------------------------------------
+[12:24:48.534] ✓ Seq:  38 | Pause 1
+    ⏱  total=569.9ms | ble=569.9ms | fb=69.7ms
+    ↑  TX: Pause 1
+    ↓  RX: LxPause 0
+----------------------------------------------------------------
+[12:24:51.168] ✓ Seq:  39 | PresetGross 1 0
+    ⏱  total=632.8ms | ble=632.8ms | fb=131.6ms
+    ↑  TX: PresetGross 1,0
+    ↓  RX: LxPresetGross 0
+----------------------------------------------------------------
+[12:24:52.242] ✓ Seq:  40 | Start 1
+    ⏱  total=572.7ms | ble=572.7ms | fb=71.6ms
+    ↑  TX: Start 1
+    ↓  RX: LxStart 0
+----------------------------------------------------------------
+[12:24:55.361] ✓ Seq:  41 | GetData 1 0
+    ⏱  total=1118.4ms | ble=548.6ms | fb=48.1ms | drain=569.8ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,133,1790405694,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=133 ts=2026-09-26 06:54:54 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+[12:24:57.191] ✓ Seq:  42 | Loop: L28[0] | GetData 1 0
+    ⏱  total=1328.6ms | ble=548.5ms | fb=47.6ms | drain=780.1ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,135,1790405696,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=135 ts=2026-09-26 06:54:56 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:24:59.299] ✓ Seq:  43 | Loop: L28[1] | GetData 1 0
+    ⏱  total=1104.9ms | ble=546.9ms | fb=46.8ms | drain=558.0ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,137,1790405698,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=137 ts=2026-09-26 06:54:58 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:01.430] ✓ Seq:  44 | Loop: L28[2] | GetData 1 0
+    ⏱  total=1119.8ms | ble=549.1ms | fb=48.0ms | drain=570.7ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,139,1790405700,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=139 ts=2026-09-26 06:55:00 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:04.160] ✓ Seq:  45 | Loop: L28[3] | GetData 1 0
+    ⏱  total=1488.2ms | ble=743.6ms | fb=243.0ms | drain=744.6ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,142,1790405703,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=142 ts=2026-09-26 06:55:03 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:06.267] ✓ Seq:  46 | Loop: L28[4] | GetData 1 0
+    ⏱  total=1105.4ms | ble=540.3ms | fb=39.3ms | drain=565.1ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,144,1790405705,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=144 ts=2026-09-26 06:55:05 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:08.383] ✓ Seq:  47 | Loop: L28[5] | GetData 1 0
+    ⏱  total=1114.7ms | ble=549.3ms | fb=48.5ms | drain=565.4ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,146,1790405707,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=146 ts=2026-09-26 06:55:07 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:10.753] ✓ Seq:  48 | Loop: L28[6] | GetData 1 0
+    ⏱  total=1127.9ms | ble=548.7ms | fb=47.1ms | drain=579.2ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,148,1790405709,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=148 ts=2026-09-26 06:55:09 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:12.874] ✓ Seq:  49 | Loop: L28[7] | GetData 1 0
+    ⏱  total=1119.6ms | ble=547.4ms | fb=46.9ms | drain=572.2ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,150,1790405711,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=150 ts=2026-09-26 06:55:11 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:15.156] ✓ Seq:  50 | Loop: L28[8] | GetData 1 0
+    ⏱  total=1280.7ms | ble=707.6ms | fb=206.0ms | drain=573.1ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,153,1790405714,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=153 ts=2026-09-26 06:55:14 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+
+[12:25:17.510] ✓ Seq:  51 | Loop: L28[9] | GetData 1 0
+    ⏱  total=1112.2ms | ble=540.7ms | fb=40.0ms | drain=571.5ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,155,1790405716,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=155 ts=2026-09-26 06:55:16 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+[12:25:19.160] ✓ Seq:  52 | GetLastMtrCmd 1
+    ⏱  total=648.3ms | ble=648.3ms | fb=148.2ms
+    ↑  TX: GetLastMtrCmd 1
+    ↓  RX: LxGetLastMtrCmd 1,Stop,0
+    📊 last_cmd=Stop result=✓ Success
+----------------------------------------------------------------
+[12:25:20.202] ✗ Seq:  53 | BoxStatus
+    ⏱  total=540.6ms | ble=540.6ms | fb=39.8ms
+    ⚠  BOXSTATUS_NO_METER: meter_addr_1=0 — no meter registered on port 1
+    ↑  TX: BoxStatus
+    ↓  RX: LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1
+    📊 mode=LCR Analyse & Storage data1=0 nid1=— nid2=1 net=— conn=Bluetooth ts=—
+----------------------------------------------------------------
+[12:25:21.803] ✓ Seq:  54 | GetData 1 0
+    ⏱  total=1100.3ms | ble=543.4ms | fb=43.1ms | drain=556.9ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,159,1790405720,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=159 ts=2026-09-26 06:55:20 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+[12:25:22.871] ✓ Seq:  55 | Stop 1
+    ⏱  total=566.8ms | ble=566.8ms | fb=66.5ms
+    ↑  TX: Stop 1
+    ↓  RX: LxStop 0
+----------------------------------------------------------------
+[12:25:26.158] ✓ Seq:  56 | GetData 1 0
+    ⏱  total=1284.6ms | ble=713.9ms | fb=213.6ms | drain=570.7ms
+    ↑  TX: GetData 1,0
+    ↓  RX: LxGetData 1,1,164,1790405725,2.6,0.0,5436.9,0.0,5434.3,0.0,0.0,S,0.0,E
+    📊 iter=164 ts=2026-09-26 06:55:25 UTC gross=2.600 Gal flow=0.000 Gal/min final_tot=5436.900 Gal initial_tot=5434.300 Gal
+----------------------------------------------------------------
+[12:25:27.702] ✓ Seq:  57 | BoxStorage 1
+    ⏱  total=543.0ms | ble=543.0ms | fb=42.6ms
+    ↑  TX: BoxStorage 1
+    ↓  RX: LxBoxStorage 1,20,24320,
+    📊 records=20 remaining_bytes=24320
+----------------------------------------------------------------
+[12:25:28.744] ✓ Seq:  58 | GetLastMtrCmd 1
+    ⏱  total=541.3ms | ble=541.3ms | fb=40.6ms
+    ↑  TX: GetLastMtrCmd 1
+    ↓  RX: LxGetLastMtrCmd 1,Stop,0
+    📊 last_cmd=Stop result=✓ Success
+----------------------------------------------------------------
+[12:25:29.779] ✓ Seq:  59 | DeleteAll 1
+    ⏱  total=534.1ms | ble=534.1ms | fb=33.1ms
+    ↑  TX: DeleteAll 1
+    ↓  RX: LxDeleteAll 0
+----------------------------------------------------------------
+[12:25:34.318] ✓ Seq:  60 | BoxStorage 1
+    ⏱  total=536.0ms | ble=536.0ms | fb=34.9ms
+    ↑  TX: BoxStorage 1
+    ↓  RX: LxBoxStorage 1,0,25600,
+    📊 records=0 remaining_bytes=25600
+----------------------------------------------------------------
+[12:25:35.360] ✗ Seq:  61 | BoxStatus
+    ⏱  total=540.9ms | ble=540.9ms | fb=40.3ms
+    ⚠  BOXSTATUS_NO_METER: meter_addr_1=0 — no meter registered on port 1
+    ↑  TX: BoxStatus
+    ↓  RX: LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1
+    📊 mode=LCR Analyse & Storage data1=0 nid1=— nid2=1 net=— conn=Bluetooth ts=—
+----------------------------------------------------------------
+[12:25:36.403] ✓ Seq:  62 | BoxInfo
+    ⏱  total=541.3ms | ble=541.3ms | fb=41.0ms
+    ↑  TX: BoxInfo
+    ↓  RX: LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR
+    📊 FW=2.901 HW=2.4 IMEI=860858062040217
+----------------------------------------------------------------
+[12:25:37.445] ✓ Seq:  63 | RdRegister
+    ⏱  total=540.8ms | ble=540.8ms | fb=40.4ms
+    ↑  TX: RdRegister
+    ↓  RX: LxRdRegister 0,1
+----------------------------------------------------------------

@@ -25,16 +25,10 @@ static uint8_t s_led_tmr;
  * synchronous request/response like a real meter link. */
 static E_HAL_UART lcr_uart(int port)
 {
-    /* Bench setup: a single USB-RS232 adapter is on Port 2 (USART2/J2). Like Leo's factory firmware
-     * (which polls both meter nodes on the one lcr2 wire), route both logical ports to USART2 so both
-     * meter node 1 and node 2 are reachable over that single adapter. Set LCR_SPLIT_PORTS to use the
-     * physical USART1 for port 1 when two adapters are wired. */
-#ifndef LCR_SPLIT_PORTS
-    (void)port;
-    return E_HAL_UART_LCR2;
-#else
+    /* One meter per port, each on its own connector, same code for both: port 0 = Port 1 (J1,
+     * USART1), port 1 = Port 2 (J2, USART2). (An earlier bench shortcut sent both ports over USART2,
+     * which made Port 1 look online with nothing plugged into J1.) */
     return (port == 1) ? E_HAL_UART_LCR2 : E_HAL_UART_LCR1;
-#endif
 }
 
 static uint8_t s_rs485;     /* SetRs485: 0 = RS232 transceivers (U504), 1 = RS485 (U104/U4) */

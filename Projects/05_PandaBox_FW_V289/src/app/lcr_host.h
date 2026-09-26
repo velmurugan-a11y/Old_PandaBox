@@ -42,6 +42,8 @@ extern lcr_port_t lcr_port[LCR_PORTS];
 
 void     lcr_host_init(void);
 void     lcr_host_poll(void);                       /* call every ~1 s */
+void     lcr_host_poll_port(int port);
+void     lcr_port_set_node(int port, uint8_t node);  /* rebind + immediate re-sync */
 int      lcr_port_of_node(uint8_t node);            /* -1 if not configured */
 
 /* LCP transactions; return rc (0..255) or -1 when the meter did not answer */

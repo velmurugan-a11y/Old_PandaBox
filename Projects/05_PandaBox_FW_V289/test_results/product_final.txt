@@ -1,0 +1,176 @@
+PASS BOX      SetBoxTime 1790405137                -> LxSetBoxTime 0 
+PASS BOX      SetMode 2                            -> LxSetMode 0 
+PASS BOX      SetRs485 0                           -> LxSetRs485 0 
+PASS BOX      BoxInfo                              -> LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR 
+PASS BOX      BoxTime                              -> LxBoxTime 1790405139 clock
+PASS BOX      RdBtName                             -> LxRdBtName PandaBrain 
+PASS BOX      RdDiagnostics                        -> LxRdDiagnostics 0,1,0,0 
+PASS BOX      SetWifiName MyNetwork                -> LxSetWifiName 0 
+PASS BOX      SetWifiPwd mypassword                -> LxSetWifiPwd 0 
+PASS BOX      SetServerIp 13.205.61.50             -> LxSetServerIp 0 
+PASS BOX      SetServerPort 8181                   -> LxSetServerPort 0 
+PASS BOX      SetApn jionet                        -> LxSetApn 0 
+PASS BOX      SetMode 1                            -> LxSetMode 0 
+PASS BOX      GetData 2 0                          -> LxGetData Mode 1, 
+PASS BOX      SetMode 2                            -> LxSetMode 0 
+PASS PORT1    SetPortLcrNode 1,2                   -> LxSetPortLcrNode 0 
+PASS PORT1    RdRegister                           -> LxRdRegister 0,1 
+PASS PORT1    GetData 1 0                          -> LxGetData Error, 
+PASS PORT1    Start 1                              -> LxStart 1 
+PASS PORT1    SwitchState 1                        -> LxSwitchState 1,Error 
+PASS PORT1    RdMtrSetting 1                       -> LxRdMtrSetting 1,Error 
+PASS PORT1    GetLcrNode 1,1,5                     -> LxFindLcrNode 0 
+PASS PORT1    BoxStatus                            -> LxBoxStatus 2,0,1,2,0.0,S,0.0,E,0,1 
+PASS PORT1    SetPortLcrNode 2,2                   -> LxSetPortLcrNode 1 
+PASS PORT1    RdPortLcrNode                        -> LxRdPortLcrNode 1,2 
+PASS LCR-II   SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+PASS LCR-II   RdPortLcrNode                        -> LxRdPortLcrNode 0,1 
+PASS LCR-II   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR-II   BoxStatus                            -> LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1 
+PASS LCR-II   SwitchState 2                        -> LxSwitchState 1,Stop 
+PASS LCR-II   RdMtrSetting 2                       -> LxRdMtrSetting 2,1,180,no,clear 
+PASS LCR-II   GetLcrNode 2,1,10                    -> LxFindLcrNode 2,1 
+PASS LCR-II   GetLcrNode 2,5,10                    -> LxFindLcrNode 2,1 
+PASS LCR-II   GetData 1 0                          -> LxGetData 1,1,81,1790405166,2.6,0.0,5355.6,0.0,5353.0,0.0,0.0,S,0.0,E 
+PASS LCR-II   Stop 1                               -> LxStop 0 
+PASS LCR-II   PresetGross 1,0                      -> LxPresetGross 0 
+PASS LCR-II   ModifyLcrNode 2,1,9                  -> LxModifyLcrNode 0 
+PASS LCR-II   RdPortLcrNode                        -> LxRdPortLcrNode 0,9 
+PASS LCR-II   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR-II   GetData 9 0                          -> LxGetData 9,1,89,1790405174,2.6,0.0,5355.6,0.0,5353.0,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetData 1 0                          -> LxGetData Error, 
+PASS LCR-II   RdMtrSetting 2                       -> LxRdMtrSetting 2,9,180,no,clear 
+PASS LCR-II   Start 9                              -> LxStart 0 
+PASS LCR-II   GetData 9 0 (delivery on the new node) -> LxGetData 9,1,94,1790405179,2.6,60.0,5358.2,0.0,5355.6,0.0,0.0,S,0.0,E
+PASS LCR-II   Stop 9                               -> LxStop 0 
+PASS LCR-II   ModifyLcrNode 2,9,1                  -> LxModifyLcrNode 0 
+PASS LCR-II   RdPortLcrNode                        -> LxRdPortLcrNode 0,1 
+PASS LCR-II   ModifyLcrNode 2,77,5                 -> LxModifyLcrNode 1 
+PASS LCR-II   ModifyLcrNode 1,1,5                  -> LxModifyLcrNode 1 
+PASS LCR-II   PresetGross 1,125.5                  -> LxPresetGross 0 
+PASS LCR-II   PresetNet 1,125.5                    -> LxPresetNet 0 
+PASS LCR-II   PresetGross 1,-1.0                   -> LxPresetGross 1 
+PASS LCR-II   PresetGross 7,10.0                   -> LxPresetGross 1 
+PASS LCR-II   PresetGross 1,0                      -> LxPresetGross 0 
+PASS LCR-II   PresetNet 1,0                        -> LxPresetNet 0 
+PASS LCR-II   DeleteAll 1                          -> LxDeleteAll 0 
+PASS LCR-II   HisDataTime 1                        -> LxHisDataTime 1, 
+PASS LCR-II   Start 1                              -> LxStart 0 
+PASS LCR-II   SwitchState 2                        -> LxSwitchState 1,Run 
+PASS LCR-II   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Start,0 
+PASS LCR-II   GetData 1 0 (flowing) -> LxGetData 1,1,115,1790405199,5.8,60.0,5364.7,0.0,5358.9,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (still flowing) -> LxGetData 1,1,117,1790405201,7.8,60.0,5366.7,0.0,5358.9,0.0,0.0,S,0.0,E
+PASS LCR-II   rising 5.8->7.8, flow 60.0
+PASS LCR-II   Pause 1                              -> LxPause 0 
+PASS LCR-II   GetData 1 0 (paused: flow 0) -> LxGetData 1,1,121,1790405205,9.4,0.0,5368.3,0.0,5358.9,0.0,0.0,S,0.0,E
+PASS LCR-II   paused gross 9.4 == 9.4
+PASS LCR-II   Start 1                              -> LxStart 0 
+PASS LCR-II   GetData 1 0 (resumed) -> LxGetData 1,1,128,1790405212,12.6,60.0,5371.6,0.0,5358.9,0.0,0.0,S,0.0,E
+PASS LCR-II   Stop 1                               -> LxStop 0 
+PASS LCR-II   GetData 1 0 (stopped) -> LxGetData 1,1,132,1790405216,13.9,0.0,5372.7,0.0,5358.9,0.0,0.0,S,0.0,E
+PASS LCR-II   5358.9 + 13.9 = 5372.7
+PASS LCR-II   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
+PASS LCR-II   SwitchState 2                        -> LxSwitchState 1,Stop 
+PASS LCR-II   HisDataTime 1                        -> LxHisDataTime 1,1790405194,1790405214, 
+PASS LCR-II   BoxStorage 1                         -> LxBoxStorage 1,16,24576, records expected
+PASS LCR-II   GetData 1,1                          -> LxGetDataTs 1,0,8,1790405194,0.8,60.0,5359.7,0.0,5358.9,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetDataEcho 8,0,1                    -> LxGetDataTs 1,0,9,1790405195,1.8,60.0,5360.8,0.0,5358.9,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetDataTs 1,1790405190,1790405226    -> LxGetDataTs 1,1,1790405195,1.8,60.0,5360.8,0.0,5358.9,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790405196,2.8,60.0,53 records in range
+PASS LCR-II   GetDataTs 1,1700000000,1700000001    -> LxGetDataTs 1, 
+PASS LCR-II   DeleteAll 1                          -> LxDeleteAll 0 
+PASS LCR-II   BoxStorage 1                         -> LxBoxStorage 1,0,25600, 
+PASS LCR-II   PresetGross 1,4.0                    -> LxPresetGross 0 
+PASS LCR-II   Start 1                              -> LxStart 0 
+PASS LCR-II   preset -> LxGetData 1,1,150,1790405234,4.0,0.0,5376.7,0.0,5372.7,0.0,0.0,S,0.0,E
+PASS LCR-II   Stop 1                               -> LxStop 0 
+PASS LCR-II   PresetGross 1,0                      -> LxPresetGross 0 
+PASS LCR-II   Start 1                              -> LxStart 0 
+PASS LCR-II   RdRegister                           -> LxRdRegister 0,0 
+PASS LCR-II   GetData 1 0                          -> LxGetData Error, 
+PASS LCR-II   Stop 1                               -> LxStop 1 
+PASS LCR-II   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR-II   GetData 1 0 (delivery kept running on the meter) -> LxGetData 1,1,159,1790405250,13.3,60.0,5390.1,0.0,5376.7,0.0,0.0,S,0.0,E
+PASS LCR-II   Stop 1                               -> LxStop 0 
+PASS LCR.iQ   SetPortLcrNode 0,2                   -> LxSetPortLcrNode 0 
+PASS LCR.iQ   RdPortLcrNode                        -> LxRdPortLcrNode 0,2 
+PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR.iQ   BoxStatus                            -> LxBoxStatus 2,0,0,2,0.0,S,0.0,E,0,1 
+PASS LCR.iQ   SwitchState 2                        -> LxSwitchState 2,Stop 
+PASS LCR.iQ   RdMtrSetting 2                       -> LxRdMtrSetting 2,2,180,no,clear 
+PASS LCR.iQ   GetLcrNode 2,1,10                    -> LxFindLcrNode 2,2 
+PASS LCR.iQ   GetLcrNode 2,5,10                    -> LxFindLcrNode 2,2 
+PASS LCR.iQ   GetData 2 0                          -> LxGetData 2,1,170,1790405260,10.4,0.0,49348.0,0.0,49337.6,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   Stop 2                               -> LxStop 0 
+PASS LCR.iQ   PresetGross 2,0                      -> LxPresetGross 0 
+PASS LCR.iQ   ModifyLcrNode 2,2,9                  -> LxModifyLcrNode 0 
+PASS LCR.iQ   RdPortLcrNode                        -> LxRdPortLcrNode 0,9 
+PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR.iQ   GetData 9 0                          -> LxGetData 9,1,178,1790405267,10.4,0.0,49348.0,0.0,49337.6,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetData 2 0                          -> LxGetData Error, 
+PASS LCR.iQ   RdMtrSetting 2                       -> LxRdMtrSetting 2,9,180,no,clear 
+PASS LCR.iQ   Start 9                              -> LxStart 0 
+PASS LCR.iQ   GetData 9 0 (delivery on the new node) -> LxGetData 9,1,183,1790405272,1.3,45.0,49349.4,0.0,49348.0,0.0,0.0,S,0.0,E
+PASS LCR.iQ   Stop 9                               -> LxStop 0 
+PASS LCR.iQ   ModifyLcrNode 2,9,2                  -> LxModifyLcrNode 0 
+PASS LCR.iQ   RdPortLcrNode                        -> LxRdPortLcrNode 0,2 
+PASS LCR.iQ   ModifyLcrNode 2,77,5                 -> LxModifyLcrNode 1 
+PASS LCR.iQ   ModifyLcrNode 1,1,5                  -> LxModifyLcrNode 1 
+PASS LCR.iQ   PresetGross 2,125.5                  -> LxPresetGross 0 
+PASS LCR.iQ   PresetNet 2,125.5                    -> LxPresetNet 0 
+PASS LCR.iQ   PresetGross 2,-1.0                   -> LxPresetGross 1 
+PASS LCR.iQ   PresetGross 7,10.0                   -> LxPresetGross 1 
+PASS LCR.iQ   PresetGross 2,0                      -> LxPresetGross 0 
+PASS LCR.iQ   PresetNet 2,0                        -> LxPresetNet 0 
+PASS LCR.iQ   DeleteAll 2                          -> LxDeleteAll 0 
+PASS LCR.iQ   HisDataTime 2                        -> LxHisDataTime 2, 
+PASS LCR.iQ   Start 2                              -> LxStart 0 
+PASS LCR.iQ   SwitchState 2                        -> LxSwitchState 2,Run 
+PASS LCR.iQ   GetLastMtrCmd 2                      -> LxGetLastMtrCmd 2,Start,0 
+PASS LCR.iQ   GetData 2 0 (flowing) -> LxGetData 2,1,204,1790405292,3.7,45.0,49353.7,0.0,49349.9,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (still flowing) -> LxGetData 2,1,206,1790405294,5.3,45.0,49355.2,0.0,49349.9,0.0,0.0,S,0.0,E
+PASS LCR.iQ   rising 3.7->5.3, flow 45.0
+PASS LCR.iQ   Pause 2                              -> LxPause 0 
+PASS LCR.iQ   GetData 2 0 (paused: flow 0) -> LxGetData 2,1,210,1790405298,6.9,0.0,49356.8,0.0,49349.9,0.0,0.0,S,0.0,E
+PASS LCR.iQ   paused gross 6.9 == 6.9
+PASS LCR.iQ   Start 2                              -> LxStart 0 
+PASS LCR.iQ   GetData 2 0 (resumed) -> LxGetData 2,1,217,1790405305,8.9,45.0,49358.9,0.0,49349.9,0.0,0.0,S,0.0,E
+PASS LCR.iQ   Stop 2                               -> LxStop 0 
+PASS LCR.iQ   GetData 2 0 (stopped) -> LxGetData 2,1,220,1790405308,9.5,0.0,49359.4,0.0,49349.9,0.0,0.0,S,0.0,E
+PASS LCR.iQ   49349.9 + 9.5 = 49359.4
+PASS LCR.iQ   GetLastMtrCmd 2                      -> LxGetLastMtrCmd 2,Stop,0 
+PASS LCR.iQ   SwitchState 2                        -> LxSwitchState 2,Stop 
+PASS LCR.iQ   HisDataTime 2                        -> LxHisDataTime 2,1790405287,1790405306, 
+PASS LCR.iQ   BoxStorage 2                         -> LxBoxStorage 2,16,24576, records expected
+PASS LCR.iQ   GetData 2,1                          -> LxGetDataTs 2,0,44,1790405287,0.0,38.1,49350.0,0.0,49349.9,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetDataEcho 44,0,1                   -> LxGetDataTs 2,0,45,1790405288,0.8,45.0,49350.7,0.0,49349.9,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetDataTs 2,1790405284,1790405318    -> LxGetDataTs 2,1,1790405288,0.8,45.0,49350.7,0.0,49349.9,0.0,0.0,S,0.0,E | LxGetDataTs 2,2,1790405289,1.5,45.0, records in range
+PASS LCR.iQ   GetDataTs 2,1700000000,1700000001    -> LxGetDataTs 2, 
+PASS LCR.iQ   DeleteAll 2                          -> LxDeleteAll 0 
+PASS LCR.iQ   BoxStorage 2                         -> LxBoxStorage 2,0,25600, 
+PASS LCR.iQ   PresetGross 2,4.0                    -> LxPresetGross 0 
+PASS LCR.iQ   Start 2                              -> LxStart 0 
+PASS LCR.iQ   preset -> LxGetData 2,1,238,1790405326,4.0,0.0,49363.4,0.0,49359.4,0.0,0.0,S,0.0,E
+PASS LCR.iQ   Stop 2                               -> LxStop 0 
+PASS LCR.iQ   PresetGross 2,0                      -> LxPresetGross 0 
+PASS LCR.iQ   Start 2                              -> LxStart 0 
+PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,0 
+PASS LCR.iQ   GetData 2 0                          -> LxGetData Error, 
+PASS LCR.iQ   Stop 2                               -> LxStop 1 
+PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,1 
+PASS LCR.iQ   GetData 2 0 (delivery kept running on the meter) -> LxGetData 2,1,247,1790405342,9.8,45.0,49373.2,0.0,49363.4,0.0,0.0,S,0.0,E
+PASS LCR.iQ   Stop 2                               -> LxStop 0 
+PASS WRONGNODE SetPortLcrNode 0,7                   -> LxSetPortLcrNode 0 
+PASS WRONGNODE RdRegister                           -> LxRdRegister 0,0 
+PASS WRONGNODE Start 7                              -> LxStart 1 
+PASS WRONGNODE SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+PASS WRONGNODE RdRegister                           -> LxRdRegister 0,1 
+PASS BOX      SetBtName PandaBox1                  -> LxSetBtName 0 
+PASS BOX      RdBtName                             -> LxRdBtName PandaBox1 
+PASS BOX      SetBtName PandaBrain                 -> LxSetBtName 0 
+PASS BOX      BoxReset                             -> LxBoxReset 0 
+connect {'address': 'F8:AB:33:32:09:7B', 'name': 'PandaBrainBLE'} {'address': 'F8:AB:33:32:09:7B', 'connected': True, 'firmware': ''}
+PASS BOX      reconnect after reset
+PASS BOX      SetBoxTime 1790405414                -> LxSetBoxTime 0 
+PASS BOX      RdPortLcrNode                        -> LxRdPortLcrNode 1,2 
+
+173/173 checks passed

@@ -1,0 +1,2154 @@
+[
+ {
+  "id": "BOX",
+  "command": "SetBoxTime 1790405137",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 549.0,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 825.5,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetRs485 0",
+  "response": [
+   "LxSetRs485 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 765.4,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "BoxInfo",
+  "response": [
+   "LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.5,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "BoxTime",
+  "response": [
+   "LxBoxTime 1790405139"
+  ],
+  "ok": true,
+  "why": "clock",
+  "note": "",
+  "ms": 539.9,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBrain"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.7,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "RdDiagnostics",
+  "response": [
+   "LxRdDiagnostics 0,1,0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.2,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetWifiName MyNetwork",
+  "response": [
+   "LxSetWifiName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 767.1,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetWifiPwd mypassword",
+  "response": [
+   "LxSetWifiPwd 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 765.8,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetServerIp 13.205.61.50",
+  "response": [
+   "LxSetServerIp 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.4,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetServerPort 8181",
+  "response": [
+   "LxSetServerPort 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 556.2,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetApn jionet",
+  "response": [
+   "LxSetApn 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 536.5,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetMode 1",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.7,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData Mode 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "bridge mode",
+  "ms": 774.2,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Mode 1,'"
+  ]
+ },
+ {
+  "id": "BOX",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 757.1,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "SetPortLcrNode 1,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 546.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "J1 empty -> port 1 not registered",
+  "ms": 602.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.2,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "PORT1",
+  "command": "Start 1",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter on J1",
+  "ms": 1034.1,
+  "tester_issues": [
+   "EXEC_FAIL: Start result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PORT1",
+  "command": "SwitchState 1",
+  "response": [
+   "LxSwitchState 1,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.8,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "RdMtrSetting 1",
+  "response": [
+   "LxRdMtrSetting 1,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 1261.2,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "GetLcrNode 1,1,5",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "scan of J1 finds nothing",
+  "ms": 1158.5,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "BoxStatus",
+  "response": [
+   "LxBoxStatus 2,0,1,2,0.0,S,0.0,E,0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 547.6,
+  "tester_issues": []
+ },
+ {
+  "id": "PORT1",
+  "command": "SetPortLcrNode 2,2",
+  "response": [
+   "LxSetPortLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "both ports on one node is refused",
+  "ms": 555.3,
+  "tester_issues": [
+   "EXEC_FAIL: SetPortLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "PORT1",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 1,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "unchanged after the refusal",
+  "ms": 554.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "SetPortLcrNode 0,1",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 543.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "Port 1 empty, Port 2 registered",
+  "ms": 669.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "BoxStatus",
+  "response": [
+   "LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.7,
+  "tester_issues": [
+   "BOXSTATUS_NO_METER: meter_addr_1=0 \u2014 no meter registered on port 1"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle meter",
+  "ms": 540.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdMtrSetting 2",
+  "response": [
+   "LxRdMtrSetting 2,1,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 789.4,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetLcrNode 2,1,10",
+  "response": [
+   "LxFindLcrNode 2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter online -> its node at once, no scan (V2.89)",
+  "ms": 541.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetLcrNode 2,5,10",
+  "response": [
+   "LxFindLcrNode 2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 answers the live node even outside the range",
+  "ms": 535.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,81,1790405166,2.6,0.0,5355.6,0.0,5353.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 543.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 576.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 580.4,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "ModifyLcrNode 2,1,9",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 796.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,9"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 682.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on its new node 9",
+  "ms": 540.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 9 0",
+  "response": [
+   "LxGetData 9,1,89,1790405174,2.6,0.0,5355.6,0.0,5353.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 545.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "old node no longer configured",
+  "ms": 675.8,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdMtrSetting 2",
+  "response": [
+   "LxRdMtrSetting 2,9,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "#102 LCRNode reads back 9",
+  "ms": 677.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "Start 9",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 9 0",
+  "response": [
+   "LxGetData 9,1,94,1790405179,2.6,60.0,5358.2,0.0,5355.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "delivery on the new node"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 9",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 568.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "ModifyLcrNode 2,9,1",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore",
+  "ms": 803.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 691.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "ModifyLcrNode 2,77,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter at node 77",
+  "ms": 676.0,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "ModifyLcrNode 1,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "Port 1 empty",
+  "ms": 668.6,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 652.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetNet 1,125.5",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,-1.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 577.0,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 7,10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "node 7 not configured",
+  "ms": 548.9,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetNet 1,0",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 573.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "empty after DeleteAll",
+  "ms": 540.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 764.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 597.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Start,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,115,1790405199,5.8,60.0,5364.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "flowing"
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,117,1790405201,7.8,60.0,5366.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "still flowing"
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData x2",
+  "response": [
+   "LxGetData 1,1,115,1790405199,5.8,60.0,5364.7,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetData 1,1,117,1790405201,7.8,60.0,5366.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "gross/total rise, flow 60.0 ~ pump 60.0"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,121,1790405205,9.4,0.0,5368.3,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused: flow 0"
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData (paused)",
+  "response": [
+   "LxGetData 1,1,124,1790405208,9.4,0.0,5368.3,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "volume holds while paused"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "resume",
+  "ms": 579.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,128,1790405212,12.6,60.0,5371.6,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "resumed"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 585.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,132,1790405216,13.9,0.0,5372.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "stopped"
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData (final)",
+  "response": [
+   "LxGetData 1,1,132,1790405216,13.9,0.0,5372.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ticket math"
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Stop,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 696.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,1790405194,1790405214,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,16,24576,"
+  ],
+  "ok": true,
+  "why": "records expected",
+  "note": "",
+  "ms": 539.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,8,1790405194,0.8,60.0,5359.7,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 549.0,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 1,1, response from meter 1",
+   "TIMESTAMP_STALE: 8 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetDataEcho 8,0,1",
+  "response": [
+   "LxGetDataTs 1,0,9,1790405195,1.8,60.0,5360.8,0.0,5358.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next record",
+  "ms": 548.1,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 8,0,1, response from meter 1",
+   "TIMESTAMP_STALE: 9 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetDataTs 1,1790405190,1790405226",
+  "response": [
+   "LxGetDataTs 1,1,1790405195,1.8,60.0,5360.8,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,2,1790405196,2.8,60.0,5361.8,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,3,1790405197,3.8,60.0,5362.8,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,4,1790405198,4.8,60.0,5363.8,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,5,1790405199,5.8,60.0,5364.7,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,6,1790405200,6.8,60.0,5365.7,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,7,1790405201,7.8,60.0,5366.7,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,8,1790405202,8.8,60.0,5367.8,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,9,1790405203,9.4,0.0,5368.3,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,10,1790405209,9.7,60.0,5368.6,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,11,1790405210,10.6,60.0,5369.6,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,12,1790405211,11.6,60.0,5370.6,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,13,1790405212,12.6,60.0,5371.6,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,14,1790405213,13.6,60.0,5372.6,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,15,1790405214,13.9,0.0,5372.7,0.0,5358.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "records in range",
+  "note": "",
+  "ms": 682.0,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "METER_MISMATCH: sent to meter 1,1790405190,1790405226, response from meter 1",
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetDataTs 1,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "empty range",
+  "ms": 548.5,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 1,'"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 685.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,4.0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 653.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData (preset)",
+  "response": [
+   "LxGetData 1,1,150,1790405234,4.0,0.0,5376.7,0.0,5372.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "preset reached"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 577.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 569.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter unplugged",
+  "ms": 536.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 540.9,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 1082.9,
+  "tester_issues": [
+   "EXEC_FAIL: Stop result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "plugged back in",
+  "ms": 598.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR-II",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData 1,1,159,1790405250,13.3,60.0,5390.1,0.0,5376.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "delivery kept running on the meter"
+ },
+ {
+  "id": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 568.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "SetPortLcrNode 0,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 545.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "Port 1 empty, Port 2 registered",
+  "ms": 540.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "BoxStatus",
+  "response": [
+   "LxBoxStatus 2,0,0,2,0.0,S,0.0,E,0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 534.6,
+  "tester_issues": [
+   "BOXSTATUS_NO_METER: meter_addr_1=0 \u2014 no meter registered on port 1"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 2,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle meter",
+  "ms": 535.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdMtrSetting 2",
+  "response": [
+   "LxRdMtrSetting 2,2,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 662.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetLcrNode 2,1,10",
+  "response": [
+   "LxFindLcrNode 2,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter online -> its node at once, no scan (V2.89)",
+  "ms": 539.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetLcrNode 2,5,10",
+  "response": [
+   "LxFindLcrNode 2,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 answers the live node even outside the range",
+  "ms": 539.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,170,1790405260,10.4,0.0,49348.0,0.0,49337.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 544.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 567.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 625.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "ModifyLcrNode 2,2,9",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 799.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,9"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 681.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on its new node 9",
+  "ms": 537.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 9 0",
+  "response": [
+   "LxGetData 9,1,178,1790405267,10.4,0.0,49348.0,0.0,49337.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 549.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "old node no longer configured",
+  "ms": 652.3,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdMtrSetting 2",
+  "response": [
+   "LxRdMtrSetting 2,9,180,no,clear"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "#102 LCRNode reads back 9",
+  "ms": 669.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Start 9",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 573.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 9 0",
+  "response": [
+   "LxGetData 9,1,183,1790405272,1.3,45.0,49349.4,0.0,49348.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "delivery on the new node"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 9",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 561.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "ModifyLcrNode 2,9,2",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore",
+  "ms": 798.9,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 681.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "ModifyLcrNode 2,77,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter at node 77",
+  "ms": 662.6,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "ModifyLcrNode 1,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "Port 1 empty",
+  "ms": 667.8,
+  "tester_issues": [
+   "EXEC_FAIL: ModifyLcrNode result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 676.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetNet 2,125.5",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 741.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,-1.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 578.2,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 7,10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "node 7 not configured",
+  "ms": 542.0,
+  "tester_issues": [
+   "EXEC_FAIL: PresetGross result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 578.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetNet 2,0",
+  "response": [
+   "LxPresetNet 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 573.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "DeleteAll 2",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 538.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "HisDataTime 2",
+  "response": [
+   "LxHisDataTime 2,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "empty after DeleteAll",
+  "ms": 534.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Start 2",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 667.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 2,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.8,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetLastMtrCmd 2",
+  "response": [
+   "LxGetLastMtrCmd 2,Start,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 538.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,204,1790405292,3.7,45.0,49353.7,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "flowing"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,206,1790405294,5.3,45.0,49355.2,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "still flowing"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData x2",
+  "response": [
+   "LxGetData 2,1,204,1790405292,3.7,45.0,49353.7,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetData 2,1,206,1790405294,5.3,45.0,49355.2,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "gross/total rise, flow 45.0 ~ pump 45.0"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Pause 2",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 562.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,210,1790405298,6.9,0.0,49356.8,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused: flow 0"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData (paused)",
+  "response": [
+   "LxGetData 2,1,212,1790405300,6.9,0.0,49356.8,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "volume holds while paused"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Start 2",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "resume",
+  "ms": 568.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,217,1790405305,8.9,45.0,49358.9,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "resumed"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 568.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,220,1790405308,9.5,0.0,49359.4,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "stopped"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData (final)",
+  "response": [
+   "LxGetData 2,1,220,1790405308,9.5,0.0,49359.4,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ticket math"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetLastMtrCmd 2",
+  "response": [
+   "LxGetLastMtrCmd 2,Stop,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 542.1,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 2,Stop"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.4,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "HisDataTime 2",
+  "response": [
+   "LxHisDataTime 2,1790405287,1790405306,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.4,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "BoxStorage 2",
+  "response": [
+   "LxBoxStorage 2,16,24576,"
+  ],
+  "ok": true,
+  "why": "records expected",
+  "note": "",
+  "ms": 540.7,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2,1",
+  "response": [
+   "LxGetDataTs 2,0,44,1790405287,0.0,38.1,49350.0,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.9,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 2,1, response from meter 2",
+   "TIMESTAMP_STALE: 44 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetDataEcho 44,0,1",
+  "response": [
+   "LxGetDataTs 2,0,45,1790405288,0.8,45.0,49350.7,0.0,49349.9,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next record",
+  "ms": 548.5,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 44,0,1, response from meter 2",
+   "TIMESTAMP_STALE: 45 predates 2020-01-01"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetDataTs 2,1790405284,1790405318",
+  "response": [
+   "LxGetDataTs 2,1,1790405288,0.8,45.0,49350.7,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,2,1790405289,1.5,45.0,49351.5,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,3,1790405290,2.3,45.0,49352.2,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,4,1790405291,3.0,45.0,49353.0,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,5,1790405292,3.7,45.0,49353.7,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,6,1790405293,4.5,45.0,49354.4,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,7,1790405294,5.3,45.0,49355.2,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,8,1790405295,6.0,45.0,49356.0,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,9,1790405296,6.8,12.0,49356.7,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,10,1790405297,6.9,0.0,49356.8,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,11,1790405302,6.9,27.3,49356.8,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,12,1790405303,7.4,45.0,49357.4,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,13,1790405304,8.2,45.0,49358.1,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,14,1790405305,8.9,45.0,49358.9,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,15,1790405306,9.5,0.0,49359.4,0.0,49349.9,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 2,"
+  ],
+  "ok": true,
+  "why": "records in range",
+  "note": "",
+  "ms": 740.1,
+  "tester_issues": [
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "METER_MISMATCH: sent to meter 2,1790405284,1790405318, response from meter 2",
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 2,'"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetDataTs 2,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 2,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "empty range",
+  "ms": 548.9,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetDataTs 2,'"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "DeleteAll 2",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 535.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "BoxStorage 2",
+  "response": [
+   "LxBoxStorage 2,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,4.0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Start 2",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 578.4,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData (preset)",
+  "response": [
+   "LxGetData 2,1,238,1790405326,4.0,0.0,49363.4,0.0,49359.4,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "preset reached"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 570.3,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "PresetGross 2,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 569.2,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Start 2",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 573.5,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter unplugged",
+  "ms": 538.6,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 533.7,
+  "tester_issues": [
+   "DATA_FORMAT: too few fields (1) in 'LxGetData Error,'"
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 1036.3,
+  "tester_issues": [
+   "EXEC_FAIL: Stop result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "plugged back in",
+  "ms": 596.0,
+  "tester_issues": []
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "GetData 2 0",
+  "response": [
+   "LxGetData 2,1,247,1790405342,9.8,45.0,49373.2,0.0,49363.4,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "delivery kept running on the meter"
+ },
+ {
+  "id": "LCR.iQ",
+  "command": "Stop 2",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 568.3,
+  "tester_issues": []
+ },
+ {
+  "id": "WRONGNODE",
+  "command": "SetPortLcrNode 0,7",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 545.8,
+  "tester_issues": []
+ },
+ {
+  "id": "WRONGNODE",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter answers node 7",
+  "ms": 540.8,
+  "tester_issues": []
+ },
+ {
+  "id": "WRONGNODE",
+  "command": "Start 7",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 1044.7,
+  "tester_issues": [
+   "EXEC_FAIL: Start result=1 \u2014 command was NOT delivered to the RS485 meter. The meter DID NOT react. Check SetPortLcrNode address matches BoxStatus data_1."
+  ]
+ },
+ {
+  "id": "WRONGNODE",
+  "command": "SetPortLcrNode 0,1",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 546.8,
+  "tester_issues": []
+ },
+ {
+  "id": "WRONGNODE",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 539.9,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetBtName PandaBox1",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 541.0,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBox1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 720.7,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "SetBtName PandaBrain",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 548.2,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "BoxReset",
+  "response": [
+   "LxBoxReset 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 538.5,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "reconnect after BoxReset",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "id": "BOX",
+  "command": "SetBoxTime 1790405414",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "",
+  "ms": 673.0,
+  "tester_issues": []
+ },
+ {
+  "id": "BOX",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 1,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "after reset",
+  "ms": 535.5,
+  "tester_issues": []
+ }
+]

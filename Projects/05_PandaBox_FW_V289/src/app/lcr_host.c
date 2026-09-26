@@ -144,6 +144,39 @@ void lcr_host_init(void)
     }
 }
 
+/* SetPortLcrNode / ModifyLcrNode: bind a port to a (new) node. Values from the previous meter are
+ * dropped and the port re-syncs at once (Get Product ID with the sync bit, as V2.89 does after a node
+ * change), so the next GetData never serves the old meter's numbers under the new node. */
+void lcr_port_set_node(int port, uint8_t node)
+{
+    lcr_port_t *lp = &lcr_port[port];
+    lcp_frame_t f;
+    uint8_t sync_req = 0x00U;
+    static uint8_t req[16], raw[64];
+    uint32_t n, r;
+
+    if(lp->node == node && lp->online) {
+        return;
+    }
+    lp->node = node;
+    lp->online = 0U;
+    lp->miss = LCR_OFFLINE_POLLS;
+    memset(lp->v, 0, sizeof(lp->v));
+    memset(lp->v_old, 0, sizeof(lp->v_old));
+    lp->last_cmd = MCMD_NONE;
+    if(node == 0U) {
+        return;
+    }
+    msg_toggle[port] = 1U;
+    n = lcp_build(req, node, LCP_HOST_NODE, LCP_ST_SYNC, &sync_req, 1U);
+    r = lcr_transport(port, req, n, raw);
+    if(r && lcp_parse(raw, r, &f)) {
+        lp->miss = 0U;
+        lp->online = 1U;
+        lcr_host_poll_port(port);       /* fresh values right away */
+    }
+}
+
 int lcr_port_of_node(uint8_t node)
 {
     int p;
@@ -175,13 +208,14 @@ static void hist_add(int port)
     h->serial = lp->hist_serial++;
 }
 
-void lcr_host_poll(void)
+/* one poll cycle of a port: fields #2 #4 #17 #18 #100 #101 */
+void lcr_host_poll_port(int p)
 {
-    int p, i, changed;
+    int i, changed;
     lcp_frame_t f;
     uint8_t req[2];
 
-    for(p = 0; p < LCR_PORTS; p++) {
+    do {
         lcr_port_t *lp = &lcr_port[p];
         int ok = 1;
 
@@ -190,11 +224,14 @@ void lcr_host_poll(void)
             continue;
         }
         for(i = 0; i < 6 && ok; i++) {
-            int tries;
+            /* one retry on a lost/garbled frame while the meter is (still) online; a port already
+               reported offline gets a single field #2 probe per cycle, like V2.89, so an empty
+               connector costs one 120 ms timeout a second instead of blocking the loop */
+            int tries, max_tries = lp->online ? 2 : 1;
             req[0] = 0x20U;
             req[1] = poll_fields[i];
             ok = 0;
-            for(tries = 0; tries < 2 && !ok; tries++) {     /* one retry on a lost/garbled frame */
+            for(tries = 0; tries < max_tries && !ok; tries++) {
                 if(lcr_xfer(p, lp->node, req, 2U, &f) == 6 && f.data[0] == 0U) {
                     lp->dev_status = f.data[1];
                     lp->v[i] = be32(&f.data[2]);
@@ -225,6 +262,15 @@ void lcr_host_poll(void)
             hist_add(p);
             memcpy(lp->v_old, lp->v, sizeof(lp->v));
         }
+    } while(0);
+}
+
+void lcr_host_poll(void)
+{
+    int p;
+
+    for(p = 0; p < LCR_PORTS; p++) {
+        lcr_host_poll_port(p);
     }
 }
 

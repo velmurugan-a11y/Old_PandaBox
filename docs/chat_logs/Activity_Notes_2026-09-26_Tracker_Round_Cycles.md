@@ -93,3 +93,26 @@ repo, so the changes are only described here. `.orig` backups sit next to every 
 ## Not pushed
 Nothing is pushed yet. An earlier push that included the full chat log was blocked by a safety check,
 because the repo is public. The chat log stays local until the user decides.
+
+---
+
+## Part 2 (2026-09-26, midday): product-wise validation, RCA on Port 1
+
+The user reported: "Port 1 has nothing connected, but the log shows values."
+
+| # | Finding | Root cause | Fix |
+|---|---|---|---|
+| 1 | Port 1 shown `ON` with values while J1 is empty | A bench shortcut in `app_lcr.c` `lcr_uart()` routed **both** logical ports to USART2 (J2). "p1" was really the simulator's node 1 answering on the J2 wire. | Port 1 = USART1 (J1) and Port 2 = USART2 (J2), same code for both. The console now shows `p1 node1 off \| p2 node2 ON`. |
+| 2 | An empty port would block the loop about 1.4 s per second (6 fields × 2 tries × 120 ms) | Retries also applied to ports that were already offline | Offline ports get a single field #2 probe per cycle, as V2.89 does in the golden log. |
+| 3 | GetLcrNode scanned even with a live meter (`2,1` instead of `2,2` for the LCR.iQ) | Did not match V2.89 | If the port's meter is online, the box answers its node at once, with no scan (golden 19:04:15). The scan path keeps the trailing comma. |
+| 4 | After SetPortLcrNode / ModifyLcrNode, GetData could briefly serve the old meter's values under the new node | The port kept its online flag and values until the next poll | New `lcr_port_set_node()`: drops the old values and re-syncs immediately (Product ID with the sync bit, as V2.89 does). |
+| 5 | `SetPortLcrNode 2,2` was accepted | — | Refused, as in Leo's source: the same node on both ports makes node → port lookups ambiguous. |
+| 6 | Tester happy flow: `PresetGross 1 0` → `LxPresetGross 1` | My code took the first argument as the **port**. The tester and Leo's source treat it as the **meter node**, like Start/Stop. The two only agree while node == port. | PresetGross and PresetNet now take the node. |
+
+The docs survey (protocol Rev 1.86 docx, Leo's 2023 source, the golden capture) was used for every decision above.
+
+### Results (J1 empty, J2 → simulator)
+- `tools/product_suite.py`: **173/173**. Covers box functions; Port 1 empty; and for each product (LCR-II node 1, LCR.iQ node 2, each on J2): identity/settings, GetLcrNode, node change to 9 and back, presets, delivery, preset auto-stop, history, meter unplugged mid-delivery. Also a wrong node, BT rename and BoxReset.
+- `tools/tracker_suite.py` (adapted to the real wiring): **129/129**.
+- pandabox-tester `happy_flow.csv`, re-pointed to Port 2 (`--replace "SetPortLcrNode 1 2=>SetPortLcrNode 0 1"`, sent as text so the tester's files stay untouched): **59/63**. The 4 flags are the validator's `BOXSTATUS_NO_METER` for port 1, which is correct because J1 is empty.
+- PB-095/096 (double meter) now need a second meter on J1: NOT RUN.
