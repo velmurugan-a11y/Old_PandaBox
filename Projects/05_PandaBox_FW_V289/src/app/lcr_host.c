@@ -21,6 +21,7 @@ uint8_t lcr_trace = 0U;
 /* the two simulated meters: meter 1 (node 1) on port 1, meter 2 (node 2) on port 2 */
 static meter_t sim_meter[LCR_PORTS];
 static uint8_t msg_toggle[LCR_PORTS];
+static uint8_t msg_node[LCR_PORTS];     /* node the current message-id sequence belongs to */
 
 /* fields polled each cycle, in Leo's order */
 static const uint8_t poll_fields[6] = {2U, 4U, 17U, 18U, 100U, 101U};
@@ -97,21 +98,41 @@ static uint32_t lcr_transport(int port, const uint8_t *req, uint32_t n, uint8_t 
 }
 
 /* one request/response; returns response data length or -1 */
-static int lcr_xfer(int port, uint8_t to, const uint8_t *data, uint8_t len, lcp_frame_t *rsp)
+/* One request/response. Message-id rules (LCP spec p.3, p.9-10):
+ *  - a new request toggles the id; a RETRY of the same request keeps it, so a meter that did act on
+ *    the first copy (only its reply was lost) resends the reply instead of executing twice;
+ *  - the id sequence belongs to one meter: the first request to a different node (node scan, a
+ *    ModifyLcrNode to a wrong node, ...) carries the Sync bit, otherwise the next frame to the real
+ *    meter could repeat the id it saw last and get its cached reply without being executed. */
+static int lcr_xfer_ex(int port, uint8_t to, const uint8_t *data, uint8_t len, lcp_frame_t *rsp, int retry)
 {
     static uint8_t req[LCP_MAX_FRAME], raw[LCP_MAX_FRAME];
     uint32_t n, r;
     uint8_t st;
 
-    msg_toggle[port] ^= LCP_ST_MSGID;
+    if(!retry) {
+        msg_toggle[port] ^= LCP_ST_MSGID;
+    }
     st = msg_toggle[port];
+    if(to != msg_node[port]) {
+        msg_node[port] = to;
+        st |= LCP_ST_SYNC;
+    }
     n = lcp_build(req, to, LCP_HOST_NODE, st, data, len);
     r = lcr_transport(port, req, n, raw);
     if(r == 0U || !lcp_parse(raw, r, rsp) || !(rsp->status & LCP_ST_RESPONSE) ||
-       rsp->to != LCP_HOST_NODE || (rsp->status & LCP_ST_MSGID) != st) {
+       rsp->to != LCP_HOST_NODE || (rsp->status & LCP_ST_MSGID) != (st & LCP_ST_MSGID)) {
+        if(st & LCP_ST_SYNC) {
+            msg_node[port] = 0xFFU;     /* not heard: sync again next time */
+        }
         return -1;
     }
     return rsp->len;
+}
+
+static int lcr_xfer(int port, uint8_t to, const uint8_t *data, uint8_t len, lcp_frame_t *rsp)
+{
+    return lcr_xfer_ex(port, to, data, len, rsp, 0);
 }
 
 static int32_t be32(const uint8_t *p)
@@ -134,7 +155,9 @@ void lcr_host_init(void)
     for(p = 0; p < LCR_PORTS; p++) {
         lcr_port[p].last_cmd = MCMD_NONE;
         /* session start: Get Product ID with the sync bit (Leo: 7E 7E dd 14 02 01 00 ..) */
-        msg_toggle[p] = 1U;
+        msg_toggle[p] = 0U;
+        msg_node[p] = lcr_port[p].node;     /* sync frame = id 0; the next request toggles to id 1 (a repeat
+                                   id would get the meter's cached reply instead of an answer) */
         {
             static uint8_t req[16], raw[64];
             uint32_t n = lcp_build(req, lcr_port[p].node, LCP_HOST_NODE, LCP_ST_SYNC, &sync_req, 1U);
@@ -167,7 +190,8 @@ void lcr_port_set_node(int port, uint8_t node)
     if(node == 0U) {
         return;
     }
-    msg_toggle[port] = 1U;
+    msg_toggle[port] = 0U;      /* see lcr_host_init */
+    msg_node[port] = node;
     n = lcp_build(req, node, LCP_HOST_NODE, LCP_ST_SYNC, &sync_req, 1U);
     r = lcr_transport(port, req, n, raw);
     if(r && lcp_parse(raw, r, &f)) {
@@ -217,7 +241,7 @@ void lcr_host_poll_port(int p)
 
     do {
         lcr_port_t *lp = &lcr_port[p];
-        int ok = 1;
+        int ok = 1, busy = 0;
 
         if(lp->node == 0U) {
             lp->online = 0U;
@@ -231,13 +255,25 @@ void lcr_host_poll_port(int p)
             req[0] = 0x20U;
             req[1] = poll_fields[i];
             ok = 0;
-            for(tries = 0; tries < max_tries && !ok; tries++) {
-                if(lcr_xfer(p, lp->node, req, 2U, &f) == 6 && f.data[0] == 0U) {
+            for(tries = 0; tries < max_tries && !ok && !busy; tries++) {
+                int n = lcr_xfer(p, lp->node, req, 2U, &f);
+                if(n == 6 && f.data[0] == 0U) {
                     lp->dev_status = f.data[1];
                     lp->v[i] = be32(&f.data[2]);
                     ok = 1;
+                } else if(n >= 1 && f.data[0] == LCP_RC_QUEUED) {
+                    busy = 1;           /* rc 38: counter test / ticket printing, try next cycle */
                 }
             }
+        }
+        if(busy) {
+            /* a real LCR answers everything with rc 38 for ~7 s after a Start and ~5 s after an End
+               (golden capture): the meter is there, keep it online with its last values */
+            lp->miss = 0U;
+            lp->online = 1U;
+            lp->busy = 1U;
+            lp->busy_polls++;
+            continue;
         }
         if(!ok) {
             /* offline only after LCR_OFFLINE_POLLS failed polls in a row; until then keep the last
@@ -253,6 +289,7 @@ void lcr_host_poll_port(int p)
         }
         lp->miss = 0U;
         lp->online = 1U;
+        lp->busy = 0U;
         lp->polls_ok++;
         lp->serial++;
         lp->ts = app_time();
@@ -282,8 +319,11 @@ static int lcr_xfer_retry(int port, uint8_t to, const uint8_t *data, uint8_t len
 {
     int n = -1, i;
 
-    for(i = 0; i <= LCR_CMD_RETRIES && n < 2; i++) {
-        n = lcr_xfer(port, to, data, len, rsp);
+    for(i = 0; i <= LCR_CMD_RETRIES; i++) {
+        n = lcr_xfer_ex(port, to, data, len, rsp, i > 0);   /* retries keep the message id */
+        if(n >= 2 || (n == 1 && rsp->data[0] == LCP_RC_QUEUED)) {
+            break;              /* answered (rc 38 = queued/busy is an answer too) */
+        }
     }
     return n;
 }
@@ -293,7 +333,12 @@ int lcr_issue(int port, uint8_t cmd)
     lcp_frame_t f;
     uint8_t req[2] = {0x24U, cmd};
 
-    if(lcr_xfer_retry(port, lcr_port[port].node, req, 2U, &f) < 2) {
+    int n = lcr_xfer_retry(port, lcr_port[port].node, req, 2U, &f);
+
+    if(n == 1 && f.data[0] == LCP_RC_QUEUED) {
+        return LCP_RC_QUEUED;   /* Start from idle: the meter queued it and runs its counter test */
+    }
+    if(n < 2) {
         return -1;
     }
     lcr_port[port].dev_status = f.data[1];

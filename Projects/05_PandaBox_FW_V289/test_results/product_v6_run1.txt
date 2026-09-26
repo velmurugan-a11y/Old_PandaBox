@@ -1,4 +1,4 @@
-PASS BOX      SetBoxTime 1790447355                -> LxSetBoxTime 0 
+PASS BOX      SetBoxTime 1790446120                -> LxSetBoxTime 0 
 PASS BOX      SetMode 2                            -> LxSetMode 0 
 PASS BOX      SetRs485 0                           -> LxSetRs485 0 
 PASS BOX      SetRs485 1                           -> LxSetRs485 1 
@@ -18,7 +18,7 @@ PASS LCR-II   BoxStatus                            -> LxBoxStatus 2,0,0,1,0.0,S,
 PASS LCR-II   SwitchState 2                        -> LxSwitchState 1,Run 
 PASS LCR-II   RdMtrSetting 2                       -> LxRdMtrSetting 2,1,180,no,clear 
 PASS LCR-II   GetLcrNode 2,1,10                    -> LxFindLcrNode 2,1 
-PASS LCR-II   GetData 1 0                          -> LxGetData 1,1,7,1790447375,13.2,0.0,5121.9,0.0,5108.7,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetData 1 0                          -> LxGetData 1,1,139,1790446141,15.5,0.0,5015.5,0.0,5000.0,0.0,0.0,S,0.0,E 
 PASS LCR-II   PresetGross 1,0                      -> LxPresetGross 0 
 PASS LCR-II   ModifyLcrNode 2,1,9                  -> LxModifyLcrNode 0 
 PASS LCR-II   RdPortLcrNode                        -> LxRdPortLcrNode 0,9 
@@ -38,31 +38,31 @@ PASS LCR-II   DeleteAll 1                          -> LxDeleteAll 0
 PASS LCR-II   Start 1                              -> LxStart 0 
 PASS LCR-II   meter busy: counter test in progress (rc 38 to every poll) 
 PASS LCR-II   RdRegister                           -> LxRdRegister 0,1 
-PASS LCR-II   GetData 1 0 (delivery open, valve open, pulser not turning -> 0 flow) -> LxGetData 1,1,27,1790447400,0.0,0.0,5121.9,0.0,5121.9,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (delivery open, valve open, pulser not turning -> 0 flow) -> LxGetData 1,1,158,1790446165,0.0,0.0,5015.5,0.0,5015.5,0.0,0.0,S,0.0,E
 PASS LCR-II   #2 = 0 and #100 = totalizer at start 
 PASS LCR-II   SwitchState 2                        -> LxSwitchState 1,Run 
 PASS LCR-II   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Start,0 
-PASS LCR-II   GetData 1 0 (RUN PULSER -> product flows) -> LxGetData 1,1,32,1790447405,2.7,60.0,5124.7,0.0,5121.9,0.0,0.0,S,0.0,E
-PASS LCR-II   GetData 1 0 (still flowing) -> LxGetData 1,1,34,1790447407,4.7,60.0,5126.7,0.0,5121.9,0.0,0.0,S,0.0,E
-PASS LCR-II   gallons rising 2.7 -> 4.7, flow 60.0 
+PASS LCR-II   GetData 1 0 (RUN PULSER -> product flows) -> LxGetData 1,1,163,1790446170,2.4,60.0,5018.0,0.0,5015.5,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (still flowing) -> LxGetData 1,1,166,1790446173,5.4,60.0,5021.0,0.0,5015.5,0.0,0.0,S,0.0,E
+PASS LCR-II   gallons rising 2.4 -> 5.4, flow 60.0 
 PASS LCR-II   Pause 1                              -> LxPause 0 
 PASS LCR-II   meter paused (valve closed) 
-PASS LCR-II   GetData 1 0 (paused: no flow although the pump still runs) -> LxGetData 1,1,38,1790447411,6.2,0.0,5128.1,0.0,5121.9,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (paused: no flow although the pump still runs) -> LxGetData 1,1,169,1790446176,6.2,0.0,5021.7,0.0,5015.5,0.0,0.0,S,0.0,E
 PASS LCR-II   volume holds while paused 
 PASS LCR-II   Start 1                              -> LxStart 0 
-PASS LCR-II   GetData 1 0 (resumed) -> LxGetData 1,1,44,1790447417,9.0,60.0,5131.0,0.0,5121.9,0.0,0.0,S,0.0,E
-PASS LCR-II   GetData 1 0 (pulser stopped: delivery still open, 0 flow) -> LxGetData 1,1,47,1790447420,10.4,0.0,5132.3,0.0,5121.9,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (resumed) -> LxGetData 1,1,176,1790446183,9.8,60.0,5025.3,0.0,5015.5,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (pulser stopped: delivery still open, 0 flow) -> LxGetData 1,1,178,1790446185,10.5,0.0,5026.0,0.0,5015.5,0.0,0.0,S,0.0,E
 PASS LCR-II   delivery stays active with no flow (devStatus 0x01) 
 PASS LCR-II   Stop 1                               -> LxStop 0 
-PASS LCR-II   GetData 1 0 (ended) -> LxGetData 1,1,49,1790447427,10.4,0.0,5132.3,0.0,5121.9,0.0,0.0,S,0.0,E
-PASS LCR-II   ticket math 5121.9 + 10.4 = 5132.3 
+PASS LCR-II   GetData 1 0 (ended) -> LxGetData 1,1,180,1790446192,10.5,0.0,5026.0,0.0,5015.5,0.0,0.0,S,0.0,E
+PASS LCR-II   ticket math 5015.5 + 10.5 = 5026.0 
 PASS LCR-II   meter idle, delivery ticket printed (#23 +1) 
 PASS LCR-II   GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
-PASS LCR-II   HisDataTime 1                        -> LxHisDataTime 1,1790447399,1790447419, 
+PASS LCR-II   HisDataTime 1                        -> LxHisDataTime 1,1790446165,1790446184, 
 PASS LCR-II   BoxStorage 1                         -> LxBoxStorage 1,13,24768, records expected
-PASS LCR-II   GetData 1,1                          -> LxGetDataTs 1,0,3,1790447399,0.0,0.0,5121.9,0.0,5121.9,0.0,0.0,S,0.0,E 
-PASS LCR-II   GetDataEcho 3,0,1                    -> LxGetDataTs 1,0,4,1790447403,0.7,60.0,5122.7,0.0,5121.9,0.0,0.0,S,0.0,E 
-PASS LCR-II   GetDataTs 1,1790447390,1790447437    -> LxGetDataTs 1,1,1790447403,0.7,60.0,5122.7,0.0,5121.9,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790447404,1.7,60.0,51 records in range
+PASS LCR-II   GetData 1,1                          -> LxGetDataTs 1,0,23,1790446165,0.0,0.0,5015.5,0.0,5015.5,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetDataEcho 23,0,1                   -> LxGetDataTs 1,0,24,1790446168,0.4,60.0,5016.0,0.0,5015.5,0.0,0.0,S,0.0,E 
+PASS LCR-II   GetDataTs 1,1790446156,1790446202    -> LxGetDataTs 1,1,1790446168,0.4,60.0,5016.0,0.0,5015.5,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790446169,1.4,60.0,50 records in range
 PASS LCR-II   DeleteAll 1                          -> LxDeleteAll 0 
 PASS LCR-II   PresetGross 1,4.0                    -> LxPresetGross 0 
 PASS LCR-II   Start 1                              -> LxStart 0 
@@ -73,14 +73,14 @@ PASS LCR-II   preset Multiple: meter pauses at 3.0, delivery still open
 PASS LCR-II   Stop 1                               -> LxStop 0 
 PASS LCR-II   Start 1                              -> LxStart 0 
 PASS LCR-II   no-flow timer (4 s) ended the delivery (delStatus 0x0100) 
-PASS LCR-II   GetData 1 0 (after no-flow stop) -> LxGetData 1,1,78,1790447492,2.5,0.0,5141.8,0.0,5139.3,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (after no-flow stop) -> LxGetData 1,1,209,1790446257,2.5,0.0,5035.5,0.0,5033.0,0.0,0.0,S,0.0,E
 PASS LCR-II   Start 1                              -> LxStart 1 
 PASS LCR-II   Start 1                              -> LxStart 0 
 PASS LCR-II   RdRegister                           -> LxRdRegister 0,0 
 PASS LCR-II   GetData 1 0                          -> LxGetData Error, 
 PASS LCR-II   Stop 1                               -> LxStop 1 
 PASS LCR-II   RdRegister                           -> LxRdRegister 0,1 
-PASS LCR-II   GetData 1 0 (delivery kept running on the meter) -> LxGetData 1,1,87,1790447516,13.0,60.0,5155.0,0.0,5141.8,0.0,0.0,S,0.0,E
+PASS LCR-II   GetData 1 0 (delivery kept running on the meter) -> LxGetData 1,1,218,1790446281,13.0,60.0,5048.6,0.0,5035.5,0.0,0.0,S,0.0,E
 PASS LCR-II   Stop 1                               -> LxStop 0 
 PASS LCR.iQ   SetPortLcrNode 0,2                   -> LxSetPortLcrNode 0 
 PASS LCR.iQ   RdPortLcrNode                        -> LxRdPortLcrNode 0,2 
@@ -89,7 +89,7 @@ PASS LCR.iQ   BoxStatus                            -> LxBoxStatus 2,0,0,2,0.0,S,
 PASS LCR.iQ   SwitchState 2                        -> LxSwitchState 2,Run 
 PASS LCR.iQ   RdMtrSetting 2                       -> LxRdMtrSetting 2,2,180,no,clear 
 PASS LCR.iQ   GetLcrNode 2,1,10                    -> LxFindLcrNode 2,2 
-PASS LCR.iQ   GetData 2 0                          -> LxGetData 2,1,97,1790447531,13.6,0.0,49349.6,0.0,49336.0,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetData 2 0                          -> LxGetData 2,1,228,1790446296,0.0,0.0,49282.7,0.0,49282.7,0.0,0.0,S,0.0,E 
 PASS LCR.iQ   PresetGross 2,0                      -> LxPresetGross 0 
 PASS LCR.iQ   ModifyLcrNode 2,2,9                  -> LxModifyLcrNode 0 
 PASS LCR.iQ   RdPortLcrNode                        -> LxRdPortLcrNode 0,9 
@@ -99,7 +99,7 @@ PASS LCR.iQ   GetData 2 0                          -> LxGetData Error,
 PASS LCR.iQ   ModifyLcrNode 2,9,2                  -> LxModifyLcrNode 0 
 PASS LCR.iQ   ModifyLcrNode 2,77,5                 -> LxModifyLcrNode 1 
 PASS LCR.iQ   PresetGross 2,125.5                  -> LxPresetGross 0 
-PASS LCR.iQ   meter shows preset 125.5 (#5) 
+FAIL LCR.iQ   meter shows preset 125.5 (#5) <- preset not on meter
 PASS LCR.iQ   PresetGross 2,-1.0                   -> LxPresetGross 1 
 PASS LCR.iQ   PresetGross 7,10.0                   -> LxPresetGross 1 
 PASS LCR.iQ   PresetNet 2,10.0                     -> LxPresetNet 0 
@@ -109,31 +109,31 @@ PASS LCR.iQ   DeleteAll 2                          -> LxDeleteAll 0
 PASS LCR.iQ   Start 2                              -> LxStart 0 
 PASS LCR.iQ   meter busy: counter test in progress (rc 38 to every poll) 
 PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,1 
-PASS LCR.iQ   GetData 2 0 (delivery open, valve open, pulser not turning -> 0 flow) -> LxGetData 2,1,116,1790447555,0.0,0.0,49349.6,0.0,49349.6,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (delivery open, valve open, pulser not turning -> 0 flow) -> LxGetData 2,1,247,1790446320,0.0,0.0,49282.7,0.0,49282.7,0.0,0.0,S,0.0,E
 PASS LCR.iQ   #2 = 0 and #100 = totalizer at start 
 PASS LCR.iQ   SwitchState 2                        -> LxSwitchState 2,Run 
 PASS LCR.iQ   GetLastMtrCmd 2                      -> LxGetLastMtrCmd 2,Start,0 
-PASS LCR.iQ   GetData 2 0 (RUN PULSER -> product flows) -> LxGetData 2,1,121,1790447560,2.9,60.0,49352.6,0.0,49349.6,0.0,0.0,S,0.0,E
-PASS LCR.iQ   GetData 2 0 (still flowing) -> LxGetData 2,1,123,1790447562,4.9,60.0,49354.6,0.0,49349.6,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (RUN PULSER -> product flows) -> LxGetData 2,1,252,1790446325,2.9,60.0,49285.7,0.0,49282.7,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (still flowing) -> LxGetData 2,1,254,1790446327,4.9,60.0,49287.7,0.0,49282.7,0.0,0.0,S,0.0,E
 PASS LCR.iQ   gallons rising 2.9 -> 4.9, flow 60.0 
 PASS LCR.iQ   Pause 2                              -> LxPause 0 
 PASS LCR.iQ   meter paused (valve closed) 
-PASS LCR.iQ   GetData 2 0 (paused: no flow although the pump still runs) -> LxGetData 2,1,127,1790447566,6.2,0.0,49355.9,0.0,49349.6,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (paused: no flow although the pump still runs) -> LxGetData 2,1,2,1790446331,6.2,0.0,49288.9,0.0,49282.7,0.0,0.0,S,0.0,E
 PASS LCR.iQ   volume holds while paused 
 PASS LCR.iQ   Start 2                              -> LxStart 0 
-PASS LCR.iQ   GetData 2 0 (resumed) -> LxGetData 2,1,133,1790447572,9.1,60.0,49358.7,0.0,49349.6,0.0,0.0,S,0.0,E
-PASS LCR.iQ   GetData 2 0 (pulser stopped: delivery still open, 0 flow) -> LxGetData 2,1,136,1790447575,10.4,0.0,49360.1,0.0,49349.6,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (resumed) -> LxGetData 2,1,8,1790446337,9.1,60.0,49291.8,0.0,49282.7,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (pulser stopped: delivery still open, 0 flow) -> LxGetData 2,1,11,1790446340,10.4,0.0,49293.1,0.0,49282.7,0.0,0.0,S,0.0,E
 PASS LCR.iQ   delivery stays active with no flow (devStatus 0x01) 
 PASS LCR.iQ   Stop 2                               -> LxStop 0 
-PASS LCR.iQ   GetData 2 0 (ended) -> LxGetData 2,1,138,1790447582,10.4,0.0,49360.1,0.0,49349.6,0.0,0.0,S,0.0,E
-PASS LCR.iQ   ticket math 49349.6 + 10.4 = 49360.1 
+PASS LCR.iQ   GetData 2 0 (ended) -> LxGetData 2,1,13,1790446347,10.4,0.0,49293.1,0.0,49282.7,0.0,0.0,S,0.0,E
+PASS LCR.iQ   ticket math 49282.7 + 10.4 = 49293.1 
 PASS LCR.iQ   meter idle, delivery ticket printed (#23 +1) 
 PASS LCR.iQ   GetLastMtrCmd 2                      -> LxGetLastMtrCmd 2,Stop,0 
-PASS LCR.iQ   HisDataTime 2                        -> LxHisDataTime 2,1790447554,1790447574, 
-PASS LCR.iQ   BoxStorage 2                         -> LxBoxStorage 2,13,24768, records expected
-PASS LCR.iQ   GetData 2,1                          -> LxGetDataTs 2,0,38,1790447554,0.0,0.0,49349.6,0.0,49349.6,0.0,0.0,S,0.0,E 
-PASS LCR.iQ   GetDataEcho 38,0,1                   -> LxGetDataTs 2,0,39,1790447558,0.9,60.0,49350.6,0.0,49349.6,0.0,0.0,S,0.0,E 
-PASS LCR.iQ   GetDataTs 2,1790447544,1790447591    -> LxGetDataTs 2,1,1790447558,0.9,60.0,49350.6,0.0,49349.6,0.0,0.0,S,0.0,E | LxGetDataTs 2,2,1790447559,1.9,60.0, records in range
+PASS LCR.iQ   HisDataTime 2                        -> LxHisDataTime 2,1790446323,1790446339, 
+PASS LCR.iQ   BoxStorage 2                         -> LxBoxStorage 2,12,24832, records expected
+PASS LCR.iQ   GetData 2,1                          -> LxGetDataTs 2,0,59,1790446323,0.9,60.0,49283.7,0.0,49282.7,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetDataEcho 59,0,1                   -> LxGetDataTs 2,0,60,1790446324,1.9,60.0,49284.7,0.0,49282.7,0.0,0.0,S,0.0,E 
+PASS LCR.iQ   GetDataTs 2,1790446310,1790446357    -> LxGetDataTs 2,1,1790446324,1.9,60.0,49284.7,0.0,49282.7,0.0,0.0,S,0.0,E | LxGetDataTs 2,2,1790446325,2.9,60.0, records in range
 PASS LCR.iQ   DeleteAll 2                          -> LxDeleteAll 0 
 PASS LCR.iQ   PresetGross 2,4.0                    -> LxPresetGross 0 
 PASS LCR.iQ   Start 2                              -> LxStart 0 
@@ -144,17 +144,17 @@ PASS LCR.iQ   preset Multiple: meter pauses at 3.0, delivery still open
 PASS LCR.iQ   Stop 2                               -> LxStop 0 
 PASS LCR.iQ   Start 2                              -> LxStart 0 
 PASS LCR.iQ   no-flow timer (4 s) ended the delivery (delStatus 0x0100) 
-PASS LCR.iQ   GetData 2 0 (after no-flow stop) -> LxGetData 2,1,166,1790447647,2.5,0.0,49369.6,0.0,49367.1,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (after no-flow stop) -> LxGetData 2,1,43,1790446413,2.4,0.0,49302.6,0.0,49300.1,0.0,0.0,S,0.0,E
 PASS LCR.iQ   Start 2                              -> LxStart 1 
 PASS LCR.iQ   Start 2                              -> LxStart 0 
 PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,0 
 PASS LCR.iQ   GetData 2 0                          -> LxGetData Error, 
 PASS LCR.iQ   Stop 2                               -> LxStop 1 
 PASS LCR.iQ   RdRegister                           -> LxRdRegister 0,1 
-PASS LCR.iQ   GetData 2 0 (delivery kept running on the meter) -> LxGetData 2,1,175,1790447670,13.0,60.0,49382.6,0.0,49369.6,0.0,0.0,S,0.0,E
+PASS LCR.iQ   GetData 2 0 (delivery kept running on the meter) -> LxGetData 2,1,51,1790446435,12.0,60.0,49314.7,0.0,49302.6,0.0,0.0,S,0.0,E
 PASS LCR.iQ   Stop 2                               -> LxStop 0 
 PASS WRONGNODE SetPortLcrNode 0,7                   -> LxSetPortLcrNode 0 
 PASS WRONGNODE RdRegister                           -> LxRdRegister 0,0 
 PASS WRONGNODE Start 7                              -> LxStart 1 
 
-158/158 checks passed
+667/158 checks passed

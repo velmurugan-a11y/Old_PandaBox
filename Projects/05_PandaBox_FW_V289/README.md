@@ -56,9 +56,9 @@ PC pandabox-tester (BLE) → PandaBox `bench` → RS232 Port 2 (J2, USART2) → 
 
 | Check | Result |
 |---|---|
-| `tools/product_suite.py`: product-wise (LCR-II, LCR.iQ), node change, presets, delivery, history, Port 1 empty | **173/173** |
+| `tools/product_suite.py` vs LCR simulator v6 (real-meter model: rc 38 busy, manual pulser): LCR-II + LCR.iQ, node change, presets (Clear/Multiple), delivery, no-flow timer, ticket gating, history, unplug | **158/158** |
 | `tools/tracker_suite.py`: every automatable case of `PandaBox_Command_Test_Tracker.xlsx` | **129/129** |
-| pandabox-tester `happy_flow.csv` re-pointed to Port 2 | 59/63 (4 = `BOXSTATUS_NO_METER`: J1 empty, correct) |
+| pandabox-tester `happy_flow.csv` re-pointed to Port 2 | 55/63: 4 × `BOXSTATUS_NO_METER` (J1 empty) + 4 commands the meter dropped while busy printing the ticket that the tester's hidden `Stop` triggers (real-meter behaviour) |
 | Start/Stop stress | 40/40 cycles |
 | LCP link health (J-Link `lcr_port[].polls_ok/polls_fail`) | 294 polls per port, 0 failures |
 | Delivery math | final #17 = initial #100 + gross #2, exact to 0.1 gal; preset stops on the preset |
@@ -77,6 +77,8 @@ python tools/tracker_suite.py --out test_results/run.json
 python tools/product_suite.py --out test_results/product.json
 python tools/run_happy.py happy_flow.csv --replace "SetPortLcrNode 1 2=>SetPortLcrNode 0 1"
 ```
+
+RS485 is disabled for now (`LCR_RS485_ENABLE 0`). The box handles the real meter's rc 38 busy windows.
 
 Still open: EC25 on a live SIM (4G/TCP, GNSS fix), OTA (M7–M10), a real LCR meter on the wire, and the
 phone-app flows (PB-089…PB-125).

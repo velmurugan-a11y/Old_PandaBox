@@ -73,3 +73,16 @@ This log covers the V2.89-compatible firmware rebuild (`Projects/05_PandaBox_FW_
 ## Not in the repo
 - **LCR simulator source:** it lives in `C:\GD32\LCR Meter\...\lcr-meter-simulator_5`, edited in place at the user's request. Copying it into this public repo was blocked.
 - **Full raw chat transcript:** generating it from the session files for the public repo was blocked. The activity notes and this log cover the actions and changes.
+
+## 2026-09-26 / 27 (night): real-meter LCR simulator v6, RS485 disabled, busy-aware firmware
+| # | Action | Change | Result |
+|---|---|---|---|
+| 29 | User: the simulator doesn't behave like a real meter, gets stuck, and live data doesn't update | Two research passes: the LCP spec (Rev L, 62 pp., checked against all 19,303 frames of Leo's real SR260 capture) and the LCR-II / 600 / iQ manuals | reference docs for the rebuild |
+| 30 | Built **LCR simulator v6** (`C:\GD32\LCR Meter\...\lcr-meter-simulator_6`; not in this repo, and `_5` left untouched) | One meter per COM port (model + node from the page); full field table and access levels; rc 38 busy windows; duplicate message-IDs cached; valve + manual RUN PULSER; presets, no-flow timer, tickets, shift, LCR-II switch, iQ soft keys and settings; persistence; new web UI; `test_meter.py` | 68/68 offline checks |
+| 31 | Firmware: RS485 disabled (user) | `LCR_RS485_ENABLE 0`: ports stay RS232; `SetRs485 1` → `LxSetRs485 1` | — |
+| 32 | RCA: a real meter answers rc 38 for ~7 s after Start and ~5 s after End; the box marked it offline | `lcr_host.c`: an rc 38 poll means busy → meter stays online and keeps its last values | GetData stays valid during the counter test |
+| 33 | RCA: a queued Start (rc 38) was reported `LxStart 1` | rc 38 = success only for a Start to a meter that wasn't busy. Commands sent while the meter is busy are dropped by the meter, so the box reports `1` (V2.89 wrongly said 0) | — |
+| 34 | RCA: after a sync, the first request reused the sync's message-ID; a frame to another node (scan, wrong ModifyLcrNode) broke the ID sequence, so the meter answered a later PresetGross from its cache without applying it | `lcr_xfer_ex()`: the first frame to a new node carries Sync; retries keep the same ID (no double execution); a fresh ID after each sync | preset lands on the meter |
+| 35 | Validation (J1 empty, J2 → simulator v6) | `product_suite.py` rewritten for the real-meter model: drives the pulser, waits out busy windows; adds Multiple preset, no-flow timer, ticket gating | **158/158** (LCR-II + LCR.iQ) |
+| 36 | Tracker suite adapted (pulser, busy, RS485 disabled) | `tracker_suite.py` | 129/129 (PB-060 expectation corrected) |
+| 37 | Tester happy flow (Port 2 variant) | — | 55/63: 4 × "no meter on port 1" (J1 empty, correct) + 4 commands the meter dropped. The tester's hidden `Stop` before every GetData ends the delivery and the meter is busy printing the ticket, so the next Pause/Start/Preset gets rc 38 — same as a real SR260 |

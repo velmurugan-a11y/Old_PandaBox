@@ -34,7 +34,7 @@ def run(case_id, command, check, note="", wait=0.0):
         why = "" if ok else f"expected /{check}/"
     if "error" in r:
         ok, why = False, r["error"][:120]
-    results.append({"id": case_id, "command": command, "response": lines, "ok": ok, "why": why,
+    results.append({"id": case_id, "command": command, "response": lines, "ok": bool(ok), "why": why,
                     "note": note, "ms": r.get("elapsed_ms"), "tester_issues": r.get("issues")})
     print(f"{'PASS' if ok else 'FAIL'} {case_id:8s} {command:36s} -> {' | '.join(lines)[:110]} {why}")
     if wait:
@@ -45,10 +45,26 @@ def run(case_id, command, check, note="", wait=0.0):
 def sim(path, body=None):
     """LCR simulator control (:5000)."""
     import urllib.request
-    req = urllib.request.Request("http://127.0.0.1:5000" + path, data=json.dumps(body or {}).encode(),
+    req = urllib.request.Request("http://127.0.0.1:5000" + path, data=None if body is None else json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=10) as r:
         return json.load(r)
+
+
+def pump(on, rate=None):
+    """RUN PULSER on the simulator (product flows only while the delivery's valve is open)."""
+    b = {"run": on}
+    if rate is not None:
+        b["rate"] = rate
+    sim("/api/pulser", b)
+
+
+def wait_busy(timeout=15):
+    """Wait out the meter's busy window (counter test after Start / ticket after End)."""
+    t0 = time.time()
+    while time.time() - t0 < timeout and sim("/api/state")["busy"]:
+        time.sleep(0.3)
+    time.sleep(1.3)
 
 
 def getdata(node):
@@ -64,7 +80,7 @@ def getdata(node):
 def check_live(case_id, node, want_flow, note):
     d = getdata(node)
     ok = "flow" in d and ((d["flow"] > 0) if want_flow else (d["flow"] == 0))
-    results.append({"id": case_id, "command": f"GetData {node} 0", "response": [d["line"]], "ok": ok,
+    results.append({"id": case_id, "command": f"GetData {node} 0", "response": [d["line"]], "ok": bool(ok),
                     "why": "" if ok else f"flow {'>0' if want_flow else '==0'} expected", "note": note})
     print(f"{'PASS' if ok else 'FAIL'} {case_id:8s} GetData {node} 0 ({note}) -> {d['line']}")
     return d
@@ -75,6 +91,10 @@ def main():
     now = int(time.time())
 
     # ---- setup: known state ----
+    sim("/api/model", {"model": "lcr2", "node": 1})
+    sim("/api/settings", {"busy_emulation": 1, "f25": 180, "f27": 0, "f37": 1})
+    sim("/api/printer", {"online": True})
+    pump(False, 60)
     run("SETUP", f"SetBoxTime {now}", r"^LxSetBoxTime 0")
     run("SETUP", "SetMode 2", r"^LxSetMode 0")
     run("SETUP", "SetRs485 0", r"^LxSetRs485 0")
@@ -116,7 +136,7 @@ def main():
     run("SETUP", "SetMode 2", r"^LxSetMode 0$")
 
     # ---- RS485 / RS232 switch: the Port 2 link must drop on RS485 and come back on RS232 ----
-    run("PB-044", "SetRs485 1", r"^LxSetRs485 0$", wait=3.0)
+    run("PB-044", "SetRs485 1", r"^LxSetRs485 1$", note="RS485 disabled in this firmware (user decision)", wait=3.0)
     run("PB-044", "RdRegister", r"^LxRdRegister [01],[01]",
         note="info: PE5 off / PE6 on is verified on the pins; this bench's RS232 chip still passes data")
     run("PB-045", "SetRs485 0", r"^LxSetRs485 0$", wait=3.0)
@@ -126,7 +146,7 @@ def main():
     # ---- ports / nodes ----
     run("PB-057", "SetPortLcrNode 1,2", r"^LxSetPortLcrNode 0$", wait=2.0)
     run("PB-060", "RdPortLcrNode", r"^LxRdPortLcrNode 1,2$")
-    run("PB-060", "RdRegister", r"^LxRdRegister 0,1$", note="J1 empty; the simulator's LCR.iQ answers node 2 on J2")
+    run("PB-060", "RdRegister", r"^LxRdRegister 0,0$", note="J1 empty; the one meter on J2 is node 1, not 2")
     run("PB-058", "SetPortLcrNode 1,0", r"^LxSetPortLcrNode 0$", wait=2.0)
     run("PB-061", "RdPortLcrNode", r"^LxRdPortLcrNode 1,0$")
     run("PB-074", "RdRegister", r"^LxRdRegister 0,0", note="J1 empty, port 2 unassigned")
@@ -183,7 +203,10 @@ def main():
     run("PB-052", "Pause 1", r"^LxPause 0$",
         note="V2.89 + real LCR: Pause with no delivery open is accepted (rc 0, devSt 0x21 in the golden "
              "capture); the tracker's LxPause 1 is the V3.01 firmware guard")
-    run("PB-047", "Start 1", r"^LxStart 0$", wait=4.0)
+    run("PB-047", "Start 1", r"^LxStart 0$", note="meter queues it (rc 38) and runs its counter test")
+    wait_busy()
+    pump(True, 60)                          # truck pump / RUN PULSER
+    time.sleep(3.0)
     run("PB-084", "GetLastMtrCmd 1", r"^LxGetLastMtrCmd 1,Start,0$")
     run("PB-075", "SwitchState 2", r"^LxSwitchState 1,Run$", note="delivery open")
     d1 = check_live("PB-012", 1, True, "flowing after Start")
@@ -191,23 +214,25 @@ def main():
     d2 = check_live("PB-099", 1, True, "gross and totalizer rising")
     ok = "gross" in d1 and "gross" in d2 and d2["gross"] > d1["gross"] and d2["total"] > d1["total"]
     results.append({"id": "PB-099", "command": "GetData 1 0 x2", "response": [d1.get("line"), d2.get("line")],
-                    "ok": ok, "why": "" if ok else "gross/total not increasing", "note": "volume accrues"})
+                    "ok": bool(ok), "why": "" if ok else "gross/total not increasing", "note": "volume accrues"})
     print(f"{'PASS' if ok else 'FAIL'} PB-099   gross {d1.get('gross')} -> {d2.get('gross')}, total {d1.get('total')} -> {d2.get('total')}")
     run("PB-051", "Pause 1", r"^LxPause 0$", wait=2.5)
     p1 = check_live("PB-051", 1, False, "paused: flow 0")
     time.sleep(1.5)
     p2 = getdata(1)
     ok = p1.get("gross") == p2.get("gross")
-    results.append({"id": "PB-101", "command": "GetData 1 0 (paused)", "response": [p2.get("line")], "ok": ok,
+    results.append({"id": "PB-101", "command": "GetData 1 0 (paused)", "response": [p2.get("line")], "ok": bool(ok),
                     "why": "" if ok else "gross moved while paused", "note": "no volume while paused"})
     print(f"{'PASS' if ok else 'FAIL'} PB-101   paused gross {p1.get('gross')} == {p2.get('gross')}")
     run("PB-047", "Start 1", r"^LxStart 0$", note="resume", wait=3.0)
     check_live("PB-047", 1, True, "flowing again after resume")
-    run("PB-054", "Stop 1", r"^LxStop 0$", wait=2.5)
+    run("PB-054", "Stop 1", r"^LxStop 0$")
+    pump(False)
+    wait_busy()                             # meter prints the ticket (rc 38 ~5 s)
     end = check_live("PB-054", 1, False, "stopped: flow 0")
     ok = ("total" in end and "total" in before and
           abs(end["total"] - (before["total"] + end["gross"])) < 0.25 and end["initial"] == before["total"])
-    results.append({"id": "PB-054", "command": "GetData 1 0 (final)", "response": [end.get("line")], "ok": ok,
+    results.append({"id": "PB-054", "command": "GetData 1 0 (final)", "response": [end.get("line")], "ok": bool(ok),
                     "why": "" if ok else "final total != initial + gross", "note": "ticket math"})
     print(f"{'PASS' if ok else 'FAIL'} PB-054   initial {before.get('total')} + gross {end.get('gross')} = total {end.get('total')}")
     run("PB-084", "GetLastMtrCmd 1", r"^LxGetLastMtrCmd 1,Stop,0$")
@@ -227,10 +252,15 @@ def main():
 
     # ---- preset delivery: auto stop at 5.0 gal ----
     run("PB-108", "PresetGross 1,5.0", r"^LxPresetGross 0$")
-    run("PB-108", "Start 1", r"^LxStart 0$", wait=9.0)
+    run("PB-108", "Start 1", r"^LxStart 0$")
+    wait_busy()
+    pump(True, 120)
+    time.sleep(4.0)
+    pump(False)
+    wait_busy()
     d = getdata(1)
     ok = d.get("gross") == 5.0 and d.get("flow") == 0.0
-    results.append({"id": "PB-108", "command": "GetData 1 0", "response": [d.get("line")], "ok": ok,
+    results.append({"id": "PB-108", "command": "GetData 1 0", "response": [d.get("line")], "ok": bool(ok),
                     "why": "" if ok else "expected gross 5.0, flow 0 (stopped at preset)", "note": "preset reached"})
     print(f"{'PASS' if ok else 'FAIL'} PB-108   preset stop -> {d.get('line')}")
     run("SETUP", "Stop 1", None)
@@ -239,18 +269,23 @@ def main():
     # PB-095 double meter needs a second meter on J1 (bench has one adapter, on J2)
 
     # ---- meter cable pulled during a delivery (PB-106 / PB-098): stop the simulator's serial link ----
-    run("PB-106", "Start 1", r"^LxStart 0$", wait=2.0)
-    sim("/api/serial/stop")
+    run("PB-106", "Start 1", r"^LxStart 0$")
+    wait_busy()
+    pump(True, 60)
+    time.sleep(1.5)
+    sim("/api/serial/disconnect", {})
     time.sleep(4.5)                                  # > LCR_OFFLINE_POLLS failed 1 s polls
     run("PB-106", "RdRegister", r"^LxRdRegister 0,0$", note="meter offline")
     run("PB-106", "GetData 1 0", r"^LxGetData Error,", note="no live data from an offline meter")
     run("PB-106", "Stop 1", r"^LxStop 1$", note="command not delivered")
     run("PB-106", "BoxStatus", r"^LxBoxStatus 2,", note="box still answers the app")
-    sim("/api/serial/start", {"product_key": "lcr2"})
+    sim("/api/serial/connect", {"port": "COM7", "baud": 19200})
     time.sleep(3.0)
     run("PB-106", "RdRegister", r"^LxRdRegister 0,1$", note="meter back online after reconnect")
     d = check_live("PB-106", 1, True, "delivery kept running on the meter while unplugged")
-    run("PB-106", "Stop 1", r"^LxStop 0$", wait=2.0)
+    pump(False)
+    run("PB-106", "Stop 1", r"^LxStop 0$")
+    wait_busy()
 
     # ---- BT rename, then reset (both drop / change the link) ----
     run("PB-023", "SetBtName PandaBox1", r"^LxSetBtName 0$", wait=2.0)
@@ -258,7 +293,7 @@ def main():
     run("SETUP", "SetBtName PandaBrain", r"^LxSetBtName 0$", wait=2.0)
     run("PB-041", "BoxReset", r"^LxBoxReset 0$", wait=8.0)
     ok = connect()
-    results.append({"id": "PB-041", "command": "reconnect after BoxReset", "response": [], "ok": ok,
+    results.append({"id": "PB-041", "command": "reconnect after BoxReset", "response": [], "ok": bool(ok),
                     "why": "" if ok else "no reconnect", "note": "box rebooted and advertises again"})
     print(f"{'PASS' if ok else 'FAIL'} PB-041   reconnect after reset")
     if ok:

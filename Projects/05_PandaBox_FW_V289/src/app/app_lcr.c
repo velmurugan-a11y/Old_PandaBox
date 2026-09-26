@@ -35,8 +35,17 @@ static uint8_t s_rs485;     /* SetRs485: 0 = RS232 transceivers (U504), 1 = RS48
 
 /* Switch the LCR ports between RS232 and RS485. Never power both (they fight on the RX pins); for
  * RS485 the direction pins go to receive (high) before the transceivers are powered. */
+/* RS485 is disabled for now (user decision 2026-09-26): the LCR ports always run RS232 and the RS485
+ * transceivers stay off. Build with -DLCR_RS485_ENABLE=1 to bring the switching back. */
+#ifndef LCR_RS485_ENABLE
+#define LCR_RS485_ENABLE 0
+#endif
+
 void lcr_set_rs485(uint8_t on)
 {
+#if !LCR_RS485_ENABLE
+    on = 0U;
+#endif
     s_rs485 = on ? 1U : 0U;
     HAL_GpioSet(E_HAL_GPIO_RS485_DIR1);
     HAL_GpioSet(E_HAL_GPIO_RS485_DIR2);

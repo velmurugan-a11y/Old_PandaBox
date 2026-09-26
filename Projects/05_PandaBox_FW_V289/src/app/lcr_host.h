@@ -10,6 +10,7 @@
 
 #define LCR_PORTS       2
 #define HIST_CAP        400     /* records per port, RAM only (external flash left untouched) */
+#define LCP_RC_QUEUED   38      /* meter reply: request queued / busy (counter test, ticket) */
 #define LCR_OFFLINE_POLLS 3     /* failed 1 s polls in a row before a meter is reported offline */
 
 typedef enum { MCMD_NONE = 0, MCMD_START, MCMD_STOP, MCMD_PAUSE, MCMD_PRINT } mcmd_t;
@@ -32,6 +33,8 @@ typedef struct {
     uint8_t  last_cmd_rc;
     uint32_t polls_ok, polls_fail;
     uint8_t  miss;              /* consecutive failed polls */
+    uint32_t busy_polls;        /* cycles answered with rc 38 (meter busy) */
+    uint8_t  busy;              /* last poll found the meter busy (counter test / ticket) */
     /* history ring */
     hist_rec_t hist[HIST_CAP];
     uint16_t hist_head, hist_count;

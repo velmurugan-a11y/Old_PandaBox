@@ -17,6 +17,10 @@
 #include "lcr_host.h"
 #include "app_compat.h"
 
+#ifndef LCR_RS485_ENABLE
+#define LCR_RS485_ENABLE 0          /* keep in step with app_lcr.c */
+#endif
+
 /* ------------------------------------------------------------------ box configuration (RAM) */
 
 static struct {
@@ -241,13 +245,21 @@ static void meter_command(const char *name, uint8_t lcp_cmd, mcmd_t kind, reply_
     int rc = -1;
 
     if(port >= 0 && cfg.mode != 1U) {
+        int was_busy = lcr_port[port].busy;
         rc = lcr_issue(port, lcp_cmd);
+        /* rc 38 is only a success for a Start to a meter that was not busy (queued behind its counter
+           test). While a meter is busy it answers rc 38 to everything and executes nothing (golden
+           capture: a Stop during the counter test was dropped) -> report 1 so the App retries. */
+        if(rc == LCP_RC_QUEUED && (lcp_cmd != 0U || was_busy)) {
+            rc = 1;
+        }
         lcr_port[port].last_cmd = kind;
-        lcr_port[port].last_cmd_rc = (uint8_t)((rc == 0) ? 0 : 1);
+        lcr_port[port].last_cmd_rc = (uint8_t)((rc == 0 || rc == LCP_RC_QUEUED) ? 0 : 1);
     }
     /* 0 = the meter accepted it (LCP rc 0); 1 = unknown node, no answer, or refused by the meter
-       (e.g. Pause with no delivery running -> rc 120, Start with a required ticket pending -> 121) */
-    sprintf(o, "Lx%s %d", name, (rc == 0) ? 0 : 1);
+       (e.g. Start with a required ticket pending -> 121). rc 38 = queued: a real LCR answers a Start
+       from idle with rc 38 and starts after its ~4 s counter test, so that is a success. */
+    sprintf(o, "Lx%s %d", name, (rc == 0 || rc == LCP_RC_QUEUED) ? 0 : 1);
     out(o);
 }
 
@@ -295,7 +307,8 @@ void proto_handle(const char *line, reply_fn_t out)
         out((n >= 1 && n <= 3) ? "LxSetMode 0" : "LxSetMode 1");
     } else if(ci_eq(name, "SetRs485")) {
         /* 1 = RS485 transceivers (PE6), 0 = RS232 (PE5); anything else is refused */
-        if(argc_ >= 1 && valid_num(arg_s(0), 0, 1)) {
+        /* RS485 disabled for now (see app_lcr.c LCR_RS485_ENABLE): only 0 = RS232 is accepted */
+        if(argc_ >= 1 && valid_num(arg_s(0), 0, LCR_RS485_ENABLE ? 1 : 0)) {
             cfg.rs485 = (uint8_t)arg_l(0, 0);
             lcr_set_rs485(cfg.rs485);
             out("LxSetRs485 0");
