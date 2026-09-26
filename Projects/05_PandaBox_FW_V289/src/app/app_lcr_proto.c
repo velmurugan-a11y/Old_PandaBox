@@ -353,8 +353,8 @@ void proto_handle(const char *line, reply_fn_t out)
             out("LxSetBtName 1");
         }
     } else if(ci_eq(name, "SetBtPwd")) {
-        copy_str(cfg.bt_pwd, sizeof(cfg.bt_pwd), arg_s(0));
-        out(argc_ ? "LxSetBtPwd 0" : "LxSetBtPwd 1");
+        /* BT pairing PIN: 1..4 characters (tracker: 12345 -> 1) */
+        out(set_str(cfg.bt_pwd, sizeof(cfg.bt_pwd), 4U) ? "LxSetBtPwd 0" : "LxSetBtPwd 1");
     } else if(ci_eq(name, "SetWifiName")) {
         out(set_str(cfg.wifi_name, sizeof(cfg.wifi_name), 16U) ? "LxSetWifiName 0" : "LxSetWifiName 1");
     } else if(ci_eq(name, "SetWifiPwd")) {
@@ -457,7 +457,14 @@ void proto_handle(const char *line, reply_fn_t out)
     } else if(ci_eq(name, "Start")) {
         meter_command("Start", 0U, MCMD_START, out);
     } else if(ci_eq(name, "Resume")) {
-        meter_command("Resume", 0U, MCMD_START, out);
+        /* Resume (TCS wording) only continues a PAUSED delivery; on an idle meter it would otherwise
+           start a new delivery (LCP Cmd 0) -> refuse unless the meter reports state STOP (0x10) */
+        port = lcr_port_of_node((uint8_t)arg_l(0, 0));
+        if(port >= 0 && lcr_port[port].online && (lcr_port[port].dev_status & 0x70U) == 0x10U) {
+            meter_command("Resume", 0U, MCMD_START, out);
+        } else {
+            out("LxResume 1");
+        }
     } else if(ci_eq(name, "Pause")) {
         meter_command("Pause", 1U, MCMD_PAUSE, out);
     } else if(ci_eq(name, "Stop")) {
@@ -471,7 +478,7 @@ void proto_handle(const char *line, reply_fn_t out)
            "to" byte, and the tester's sequences use it that way); the protocol text says "port",
            which only agrees while node == port */
         port = lcr_port_of_node((uint8_t)arg_l(0, 0));
-        if(port >= 0 && argc_ >= 2) {
+        if(port >= 0 && argc_ == 2) {           /* 3 arguments = TCS form (node,productId,qty): not an LCR */
             int32_t t = parse_tenths(arg_s(1));
             rc = is_net ? lcr_set_net_preset(port, t) : lcr_set_preset(port, t);
         }
@@ -521,9 +528,14 @@ void proto_handle(const char *line, reply_fn_t out)
         if(hist_port >= 0) {
             const hist_rec_t *h = hist_get(hist_port, 0U);
             uint8_t node = lcr_port[hist_port].node;
-            if(h && arg_l(1, 0) == 0 && h->serial == (uint8_t)arg_l(0, -1)) {
-                hist_drop_oldest(hist_port);    /* acknowledged -> deleted */
+            if(!h || arg_l(1, 0) != 0 || h->serial != (uint8_t)arg_l(0, -1)) {
+                /* failure flag or wrong sequence number: the upload stops (protocol 1.86 1.4) */
+                sprintf(o, "LxGetDataTs %u,", node);
+                hist_port = -1;
+                out(o);
+                return;
             }
+            hist_drop_oldest(hist_port);        /* acknowledged -> deleted, send the next one */
             h = hist_get(hist_port, 0U);
             if(h) {
                 data_line(o, "LxGetDataTs", node, 0, h->serial, h->ts, h->v);
@@ -567,6 +579,10 @@ void proto_handle(const char *line, reply_fn_t out)
     } else if(ci_eq(name, "BoxStorage")) {
         n = arg_l(0, 0);
         port = lcr_port_of_node((uint8_t)n);
+        if(n <= 0) {
+            out("LxBoxStorage 1");              /* invalid meter number (tracker: BoxStorage 0) */
+            return;
+        }
         {
             uint16_t cnt = (port >= 0) ? hist_count(port) : 0U;
             sprintf(o, "LxBoxStorage %ld,%u,%lu,", n, cnt, (unsigned long)(HIST_CAP - cnt) * 64UL);
@@ -579,6 +595,8 @@ void proto_handle(const char *line, reply_fn_t out)
             hist_clear(port);
         }
         out((port >= 0) ? "LxDeleteAll 0" : "LxDeleteAll 1");
+    } else if(ci_eq(name, "Update")) {
+        out("LxUpdate 1");                      /* OTA (APP<n>,<len>,<sum> / Imei) not implemented yet (M10) */
     } else if(ci_eq(name, "DirectDelivery")) {
         out("LxStop 1");                /* TCS command: not an LCR box (real LCR box behaviour) */
     } else {

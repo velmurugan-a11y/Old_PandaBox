@@ -1,0 +1,250 @@
+PASS SetBoxTime#1 SetBoxTime 1748260000                -> LxSetBoxTime 0 
+PASS BoxTime#1 BoxTime                              -> LxBoxTime 1748260000 
+PASS SetBoxTime#2 SetBoxTime -1                        -> LxSetBoxTime 1 
+PASS SetBoxTime#1 SetBoxTime 1790451326                -> LxSetBoxTime 0 
+PASS BoxTime#2 BoxTime                              -> LxBoxTime 1790451326 
+PASS BoxStatus#1 BoxStatus                            -> LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1 
+PASS BoxInfo#1 BoxInfo                              -> LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR 
+PASS RdBtName#1 RdBtName                             -> LxRdBtName PandaBrain 
+PASS SetBtName#2 SetBtName AVeryLongNameOver16Bytes   -> LxSetBtName 1 
+PASS SetBtPwd#1 SetBtPwd 1234                        -> LxSetBtPwd 0 
+PASS SetBtPwd#2 SetBtPwd 12345                       -> LxSetBtPwd 1 
+PASS SetWifiName#1 SetWifiName MyNetwork                -> LxSetWifiName 0 
+PASS SetWifiName#2 SetWifiName AVeryLongNetworkNameHere -> LxSetWifiName 1 
+PASS SetWifiPwd#1 SetWifiPwd mypassword                -> LxSetWifiPwd 0 
+PASS SetWifiPwd#2 SetWifiPwd averylongpasswordthatexceeds -> LxSetWifiPwd 1 
+PASS SetServerIp#1 SetServerIp 192.168.1.100            -> LxSetServerIp 0 
+PASS SetServerIp#2 SetServerIp 999.999.999.999          -> LxSetServerIp 1 
+PASS SetServerPort#1 SetServerPort 8080                   -> LxSetServerPort 0 
+PASS SetServerPort#2 SetServerPort 99999                  -> LxSetServerPort 1 
+PASS SetApn#1 SetApn cmnet                         -> LxSetApn 0 
+PASS SetApn#2 SetApn                               -> LxSetApn 1 
+PASS SetMode#1 SetMode 2                            -> LxSetMode 0 
+PASS SetMode#2 SetMode 1                            -> LxSetMode 0 
+PASS SetMode#2 GetData 1 0                          -> LxGetData Mode 1, 
+PASS SetMode#3 SetMode 5                            -> LxSetMode 1 
+PASS SetMode#1 SetMode 2                            -> LxSetMode 0 
+PASS SetRs485#1 SetRs485 1                           -> LxSetRs485 1 
+PASS SetRs485#2 SetRs485 0                           -> LxSetRs485 0 
+PASS SetRs485#3 SetRs485 2                           -> LxSetRs485 1 
+PASS SetApp1#1 SetApp1                              -> LxSetApp1,1 
+PASS SetApp2#1 SetApp2                              -> LxSetApp2,1 
+PASS DirectDelivery#1 DirectDelivery 2,5                   -> LxStop 1 
+PASS DirectDelivery#2 DirectDelivery 99,5                  -> LxStop 1 
+PASS Update#1 Update APP1,1024,1234                -> LxUpdate 1 
+PASS Update#2 Update                               -> LxUpdate 1 
+PASS GetLastCmd#1 GetLastCmd 1                         -> LxGetLastCmd 1,0 
+PASS GetLastCmd#2 GetLastCmd 99                        -> LxGetLastCmd 1,0 
+PASS SetPortLcrNode#1 SetPortLcrNode 1,2                   -> LxSetPortLcrNode 0 
+PASS RdPortLcrNode#1 RdPortLcrNode                        -> LxRdPortLcrNode 1,2 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,0 
+PASS SetPortLcrNode#2 SetPortLcrNode 1,0                   -> LxSetPortLcrNode 0 
+PASS SetPortLcrNode#3 SetPortLcrNode 256,0                 -> LxSetPortLcrNode 1 
+PASS RdPortLcrNode#2 SetPortLcrNode 0,0                   -> LxSetPortLcrNode 0 
+PASS RdPortLcrNode#2 RdPortLcrNode                        -> LxRdPortLcrNode 0,0 
+PASS RdRegister#2 RdRegister                           -> LxRdRegister 0,0 
+PASS LCR-II   SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS RdDiagnostics#1 RdDiagnostics 1                      -> LxRdDiagnostics 0,1,0,0 
+PASS RdDiagnostics#2 RdDiagnostics 99                     -> LxRdDiagnostics 99,Error 
+PASS GetLastMtrCmd#2 GetLastMtrCmd 99                     -> LxGetLastMtrCmd 99,None,1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS HisDataTime#3 HisDataTime 1                        -> LxHisDataTime 1, 
+PASS GetData#3 GetData 1,1                          -> LxGetDataTs 1, 
+PASS GetDataTs#3 GetDataTs 1,1700000000,1700000001    -> LxGetDataTs 1, 
+PASS SwitchState#2 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS SwitchState#3 SwitchState 3                        -> LxSwitchState 3,Error 
+PASS GetLcrNode#1 GetLcrNode 2,1,10                    -> LxFindLcrNode 2,1 
+PASS GetLcrNode#2 GetLcrNode 1,200,10                  -> LxFindLcrNode 0 
+PASS GetLcrNode#3 GetLcrNode 1,1,251                   -> LxFindLcrNode 0 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,1,5                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#1 [LCR-II] meter's own node is now 5 
+PASS ModifyLcrNode#1 GetData 5 0                          -> LxGetData 5,1,227,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,5,1                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#2 ModifyLcrNode 2,99,5                 -> LxModifyLcrNode 1 
+PASS ModifyLcrNode#3 ModifyLcrNode 3,1,5                  -> LxModifyLcrNode 1 
+PASS PresetGross#1 PresetGross 1,125.5                  -> LxPresetGross 0 
+PASS PresetGross#1 [LCR-II] meter shows preset 125.5 
+PASS PresetGross#2 PresetGross 2,5,125.3                -> LxPresetGross 1 
+PASS PresetGross#3 PresetGross 3,125.5                  -> LxPresetGross 1 
+PASS PresetGross#4 PresetGross 1,-10.0                  -> LxPresetGross 1 
+PASS PresetGross#1 PresetGross 1,0                      -> LxPresetGross 0 
+PASS Pause#2  Pause 1                              -> LxPause 0 
+PASS Resume#2 Resume 1                             -> LxResume 1 
+PASS Print#1  Print 1                              -> LxPrint 0 
+PASS Start#3  Start 99                             -> LxStart 1 
+PASS Pause#3  Pause 99                             -> LxPause 1 
+PASS Stop#2   Stop 99                              -> LxStop 1 
+PASS Print#2  Print 99                             -> LxPrint 1 
+PASS Resume#3 Resume 99                            -> LxResume 1 
+PASS Start#1  Start 1                              -> LxStart 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS GetData#2 GetData 1,0                          -> LxGetData 1,1,249,1790451411,3.9,60.0,5170.6,0.0,5166.7,0.0,0.0,S,0.0,E 
+PASS SwitchState#1 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS Start#3  Start 1                              -> LxStart 0 
+PASS Print#2  Print 1                              -> LxPrint 1 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Print,1 
+PASS Pause#1  Pause 1                              -> LxPause 0 
+PASS Pause#1 [LCR-II] meter paused (valve closed, flow 0) 
+PASS Resume#1 Resume 1                             -> LxResume 0 
+PASS GetData#2 [LCR-II] gallons rising 2.9 -> 9.3 
+PASS Stop#1   Stop 1                               -> LxStop 0 
+PASS Stop#1 [LCR-II] ticket math 5166.7 + 10.5 = 5177.2 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
+PASS HisDataTime#1 HisDataTime 1                        -> LxHisDataTime 1,1790451374,1790451426, 
+PASS HisDataTime#2 HisDataTime 99                       -> LxHisDataTime 99, 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,15,24640, 
+PASS BoxStorage#2 BoxStorage 0                         -> LxBoxStorage 1 
+PASS BoxStorage#3 BoxStorage 99                        -> LxBoxStorage 99,0,25600, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,3,1790451374,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#1 GetDataEcho 3,0,5                    -> LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#2 GetDataEcho 4,1,5                    -> LxGetDataTs 1, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#3 GetDataEcho 99,0,5                   -> LxGetDataTs 1, 
+PASS GetData#4 GetData 99,1                         -> LxGetData Error, 
+PASS GetDataTs#1 GetDataTs 1,1790451398,1790451442    -> LxGetDataTs 1,1,1790451406,0.0,0.0,5166.7,0.0,5166.7,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790451408,0.9,60.0,516 records
+PASS GetDataTs#2 GetDataTs 1,1790451443,1790451398    -> LxGetDataTs 1, 
+PASS DeleteAll#2 DeleteAll 99                         -> LxDeleteAll 1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,0,25600, 
+PASS LCR 600  SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS RdDiagnostics#1 RdDiagnostics 1                      -> LxRdDiagnostics 0,1,0,0 
+PASS RdDiagnostics#2 RdDiagnostics 99                     -> LxRdDiagnostics 99,Error 
+PASS GetLastMtrCmd#2 GetLastMtrCmd 99                     -> LxGetLastMtrCmd 99,None,1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS HisDataTime#3 HisDataTime 1                        -> LxHisDataTime 1, 
+PASS GetData#3 GetData 1,1                          -> LxGetDataTs 1, 
+PASS GetDataTs#3 GetDataTs 1,1700000000,1700000001    -> LxGetDataTs 1, 
+PASS SwitchState#2 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS SwitchState#3 SwitchState 3                        -> LxSwitchState 3,Error 
+PASS GetLcrNode#1 GetLcrNode 2,1,10                    -> LxFindLcrNode 2,1 
+PASS GetLcrNode#2 GetLcrNode 1,200,10                  -> LxFindLcrNode 0 
+PASS GetLcrNode#3 GetLcrNode 1,1,251                   -> LxFindLcrNode 0 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,1,5                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#1 [LCR 600] meter's own node is now 5 
+PASS ModifyLcrNode#1 GetData 5 0                          -> LxGetData 5,1,32,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,5,1                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#2 ModifyLcrNode 2,99,5                 -> LxModifyLcrNode 1 
+PASS ModifyLcrNode#3 ModifyLcrNode 3,1,5                  -> LxModifyLcrNode 1 
+PASS PresetGross#1 PresetGross 1,125.5                  -> LxPresetGross 0 
+PASS PresetGross#1 [LCR 600] meter shows preset 125.5 
+PASS PresetGross#2 PresetGross 2,5,125.3                -> LxPresetGross 1 
+PASS PresetGross#3 PresetGross 3,125.5                  -> LxPresetGross 1 
+PASS PresetGross#4 PresetGross 1,-10.0                  -> LxPresetGross 1 
+PASS PresetGross#1 PresetGross 1,0                      -> LxPresetGross 0 
+PASS Pause#2  Pause 1                              -> LxPause 0 
+PASS Resume#2 Resume 1                             -> LxResume 1 
+PASS Print#1  Print 1                              -> LxPrint 0 
+PASS Start#3  Start 99                             -> LxStart 1 
+PASS Pause#3  Pause 99                             -> LxPause 1 
+PASS Stop#2   Stop 99                              -> LxStop 1 
+PASS Print#2  Print 99                             -> LxPrint 1 
+PASS Resume#3 Resume 99                            -> LxResume 1 
+PASS Start#1  Start 1                              -> LxStart 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS GetData#2 GetData 1,0                          -> LxGetData 1,1,53,1790451486,2.8,60.0,12013.3,0.0,12010.4,0.0,0.0,S,0.0,E 
+PASS SwitchState#1 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS Start#3  Start 1                              -> LxStart 0 
+PASS Print#2  Print 1                              -> LxPrint 1 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Print,1 
+PASS Pause#1  Pause 1                              -> LxPause 0 
+PASS Pause#1 [LCR 600] meter paused (valve closed, flow 0) 
+PASS Resume#1 Resume 1                             -> LxResume 0 
+PASS GetData#2 [LCR 600] gallons rising 2.8 -> 9.3 
+PASS Stop#1   Stop 1                               -> LxStop 0 
+PASS Stop#1 [LCR 600] ticket math 12010.4 + 10.4 = 12020.9 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
+PASS HisDataTime#1 HisDataTime 1                        -> LxHisDataTime 1,1790451450,1790451502, 
+PASS HisDataTime#2 HisDataTime 99                       -> LxHisDataTime 99, 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,15,24640, 
+PASS BoxStorage#2 BoxStorage 0                         -> LxBoxStorage 1 
+PASS BoxStorage#3 BoxStorage 99                        -> LxBoxStorage 99,0,25600, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,19,1790451450,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#1 GetDataEcho 19,0,5                   -> LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#2 GetDataEcho 20,1,5                   -> LxGetDataTs 1, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#3 GetDataEcho 99,0,5                   -> LxGetDataTs 1, 
+PASS GetData#4 GetData 99,1                         -> LxGetData Error, 
+PASS GetDataTs#1 GetDataTs 1,1790451474,1790451518    -> LxGetDataTs 1,1,1790451482,0.0,0.0,12010.4,0.0,12010.4,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790451484,0.8,60.0,1 records
+PASS GetDataTs#2 GetDataTs 1,1790451519,1790451474    -> LxGetDataTs 1, 
+PASS DeleteAll#2 DeleteAll 99                         -> LxDeleteAll 1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,0,25600, 
+PASS LCR.iQ   SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS RdDiagnostics#1 RdDiagnostics 1                      -> LxRdDiagnostics 0,1,0,17 
+PASS RdDiagnostics#2 RdDiagnostics 99                     -> LxRdDiagnostics 99,Error 
+PASS GetLastMtrCmd#2 GetLastMtrCmd 99                     -> LxGetLastMtrCmd 99,None,1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS HisDataTime#3 HisDataTime 1                        -> LxHisDataTime 1, 
+PASS GetData#3 GetData 1,1                          -> LxGetDataTs 1, 
+PASS GetDataTs#3 GetDataTs 1,1700000000,1700000001    -> LxGetDataTs 1, 
+PASS SwitchState#2 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS SwitchState#3 SwitchState 3                        -> LxSwitchState 3,Error 
+PASS GetLcrNode#1 GetLcrNode 2,1,10                    -> LxFindLcrNode 2,1 
+PASS GetLcrNode#2 GetLcrNode 1,200,10                  -> LxFindLcrNode 0 
+PASS GetLcrNode#3 GetLcrNode 1,1,251                   -> LxFindLcrNode 0 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,1,5                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#1 [LCR.iQ] meter's own node is now 5 
+PASS ModifyLcrNode#1 GetData 5 0                          -> LxGetData 5,1,93,1790451530,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E 
+PASS ModifyLcrNode#1 ModifyLcrNode 2,5,1                  -> LxModifyLcrNode 0 
+PASS ModifyLcrNode#2 ModifyLcrNode 2,99,5                 -> LxModifyLcrNode 1 
+PASS ModifyLcrNode#3 ModifyLcrNode 3,1,5                  -> LxModifyLcrNode 1 
+PASS PresetGross#1 PresetGross 1,125.5                  -> LxPresetGross 0 
+PASS PresetGross#1 [LCR.iQ] meter shows preset 125.5 
+PASS PresetGross#2 PresetGross 2,5,125.3                -> LxPresetGross 1 
+PASS PresetGross#3 PresetGross 3,125.5                  -> LxPresetGross 1 
+PASS PresetGross#4 PresetGross 1,-10.0                  -> LxPresetGross 1 
+PASS PresetGross#1 PresetGross 1,0                      -> LxPresetGross 0 
+PASS Pause#2  Pause 1                              -> LxPause 0 
+PASS Resume#2 Resume 1                             -> LxResume 1 
+PASS Print#1  Print 1                              -> LxPrint 0 
+PASS Start#3  Start 99                             -> LxStart 1 
+PASS Pause#3  Pause 99                             -> LxPause 1 
+PASS Stop#2   Stop 99                              -> LxStop 1 
+PASS Print#2  Print 99                             -> LxPrint 1 
+PASS Resume#3 Resume 99                            -> LxResume 1 
+PASS Start#1  Start 1                              -> LxStart 0 
+PASS RdRegister#1 RdRegister                           -> LxRdRegister 0,1 
+PASS GetData#2 GetData 1,0                          -> LxGetData 1,1,115,1790451563,3.8,60.0,49398.0,0.0,49394.1,0.0,0.0,S,0.0,E 
+PASS SwitchState#1 SwitchState 2                        -> LxSwitchState 1,Run 
+PASS Start#3  Start 1                              -> LxStart 0 
+PASS Print#2  Print 1                              -> LxPrint 1 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Print,1 
+PASS Pause#1  Pause 1                              -> LxPause 0 
+PASS Pause#1 [LCR.iQ] meter paused (valve closed, flow 0) 
+PASS Resume#1 Resume 1                             -> LxResume 0 
+PASS GetData#2 [LCR.iQ] gallons rising 2.8 -> 9.2 
+PASS Stop#1   Stop 1                               -> LxStop 0 
+PASS Stop#1 [LCR.iQ] ticket math 49394.1 + 10.7 = 49404.8 
+PASS GetLastMtrCmd#1 GetLastMtrCmd 1                      -> LxGetLastMtrCmd 1,Stop,0 
+PASS HisDataTime#1 HisDataTime 1                        -> LxHisDataTime 1,1790451527,1790451578, 
+PASS HisDataTime#2 HisDataTime 99                       -> LxHisDataTime 99, 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,16,24576, 
+PASS BoxStorage#2 BoxStorage 0                         -> LxBoxStorage 1 
+PASS BoxStorage#3 BoxStorage 99                        -> LxBoxStorage 99,0,25600, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,35,1790451527,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#1 GetDataEcho 35,0,5                   -> LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#2 GetDataEcho 36,1,5                   -> LxGetDataTs 1, 
+PASS GetData#1 GetData 1,1                          -> LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E 
+PASS GetDataEcho#3 GetDataEcho 99,0,5                   -> LxGetDataTs 1, 
+PASS GetData#4 GetData 99,1                         -> LxGetData Error, 
+PASS GetDataTs#1 GetDataTs 1,1790451550,1790451595    -> LxGetDataTs 1,1,1790451558,0.0,0.0,49394.1,0.0,49394.1,0.0,0.0,S,0.0,E | LxGetDataTs 1,2,1790451560,0.8,60.0,4 records
+PASS GetDataTs#2 GetDataTs 1,1790451595,1790451550    -> LxGetDataTs 1, 
+PASS DeleteAll#2 DeleteAll 99                         -> LxDeleteAll 1 
+PASS DeleteAll#1 DeleteAll 1                          -> LxDeleteAll 0 
+PASS BoxStorage#1 BoxStorage 1                         -> LxBoxStorage 1,0,25600, 
+PASS SetBtName#1 SetBtName PandaBox1                  -> LxSetBtName 0 
+PASS SetBtName#1 RdBtName                             -> LxRdBtName PandaBox1 
+PASS SetBtName#1 SetBtName PandaBrain                 -> LxSetBtName 0 
+PASS BoxReset#1 BoxReset                             -> LxBoxReset 0 
+connect {'address': 'D3:7E:33:32:09:7B', 'name': 'PandaBrainBLE'} {'address': 'D3:7E:33:32:09:7B', 'connected': True, 'firmware': ''}
+PASS BoxReset#1 [box] box restarts and advertises again (reconnected) 
+PASS box      SetBoxTime 1790451664                -> LxSetBoxTime 0 
+PASS box      SetPortLcrNode 0,1                   -> LxSetPortLcrNode 0 
+
+242/242 cases passed  (40 commands)

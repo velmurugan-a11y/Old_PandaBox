@@ -86,3 +86,13 @@ This log covers the V2.89-compatible firmware rebuild (`Projects/05_PandaBox_FW_
 | 35 | Validation (J1 empty, J2 → simulator v6) | `product_suite.py` rewritten for the real-meter model: drives the pulser, waits out busy windows; adds Multiple preset, no-flow timer, ticket gating | **158/158** (LCR-II + LCR.iQ) |
 | 36 | Tracker suite adapted (pulser, busy, RS485 disabled) | `tracker_suite.py` | 129/129 (PB-060 expectation corrected) |
 | 37 | Tester happy flow (Port 2 variant) | — | 55/63: 4 × "no meter on port 1" (J1 empty, correct) + 4 commands the meter dropped. The tester's hidden `Stop` before every GetData ends the delivery and the meter is busy printing the ticket, so the next Pause/Start/Preset gets rc 38 — same as a real SR260 |
+
+## 2026-09-27: full command matrix on all meter models, simulator v6 UI = v5 look + EZCommand window, new URL
+| # | Action | Change | Result |
+|---|---|---|---|
+| 38 | Read all 40 per-command sheets of PandaBox_Command_Test_Tracker.xlsx (Master + one sheet per command) | — | 242 test checks derived |
+| 39 | Firmware gaps found against those sheets | `SetBtPwd` 1-4 chars; `Resume` only continues a paused delivery (it used to start one on an idle meter); `GetDataEcho` with a fail flag or wrong seq stops the upload; `PresetGross` 3-argument TCS form refused on an LCR box; `BoxStorage 0` → `LxBoxStorage 1`; `Update` → `LxUpdate 1` (OTA not built yet) | — |
+| 40 | New `tools/command_matrix.py` + `tools/make_matrix_xlsx.py` | Every tracker case over BLE; meter cases repeated on LCR-II, LCR 600 and LCR.iQ; the pulser driven through the simulator | **242/242** (50 box + 3 × 64 meter checks) |
+| 41 | Results workbook `docs/PandaBox_Command_Matrix_Results_V2901.xlsx` | Tracker layout: Master pass/fail per command, and one sheet per command with the tracker's input, pre-condition and expected result next to the actual reply per meter | — |
+| 42 | Simulator v6 UI (local, `lcr-meter-simulator_6`) | The v5 pages (chooser, LCR-II / LCR 600 / LCR.iQ, serial bridge page) now run on the v6 real-meter engine through `sim/compat.py`; EZCommand-style settings window (Read / Write / Apply to LCR, Save / Load config, Command Issue) on the LCR-II and LCR 600 pages; 143/143 route checks | — |
+| 43 | New URL for the new revision | The simulator now runs on **http://127.0.0.1:5006/** (`/meter/lcr2`, `/meter/lcr600`, `/meter/lcriq`, `/serial`, `/v6`); the test tools point at :5006 | matrix re-run on :5006: 242/242 |

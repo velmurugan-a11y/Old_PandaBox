@@ -1,0 +1,2926 @@
+[
+ {
+  "sheet": "SetBoxTime",
+  "case": 1,
+  "model": "box",
+  "command": "SetBoxTime 1748260000",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxTime",
+  "case": 1,
+  "model": "box",
+  "command": "BoxTime",
+  "response": [
+   "LxBoxTime 1748260000"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no GPS lock on the bench: V2.89 format <unix>"
+ },
+ {
+  "sheet": "SetBoxTime",
+  "case": 2,
+  "model": "box",
+  "command": "SetBoxTime -1",
+  "response": [
+   "LxSetBoxTime 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBoxTime",
+  "case": 1,
+  "model": "box",
+  "command": "SetBoxTime 1790451326",
+  "response": [
+   "LxSetBoxTime 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore the clock"
+ },
+ {
+  "sheet": "BoxTime",
+  "case": 2,
+  "model": "box",
+  "command": "BoxTime",
+  "response": [
+   "LxBoxTime 1790451326"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStatus",
+  "case": 1,
+  "model": "box",
+  "command": "BoxStatus",
+  "response": [
+   "LxBoxStatus 2,0,0,1,0.0,S,0.0,E,0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxInfo",
+  "case": 1,
+  "model": "box",
+  "command": "BoxInfo",
+  "response": [
+   "LxBoxInfo 2.4,250502,2.901,260925,860858062040217,LCR"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdBtName",
+  "case": 1,
+  "model": "box",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBrain"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBtName",
+  "case": 2,
+  "model": "box",
+  "command": "SetBtName AVeryLongNameOver16Bytes",
+  "response": [
+   "LxSetBtName 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBtPwd",
+  "case": 1,
+  "model": "box",
+  "command": "SetBtPwd 1234",
+  "response": [
+   "LxSetBtPwd 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBtPwd",
+  "case": 2,
+  "model": "box",
+  "command": "SetBtPwd 12345",
+  "response": [
+   "LxSetBtPwd 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetWifiName",
+  "case": 1,
+  "model": "box",
+  "command": "SetWifiName MyNetwork",
+  "response": [
+   "LxSetWifiName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetWifiName",
+  "case": 2,
+  "model": "box",
+  "command": "SetWifiName AVeryLongNetworkNameHere",
+  "response": [
+   "LxSetWifiName 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetWifiPwd",
+  "case": 1,
+  "model": "box",
+  "command": "SetWifiPwd mypassword",
+  "response": [
+   "LxSetWifiPwd 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetWifiPwd",
+  "case": 2,
+  "model": "box",
+  "command": "SetWifiPwd averylongpasswordthatexceeds",
+  "response": [
+   "LxSetWifiPwd 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetServerIp",
+  "case": 1,
+  "model": "box",
+  "command": "SetServerIp 192.168.1.100",
+  "response": [
+   "LxSetServerIp 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetServerIp",
+  "case": 2,
+  "model": "box",
+  "command": "SetServerIp 999.999.999.999",
+  "response": [
+   "LxSetServerIp 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetServerPort",
+  "case": 1,
+  "model": "box",
+  "command": "SetServerPort 8080",
+  "response": [
+   "LxSetServerPort 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetServerPort",
+  "case": 2,
+  "model": "box",
+  "command": "SetServerPort 99999",
+  "response": [
+   "LxSetServerPort 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetApn",
+  "case": 1,
+  "model": "box",
+  "command": "SetApn cmnet",
+  "response": [
+   "LxSetApn 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetApn",
+  "case": 2,
+  "model": "box",
+  "command": "SetApn",
+  "response": [
+   "LxSetApn 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetMode",
+  "case": 1,
+  "model": "box",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetMode",
+  "case": 2,
+  "model": "box",
+  "command": "SetMode 1",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetMode",
+  "case": 2,
+  "model": "box",
+  "command": "GetData 1 0",
+  "response": [
+   "LxGetData Mode 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "bridge mode: box does not serve meter data"
+ },
+ {
+  "sheet": "SetMode",
+  "case": 3,
+  "model": "box",
+  "command": "SetMode 5",
+  "response": [
+   "LxSetMode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetMode",
+  "case": 1,
+  "model": "box",
+  "command": "SetMode 2",
+  "response": [
+   "LxSetMode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore"
+ },
+ {
+  "sheet": "SetRs485",
+  "case": 1,
+  "model": "box",
+  "command": "SetRs485 1",
+  "response": [
+   "LxSetRs485 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "RS485 disabled in this firmware (user decision) -> refused"
+ },
+ {
+  "sheet": "SetRs485",
+  "case": 2,
+  "model": "box",
+  "command": "SetRs485 0",
+  "response": [
+   "LxSetRs485 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetRs485",
+  "case": 3,
+  "model": "box",
+  "command": "SetRs485 2",
+  "response": [
+   "LxSetRs485 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetApp1",
+  "case": 1,
+  "model": "box",
+  "command": "SetApp1",
+  "response": [
+   "LxSetApp1,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 reply string"
+ },
+ {
+  "sheet": "SetApp2",
+  "case": 1,
+  "model": "box",
+  "command": "SetApp2",
+  "response": [
+   "LxSetApp2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 reply string"
+ },
+ {
+  "sheet": "DirectDelivery",
+  "case": 1,
+  "model": "box",
+  "command": "DirectDelivery 2,5",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "TCS-only command: an LCR box refuses (V2.89 behaviour)"
+ },
+ {
+  "sheet": "DirectDelivery",
+  "case": 2,
+  "model": "box",
+  "command": "DirectDelivery 99,5",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Update",
+  "case": 1,
+  "model": "box",
+  "command": "Update APP1,1024,1234",
+  "response": [
+   "LxUpdate 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "OTA not implemented yet (M10)"
+ },
+ {
+  "sheet": "Update",
+  "case": 2,
+  "model": "box",
+  "command": "Update",
+  "response": [
+   "LxUpdate 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastCmd",
+  "case": 1,
+  "model": "box",
+  "command": "GetLastCmd 1",
+  "response": [
+   "LxGetLastCmd 1,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "V2.89 fixed reply"
+ },
+ {
+  "sheet": "GetLastCmd",
+  "case": 2,
+  "model": "box",
+  "command": "GetLastCmd 99",
+  "response": [
+   "LxGetLastCmd 1,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetPortLcrNode",
+  "case": 1,
+  "model": "box",
+  "command": "SetPortLcrNode 1,2",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdPortLcrNode",
+  "case": 1,
+  "model": "box",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 1,2"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "box",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "J1 empty -> port 1 not registered"
+ },
+ {
+  "sheet": "SetPortLcrNode",
+  "case": 2,
+  "model": "box",
+  "command": "SetPortLcrNode 1,0",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetPortLcrNode",
+  "case": 3,
+  "model": "box",
+  "command": "SetPortLcrNode 256,0",
+  "response": [
+   "LxSetPortLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdPortLcrNode",
+  "case": 2,
+  "model": "box",
+  "command": "SetPortLcrNode 0,0",
+  "response": [
+   "LxSetPortLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdPortLcrNode",
+  "case": 2,
+  "model": "box",
+  "command": "RdPortLcrNode",
+  "response": [
+   "LxRdPortLcrNode 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 2,
+  "model": "box",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter on port 2 registered"
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "RdDiagnostics 1",
+  "response": [
+   "LxRdDiagnostics 0,1,0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "RdDiagnostics 99",
+  "response": [
+   "LxRdDiagnostics 99,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "GetLastMtrCmd 99",
+  "response": [
+   "LxGetLastMtrCmd 99,None,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no stored data -> empty"
+ },
+ {
+  "sheet": "GetData",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "storage empty"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "GetDataTs 1,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle meter under host control: switch RUN (real 0x21)"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "SwitchState 3",
+  "response": [
+   "LxSwitchState 3,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetLcrNode 2,1,10",
+  "response": [
+   "LxFindLcrNode 2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "GetLcrNode 1,200,10",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "GetLcrNode 1,1,251",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "ModifyLcrNode 2,1,5",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "meter's own node is now 5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetData 5 0",
+  "response": [
+   "LxGetData 5,1,227,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on node 5"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "ModifyLcrNode 2,5,1",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "ModifyLcrNode 2,99,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "ModifyLcrNode 3,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "PresetGross 1,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "meter shows preset 125.5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "PresetGross 2,5,125.3",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "TCS form (node,product,qty) refused by an LCR box"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "PresetGross 3,125.5",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter 3"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 4,
+  "model": "LCR-II",
+  "command": "PresetGross 1,-10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "clear"
+ },
+ {
+  "sheet": "Pause",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not running: real LCR accepts as a no-op"
+ },
+ {
+  "sheet": "Resume",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not paused -> refused (would otherwise start a delivery)"
+ },
+ {
+  "sheet": "Print",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle: duplicate ticket"
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "Start 99",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "Pause 99",
+  "response": [
+   "LxPause 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "Stop 99",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "Print 99",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "Resume 99",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter queues it (rc 38), counter test"
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "busy meter stays registered"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "GetData 1,0",
+  "response": [
+   "LxGetData 1,1,249,1790451411,3.9,60.0,5170.6,0.0,5166.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "live: pulser 60 gal/min"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "already running: real LCR no-op rc 0"
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no ticket during an active delivery (rc 120)"
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Print,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "meter paused (valve closed, flow 0)",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused -> resumes"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "gallons rising 2.9 -> 9.3",
+  "response": [
+   "LxGetData 1,1,1,1790451419,9.3,60.0,5176.0,0.0,5166.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "ticket math 5166.7 + 10.5 = 5177.2",
+  "response": [
+   "LxGetData 1,1,3,1790451426,10.5,0.0,5177.2,0.0,5166.7,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Stop,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,1790451374,1790451426,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "HisDataTime 99",
+  "response": [
+   "LxHisDataTime 99,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,15,24640,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "BoxStorage 0",
+  "response": [
+   "LxBoxStorage 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "BoxStorage 99",
+  "response": [
+   "LxBoxStorage 99,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,3,1790451374,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetDataEcho 3,0,5",
+  "response": [
+   "LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next packet"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "GetDataEcho 4,1,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "failure flag -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,4,1790451378,11.0,0.0,5166.7,0.0,5155.6,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 3,
+  "model": "LCR-II",
+  "command": "GetDataEcho 99,0,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "seq mismatch -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 4,
+  "model": "LCR-II",
+  "command": "GetData 99,1",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "GetDataTs 1,1790451398,1790451442",
+  "response": [
+   "LxGetDataTs 1,1,1790451406,0.0,0.0,5166.7,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,2,1790451408,0.9,60.0,5167.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,3,1790451409,1.9,60.0,5168.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,4,1790451410,2.9,60.0,5169.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,5,1790451411,3.9,60.0,5170.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,6,1790451412,4.9,60.0,5171.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,7,1790451413,5.9,60.0,5172.6,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,8,1790451414,6.8,0.0,5173.5,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,9,1790451417,7.2,60.0,5174.0,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,10,1790451418,8.3,60.0,5175.1,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,11,1790451419,9.3,60.0,5176.0,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,12,1790451420,10.3,60.0,5177.0,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,13,1790451426,10.5,0.0,5177.2,0.0,5166.7,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "records",
+  "note": "tracker range 1700000000.. predates this clock; delivery window used"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "GetDataTs 1,1790451443,1790451398",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "end before start"
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 2,
+  "model": "LCR-II",
+  "command": "DeleteAll 99",
+  "response": [
+   "LxDeleteAll 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR-II",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "after DeleteAll"
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter on port 2 registered"
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "RdDiagnostics 1",
+  "response": [
+   "LxRdDiagnostics 0,1,0,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "RdDiagnostics 99",
+  "response": [
+   "LxRdDiagnostics 99,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "GetLastMtrCmd 99",
+  "response": [
+   "LxGetLastMtrCmd 99,None,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no stored data -> empty"
+ },
+ {
+  "sheet": "GetData",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "storage empty"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "GetDataTs 1,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle meter under host control: switch RUN (real 0x21)"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "SwitchState 3",
+  "response": [
+   "LxSwitchState 3,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetLcrNode 2,1,10",
+  "response": [
+   "LxFindLcrNode 2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "GetLcrNode 1,200,10",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "GetLcrNode 1,1,251",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "ModifyLcrNode 2,1,5",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "meter's own node is now 5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetData 5 0",
+  "response": [
+   "LxGetData 5,1,32,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on node 5"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "ModifyLcrNode 2,5,1",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "ModifyLcrNode 2,99,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "ModifyLcrNode 3,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "PresetGross 1,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "meter shows preset 125.5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "PresetGross 2,5,125.3",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "TCS form (node,product,qty) refused by an LCR box"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "PresetGross 3,125.5",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter 3"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 4,
+  "model": "LCR 600",
+  "command": "PresetGross 1,-10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "clear"
+ },
+ {
+  "sheet": "Pause",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not running: real LCR accepts as a no-op"
+ },
+ {
+  "sheet": "Resume",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not paused -> refused (would otherwise start a delivery)"
+ },
+ {
+  "sheet": "Print",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle: duplicate ticket"
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "Start 99",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "Pause 99",
+  "response": [
+   "LxPause 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "Stop 99",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "Print 99",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "Resume 99",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter queues it (rc 38), counter test"
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "busy meter stays registered"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "GetData 1,0",
+  "response": [
+   "LxGetData 1,1,53,1790451486,2.8,60.0,12013.3,0.0,12010.4,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "live: pulser 60 gal/min"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "already running: real LCR no-op rc 0"
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no ticket during an active delivery (rc 120)"
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Print,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "meter paused (valve closed, flow 0)",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused -> resumes"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "gallons rising 2.8 -> 9.3",
+  "response": [
+   "LxGetData 1,1,62,1790451495,9.3,60.0,12019.8,0.0,12010.4,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "ticket math 12010.4 + 10.4 = 12020.9",
+  "response": [
+   "LxGetData 1,1,64,1790451502,10.4,0.0,12020.9,0.0,12010.4,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Stop,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,1790451450,1790451502,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "HisDataTime 99",
+  "response": [
+   "LxHisDataTime 99,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,15,24640,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "BoxStorage 0",
+  "response": [
+   "LxBoxStorage 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "BoxStorage 99",
+  "response": [
+   "LxBoxStorage 99,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,19,1790451450,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetDataEcho 19,0,5",
+  "response": [
+   "LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next packet"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "GetDataEcho 20,1,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "failure flag -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,20,1790451454,10.4,0.0,12010.4,0.0,12000.0,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 3,
+  "model": "LCR 600",
+  "command": "GetDataEcho 99,0,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "seq mismatch -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 4,
+  "model": "LCR 600",
+  "command": "GetData 99,1",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "GetDataTs 1,1790451474,1790451518",
+  "response": [
+   "LxGetDataTs 1,1,1790451482,0.0,0.0,12010.4,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,2,1790451484,0.8,60.0,12011.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,3,1790451485,1.8,60.0,12012.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,4,1790451486,2.8,60.0,12013.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,5,1790451487,3.8,60.0,12014.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,6,1790451488,4.8,60.0,12015.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,7,1790451489,5.8,60.0,12016.3,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,8,1790451490,6.7,0.0,12017.2,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,9,1790451493,7.3,60.0,12017.8,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,10,1790451494,8.3,60.0,12018.8,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,11,1790451495,9.3,60.0,12019.8,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,12,1790451496,10.3,60.0,12020.8,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,13,1790451502,10.4,0.0,12020.9,0.0,12010.4,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "records",
+  "note": "tracker range 1700000000.. predates this clock; delivery window used"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "GetDataTs 1,1790451519,1790451474",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "end before start"
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 2,
+  "model": "LCR 600",
+  "command": "DeleteAll 99",
+  "response": [
+   "LxDeleteAll 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR 600",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "after DeleteAll"
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter on port 2 registered"
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "RdDiagnostics 1",
+  "response": [
+   "LxRdDiagnostics 0,1,0,17"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "RdDiagnostics",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "RdDiagnostics 99",
+  "response": [
+   "LxRdDiagnostics 99,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "GetLastMtrCmd 99",
+  "response": [
+   "LxGetLastMtrCmd 99,None,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no stored data -> empty"
+ },
+ {
+  "sheet": "GetData",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "storage empty"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "GetDataTs 1,1700000000,1700000001",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle meter under host control: switch RUN (real 0x21)"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "SwitchState 3",
+  "response": [
+   "LxSwitchState 3,Error"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetLcrNode 2,1,10",
+  "response": [
+   "LxFindLcrNode 2,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "GetLcrNode 1,200,10",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLcrNode",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "GetLcrNode 1,1,251",
+  "response": [
+   "LxFindLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "ModifyLcrNode 2,1,5",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "meter's own node is now 5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetData 5 0",
+  "response": [
+   "LxGetData 5,1,93,1790451530,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter answers on node 5"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "ModifyLcrNode 2,5,1",
+  "response": [
+   "LxModifyLcrNode 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore"
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "ModifyLcrNode 2,99,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "ModifyLcrNode",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "ModifyLcrNode 3,1,5",
+  "response": [
+   "LxModifyLcrNode 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "PresetGross 1,125.5",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "meter shows preset 125.5",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "PresetGross 2,5,125.3",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "TCS form (node,product,qty) refused by an LCR box"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "PresetGross 3,125.5",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no meter 3"
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 4,
+  "model": "LCR.iQ",
+  "command": "PresetGross 1,-10.0",
+  "response": [
+   "LxPresetGross 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "PresetGross",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "PresetGross 1,0",
+  "response": [
+   "LxPresetGross 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "clear"
+ },
+ {
+  "sheet": "Pause",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not running: real LCR accepts as a no-op"
+ },
+ {
+  "sheet": "Resume",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "not paused -> refused (would otherwise start a delivery)"
+ },
+ {
+  "sheet": "Print",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "idle: duplicate ticket"
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "Start 99",
+  "response": [
+   "LxStart 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "Pause 99",
+  "response": [
+   "LxPause 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "Stop 99",
+  "response": [
+   "LxStop 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "Print 99",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "Resume 99",
+  "response": [
+   "LxResume 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "meter queues it (rc 38), counter test"
+ },
+ {
+  "sheet": "RdRegister",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "RdRegister",
+  "response": [
+   "LxRdRegister 0,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "busy meter stays registered"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "GetData 1,0",
+  "response": [
+   "LxGetData 1,1,115,1790451563,3.8,60.0,49398.0,0.0,49394.1,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "live: pulser 60 gal/min"
+ },
+ {
+  "sheet": "SwitchState",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "SwitchState 2",
+  "response": [
+   "LxSwitchState 1,Run"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Start",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "Start 1",
+  "response": [
+   "LxStart 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "already running: real LCR no-op rc 0"
+ },
+ {
+  "sheet": "Print",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "Print 1",
+  "response": [
+   "LxPrint 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "no ticket during an active delivery (rc 120)"
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Print,1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "Pause 1",
+  "response": [
+   "LxPause 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Pause",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "meter paused (valve closed, flow 0)",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Resume",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "Resume 1",
+  "response": [
+   "LxResume 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "paused -> resumes"
+ },
+ {
+  "sheet": "GetData",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "gallons rising 2.8 -> 9.2",
+  "response": [
+   "LxGetData 1,1,123,1790451571,9.2,60.0,49403.4,0.0,49394.1,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "Stop 1",
+  "response": [
+   "LxStop 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "Stop",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "ticket math 49394.1 + 10.7 = 49404.8",
+  "response": [
+   "LxGetData 1,1,126,1790451579,10.7,0.0,49404.8,0.0,49394.1,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetLastMtrCmd",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetLastMtrCmd 1",
+  "response": [
+   "LxGetLastMtrCmd 1,Stop,0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "HisDataTime 1",
+  "response": [
+   "LxHisDataTime 1,1790451527,1790451578,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "HisDataTime",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "HisDataTime 99",
+  "response": [
+   "LxHisDataTime 99,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,16,24576,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "BoxStorage 0",
+  "response": [
+   "LxBoxStorage 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "BoxStorage 99",
+  "response": [
+   "LxBoxStorage 99,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,35,1790451527,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetDataEcho 35,0,5",
+  "response": [
+   "LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "ack -> next packet"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "GetDataEcho 36,1,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "failure flag -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetData 1,1",
+  "response": [
+   "LxGetDataTs 1,0,36,1790451531,10.8,0.0,49394.1,0.0,49383.3,0.0,0.0,S,0.0,E"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataEcho",
+  "case": 3,
+  "model": "LCR.iQ",
+  "command": "GetDataEcho 99,0,5",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "seq mismatch -> upload stops"
+ },
+ {
+  "sheet": "GetData",
+  "case": 4,
+  "model": "LCR.iQ",
+  "command": "GetData 99,1",
+  "response": [
+   "LxGetData Error,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "GetDataTs 1,1790451550,1790451595",
+  "response": [
+   "LxGetDataTs 1,1,1790451558,0.0,0.0,49394.1,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,2,1790451560,0.8,60.0,49395.1,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,3,1790451561,1.8,60.0,49396.0,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,4,1790451562,2.8,60.0,49397.0,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,5,1790451563,3.8,60.0,49398.0,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,6,1790451564,4.8,60.0,49399.0,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,7,1790451565,5.8,60.0,49400.1,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,8,1790451566,6.8,60.0,49401.1,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,9,1790451567,7.0,0.0,49401.2,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,10,1790451569,7.2,60.0,49401.4,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,11,1790451570,8.2,60.0,49402.4,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,12,1790451571,9.2,60.0,49403.4,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,13,1790451572,10.2,60.0,49404.4,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,14,1790451578,10.7,0.0,49404.8,0.0,49394.1,0.0,0.0,S,0.0,E",
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "records",
+  "note": "tracker range 1700000000.. predates this clock; delivery window used"
+ },
+ {
+  "sheet": "GetDataTs",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "GetDataTs 1,1790451595,1790451550",
+  "response": [
+   "LxGetDataTs 1,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "end before start"
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 2,
+  "model": "LCR.iQ",
+  "command": "DeleteAll 99",
+  "response": [
+   "LxDeleteAll 1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "DeleteAll",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "DeleteAll 1",
+  "response": [
+   "LxDeleteAll 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxStorage",
+  "case": 1,
+  "model": "LCR.iQ",
+  "command": "BoxStorage 1",
+  "response": [
+   "LxBoxStorage 1,0,25600,"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "after DeleteAll"
+ },
+ {
+  "sheet": "SetBtName",
+  "case": 1,
+  "model": "box",
+  "command": "SetBtName PandaBox1",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBtName",
+  "case": 1,
+  "model": "box",
+  "command": "RdBtName",
+  "response": [
+   "LxRdBtName PandaBox1"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "SetBtName",
+  "case": 1,
+  "model": "box",
+  "command": "SetBtName PandaBrain",
+  "response": [
+   "LxSetBtName 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": "restore"
+ },
+ {
+  "sheet": "BoxReset",
+  "case": 1,
+  "model": "box",
+  "command": "BoxReset",
+  "response": [
+   "LxBoxReset 0"
+  ],
+  "ok": true,
+  "why": "",
+  "note": ""
+ },
+ {
+  "sheet": "BoxReset",
+  "case": 1,
+  "model": "box",
+  "command": "box restarts and advertises again (reconnected)",
+  "response": [],
+  "ok": true,
+  "why": "",
+  "note": ""
+ }
+]

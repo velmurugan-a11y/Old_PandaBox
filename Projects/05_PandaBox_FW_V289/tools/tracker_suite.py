@@ -45,7 +45,7 @@ def run(case_id, command, check, note="", wait=0.0):
 def sim(path, body=None):
     """LCR simulator control (:5000)."""
     import urllib.request
-    req = urllib.request.Request("http://127.0.0.1:5000" + path, data=None if body is None else json.dumps(body).encode(),
+    req = urllib.request.Request("http://127.0.0.1:5006" + path, data=None if body is None else json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=10) as r:
         return json.load(r)

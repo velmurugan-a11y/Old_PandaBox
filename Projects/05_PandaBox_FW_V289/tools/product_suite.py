@@ -17,7 +17,7 @@ import urllib.request
 import tracker_suite as t
 from tcmd import cmd, connect
 
-SIM = "http://127.0.0.1:5000"
+SIM = "http://127.0.0.1:5006"
 PRODUCTS = [("LCR-II", "lcr2", 1), ("LCR.iQ", "lcriq", 2)]
 
 
